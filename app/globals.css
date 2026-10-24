@@ -274,3 +274,56 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
  .footer-grid p{overflow-wrap:anywhere}
 }
 @media(max-width:360px){.brand-image{width:126px;height:42px}}
+
+
+/* Consistent inline alignment for contact details in the top bar and footer. */
+.topbar-inner .contact-item{display:inline-flex;align-items:center;gap:7px;min-width:0;line-height:1.35;white-space:nowrap}
+.topbar-inner .contact-item>svg{width:14px;height:14px;min-width:14px;flex:0 0 14px;vertical-align:middle}
+.topbar-inner .contact-item>span{display:inline-block}
+.topbar-inner .contact-separator{padding:0 7px;opacity:.7}
+.topbar-inner .location{display:inline-flex}
+.footer-grid .footer-contact-item{display:flex;align-items:flex-start;gap:9px;width:100%;min-width:0;line-height:1.6}
+.footer-grid .footer-contact-item>svg{width:15px;height:15px;min-width:15px;flex:0 0 15px;margin:3px 0 0}
+.footer-grid .footer-contact-item>span,.footer-grid .footer-contact-item>a{min-width:0;overflow-wrap:anywhere}
+@media(max-width:1100px){
+ .topbar-inner{gap:10px}
+ .topbar-inner .contact-item{gap:5px;font-size:11px}
+ .topbar-inner .contact-item>svg{width:12px;height:12px;min-width:12px;flex-basis:12px}
+ .topbar-inner .contact-separator{padding:0 4px}
+}
+@media(max-width:820px){
+ .topbar-inner{justify-content:center;flex-wrap:wrap;gap:8px 16px;padding:8px 0}
+ .topbar-inner .contact-item{font-size:11px}
+ .topbar-inner .location{display:inline-flex}
+ .topbar-inner .socials{flex:0 0 auto}
+}
+@media(max-width:560px){
+ .topbar-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);justify-content:stretch;align-items:center;gap:8px 12px;padding:10px 0}
+ .topbar-inner .top-phones{grid-column:1/-1;justify-content:center;white-space:normal;font-size:11px}
+ .topbar-inner .top-email{grid-column:1;justify-content:flex-start;white-space:normal;font-size:10px}
+ .topbar-inner .location{grid-column:1/-1;display:flex;justify-content:center;white-space:normal;text-align:left;font-size:10px}
+ .topbar-inner .location>span{max-width:calc(100% - 22px)}
+ .topbar-inner>.socials{grid-column:2;grid-row:2;justify-self:end}
+ .topbar-inner .contact-item>svg{width:13px;height:13px;min-width:13px;flex-basis:13px}
+ .topbar-inner .contact-separator{padding:0 5px}
+ .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:22px 14px}
+ .footer-grid>div:first-child{grid-column:1/-1;padding-bottom:4px;border-bottom:1px solid #ffffff20}
+ .footer-grid>div:nth-child(2){grid-column:1}
+ .footer-grid>div:nth-child(3){grid-column:2}
+ .footer-grid>div:nth-child(4){grid-column:1/-1;padding-top:14px;border-top:1px solid #ffffff20}
+ .footer-grid>div:nth-child(5){grid-column:1/-1;padding-top:14px;border-top:1px solid #ffffff20}
+ .footer-grid>div:nth-child(4) .footer-contact-item{font-size:12px;gap:10px}
+ .footer-grid>div:nth-child(4) .footer-contact-item>svg{width:16px;height:16px;min-width:16px;flex-basis:16px}
+ .footer-grid>div:nth-child(3) a{line-height:1.55}
+ .footer-grid .brand-image{object-position:left center}
+ .footer-grid .socials{gap:10px}
+ .footer-grid .socials a{width:30px;height:30px}
+}
+@media(max-width:360px){
+ .topbar-inner{gap:8px 7px}
+ .topbar-inner .top-phones{font-size:10px}
+ .topbar-inner .top-email{font-size:9px}
+ .topbar-inner .location{font-size:9px}
+ .footer-grid{gap:20px 10px}
+ .footer-grid p,.footer-grid a:not(.brand){font-size:10px}
+}
