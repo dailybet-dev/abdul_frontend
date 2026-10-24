@@ -404,3 +404,72 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
   .topbar-inner>.socials a{width:16px;height:16px}
   .topbar-inner>.socials svg{width:12px;height:12px}
 }
+
+
+/* Excel training banner uses the uploaded classroom photograph as its full background. */
+.training.container{position:relative;isolation:isolate;display:block;min-height:390px;background:#062c5b url('/images/Collaborative%20Excel%20Training%20Session.png') center 43%/cover no-repeat;border:1px solid #b9dfff;box-shadow:0 20px 55px #073c7a20;overflow:hidden}
+.training.container>img{display:none}
+.training.container:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,23,52,.94) 0%,rgba(3,36,78,.84) 43%,rgba(4,65,125,.43) 100%)}
+.training .training-copy{max-width:760px;min-height:390px;padding:clamp(28px,5vw,60px);background:transparent;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.training .training-copy h2{color:#fff;font-size:clamp(26px,3vw,36px)}
+.training .training-copy h2 svg{color:#075edb;flex-shrink:0}
+.training .training-copy p{font-size:clamp(14px,1.5vw,17px);max-width:590px}
+.training .training-copy small{font-size:12px}
+.training .training-list{grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,560px);gap:10px 18px}
+.training .training-list span{font-size:12px;color:#f3f8ff}
+.training .training-copy .btn{float:none;margin-top:5px}
+@media(max-width:650px){.training.container{min-height:0;background-position:40% center}.training .training-copy{min-height:0;padding:28px 22px}.training .training-list{grid-template-columns:1fr}.training .training-copy h2{font-size:24px}}
+
+/* Contact experience: glassy cards, electric accents and subtle motion. */
+.contact-section{position:relative;isolation:isolate;overflow:hidden;padding:clamp(56px,7vw,96px) 0;background:radial-gradient(ellipse at 10% 8%,#e0f1ff 0,transparent 35%),linear-gradient(135deg,#f7fbff 0%,#edf5ff 52%,#f8fbff 100%)}
+.contact-orb{position:absolute;z-index:-1;border-radius:50%;filter:blur(1px);pointer-events:none;animation:contact-orbit 12s ease-in-out infinite alternate}
+.contact-orb-one{width:280px;height:280px;right:-90px;top:5%;background:radial-gradient(circle at 35% 35%,#6dbdff55,#0b66e000 70%)}
+.contact-orb-two{width:210px;height:210px;left:-80px;bottom:5%;background:radial-gradient(circle at 55% 45%,#00c9ff30,#075fe000 72%);animation-delay:-4s}
+.contact-shell{position:relative;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:30px 36px;align-items:start}
+.contact-intro{padding:12px 0;animation:contact-enter .7s ease both}
+.contact-eyebrow{display:inline-flex;align-items:center;gap:9px;color:#075fe0;font-size:10px;font-weight:800;letter-spacing:2px}
+.contact-status-dot{width:8px;height:8px;border-radius:50%;background:#17bf81;box-shadow:0 0 0 5px #17bf811c;animation:contact-pulse 2s ease-out infinite}
+.contact-intro h2{margin:18px 0 14px;max-width:530px;font:800 clamp(34px,4vw,52px)/1.08 Manrope;letter-spacing:-1.8px;color:#092b59}
+.contact-intro h2 em{font-style:normal;color:#0765e9}
+.contact-intro>p{max-width:490px;margin:0;color:#526b89;font-size:14px;line-height:1.85}
+.contact-quick-links{display:grid;gap:12px;margin-top:30px}
+.contact-quick-links>a,.contact-quick-location{display:flex;align-items:center;gap:13px;padding:13px 14px;border:1px solid #d9e8fa;border-radius:14px;background:#ffffffb8;box-shadow:0 8px 22px #164c8010;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.contact-quick-links>a:hover{transform:translateX(5px);border-color:#8bbfff;box-shadow:0 12px 28px #0b5cc21a}
+.contact-quick-icon{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border-radius:12px;color:#0765e9;background:linear-gradient(145deg,#e7f3ff,#d8eaff)}
+.contact-quick-icon svg{width:19px;height:19px}
+.contact-quick-links>a>span:nth-child(2),.contact-quick-location>span:nth-child(2){display:flex;flex-direction:column;gap:3px;min-width:0}
+.contact-quick-links small,.contact-quick-location small{font-size:9px;letter-spacing:1.4px;font-weight:800;color:#7187a1}
+.contact-quick-links b,.contact-quick-location b{font-size:12px;line-height:1.5;color:#12345e;overflow-wrap:anywhere}
+.contact-quick-links>a>svg{width:16px;height:16px;margin-left:auto;color:#0765e9;transition:transform .2s}
+.contact-quick-links>a:hover>svg{transform:translateX(3px)}
+.contact-form-card{padding:clamp(22px,3vw,34px);border:1px solid #d5e5f8;border-radius:22px;background:#ffffffed;box-shadow:0 24px 65px #123f7117;animation:contact-enter .7s .12s ease both;backdrop-filter:blur(12px)}
+.contact-card-kicker{display:flex;justify-content:space-between;gap:12px;color:#0765e9;font-size:9px;font-weight:800;letter-spacing:1.6px}
+.contact-card-kicker span{color:#93a5bb}
+.contact-card-heading h3,.contact-map-copy h3{font:800 25px/1.2 Manrope;color:#0a2d5b;letter-spacing:-.6px;margin:12px 0 7px}
+.contact-card-heading p,.contact-map-copy p{font-size:12px;line-height:1.7;color:#637891;margin:0}
+.contact-form{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:23px}
+.contact-form label{display:flex;flex-direction:column;gap:7px;font-size:11px;font-weight:700;color:#244568}
+.contact-form input,.contact-form select,.contact-form textarea{width:100%;min-width:0;border:1px solid #d7e4f4;border-radius:10px;background:#f9fbff;padding:12px 13px;color:#16385f;font:500 12px Inter,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{border-color:#1680ff;background:#fff;box-shadow:0 0 0 4px #1680ff19}
+.contact-form textarea{resize:vertical;min-height:105px}
+.contact-full-field{grid-column:1/-1}
+.contact-submit{grid-column:1/-1;justify-self:start;padding:13px 19px;box-shadow:0 8px 20px #075fe02b}
+.contact-submit svg{transition:transform .2s}
+.contact-submit:hover svg{transform:translateX(4px)}
+.contact-form-note{grid-column:1/-1;display:flex;align-items:center;gap:7px;color:#7b8fa7;font-size:10px;margin:0}
+.contact-form-note svg{width:14px;height:14px;color:#16a779;flex-shrink:0}
+.contact-map-card{grid-column:1/-1;display:grid;grid-template-columns:.75fr 1.25fr;gap:24px;align-items:center;padding:20px;border:1px solid #d7e7fa;border-radius:22px;background:#fff;box-shadow:0 18px 50px #123f7110;animation:contact-enter .7s .2s ease both}
+.contact-map-copy{padding:16px 18px}
+.contact-map-copy h3{font-size:27px;margin-top:14px}
+.contact-map-copy p{font-size:13px;margin-bottom:18px}
+.contact-map-copy>a{display:inline-flex;align-items:center;gap:9px;color:#075fe0;font-size:12px;font-weight:800}
+.contact-map-copy>a svg{width:15px;height:15px;transition:transform .2s}
+.contact-map-copy>a:hover svg{transform:translateX(4px)}
+.contact-map-frame{height:330px;overflow:hidden;border-radius:15px;background:#e4effb}
+.contact-map-frame iframe{display:block;width:100%;height:100%;border:0;filter:saturate(.88) contrast(1.02)}
+@keyframes contact-enter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes contact-pulse{0%{box-shadow:0 0 0 0 #17bf8140}70%,100%{box-shadow:0 0 0 7px #17bf8100}}
+@keyframes contact-orbit{from{transform:translate3d(0,0,0)}to{transform:translate3d(-24px,18px,0)}}
+@media(max-width:900px){.contact-shell{grid-template-columns:1fr;gap:25px}.contact-intro{max-width:720px}.contact-quick-links{grid-template-columns:1fr 1fr}.contact-quick-location{grid-column:1/-1}.contact-map-card{grid-template-columns:1fr}.contact-map-copy{padding:8px 8px 0}.contact-map-frame{height:300px}}
+@media(max-width:560px){.contact-section{padding:48px 0}.contact-intro h2{font-size:35px}.contact-intro>p{font-size:13px}.contact-quick-links{grid-template-columns:1fr}.contact-quick-location{grid-column:auto}.contact-form-card{padding:20px 16px;border-radius:17px}.contact-form{grid-template-columns:1fr}.contact-form label,.contact-full-field,.contact-submit,.contact-form-note{grid-column:1}.contact-map-card{padding:12px;border-radius:17px}.contact-map-frame{height:260px}.contact-map-copy h3{font-size:23px}}
+@media(prefers-reduced-motion:reduce){.contact-orb,.contact-status-dot,.contact-intro,.contact-form-card,.contact-map-card{animation:none!important}.contact-quick-links>a,.contact-submit svg,.contact-map-copy>a svg{transition:none!important}}
