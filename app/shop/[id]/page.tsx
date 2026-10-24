@@ -33,7 +33,37 @@ const CART_KEY="abdul-ict-shop-cart-v1";
 type CartLine={id:string;quantity:number};
 export default function ProductDetailsPage({params}:{params:Promise<{id:string}>}){
  const {id}=use(params); const product=PRODUCTS.find(p=>p.id===id); const [active,setActive]=useState(0); const [shareMessage,setShareMessage]=useState(""); const [cart,setCart]=useState<CartLine[]>([]); const [cartReady,setCartReady]=useState(false);
- useEffect(()=>{try{const saved=localStorage.getItem(CART_KEY);if(saved){const rows=JSON.parse(saved);if(Array.isArray(rows))setCart(rows.filter((line:any)=>line&&typeof line.id==="string"&&Number.isInteger(line.quantity)&&line.quantity>0&&PRODUCTS.some(p=>p.id===line.id)));}}catch{}setCartReady(true);const sync=()=>{try{const rows=JSON.parse(localStorage.getItem(CART_KEY)||"[]");if(Array.isArray(rows))setCart(rows.filter((line:any)=>line&&typeof line.id==="string"&&Number.isInteger(line.quantity)&&line.quantity>0&&PRODUCTS.some(p=>p.id===line.id)));}catch{}};window.addEventListener("storage",sync);return()=>{window.removeEventListener("storage",sync)}},[]);\n useEffect(()=>{if(cartReady){localStorage.setItem(CART_KEY,JSON.stringify(cart));window.dispatchEvent(new Event("abdul-cart-updated"))}},[cart,cartReady]);\n const productQuantity=cart.find(line=>line.id===id)?.quantity||0; const addToCart=()=>setCart(old=>{const found=old.find(line=>line.id===id);return found?old.map(line=>line.id===id?{...line,quantity:line.quantity+1}:line):[...old,{id,quantity:1}]}); const changeQuantity=(delta:number)=>setCart(old=>old.map(line=>line.id===id?{...line,quantity:line.quantity+delta}:line).filter(line=>line.quantity>0));\n const related=useMemo(()=>product?PRODUCTS.filter(p=>p.id!==product.id&&p.category===product.category).concat(PRODUCTS.filter(p=>p.id!==product.id&&p.category!==product.category)).slice(0,4):[],[product]);
+ useEffect(()=>{
+  try {
+   const saved=localStorage.getItem(CART_KEY);
+   if(saved){
+    const rows=JSON.parse(saved);
+    if(Array.isArray(rows)) setCart(rows.filter((line:any)=>line&&typeof line.id==="string"&&Number.isInteger(line.quantity)&&line.quantity>0&&PRODUCTS.some(p=>p.id===line.id)));
+   }
+  } catch {}
+  setCartReady(true);
+  const sync=()=>{
+   try {
+    const rows=JSON.parse(localStorage.getItem(CART_KEY)||"[]");
+    if(Array.isArray(rows)) setCart(rows.filter((line:any)=>line&&typeof line.id==="string"&&Number.isInteger(line.quantity)&&line.quantity>0&&PRODUCTS.some(p=>p.id===line.id)));
+   } catch {}
+  };
+  window.addEventListener("storage",sync);
+  return ()=>window.removeEventListener("storage",sync);
+ },[]);
+ useEffect(()=>{
+  if(cartReady){
+   localStorage.setItem(CART_KEY,JSON.stringify(cart));
+   window.dispatchEvent(new Event("abdul-cart-updated"));
+  }
+ },[cart,cartReady]);
+ const productQuantity=cart.find(line=>line.id===id)?.quantity||0;
+ const addToCart=()=>setCart(old=>{
+  const found=old.find(line=>line.id===id);
+  return found?old.map(line=>line.id===id?{...line,quantity:line.quantity+1}:line):[...old,{id,quantity:1}];
+ });
+ const changeQuantity=(delta:number)=>setCart(old=>old.map(line=>line.id===id?{...line,quantity:line.quantity+delta}:line).filter(line=>line.quantity>0));
+ const related=useMemo(()=>product?PRODUCTS.filter(p=>p.id!==product.id&&p.category===product.category).concat(PRODUCTS.filter(p=>p.id!==product.id&&p.category!==product.category)).slice(0,4):[],[product]);
  if(!product)return <main className="product-detail-page"><SiteHeader/><div className="container product-not-found"><span>PRODUCT NOT FOUND</span><h1>Let’s find something you’ll love.</h1><p>This product may have moved or is no longer listed.</p><a className="btn primary" href="/shop">Back to the shop <ArrowLeft/></a></div><SiteFooter/></main>;
  const gallery=[{label:"Product view",style:""},{label:"Closer look",style:"zoom"},{label:"Product preview",style:"soft"}];
  const orderUrl="https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent("Hello Abdul ICT & Electrical Solutions, I would like to order/enquire about:\n"+product.name+"\nListed price: "+money(product.price)+"\nPlease confirm current availability, exact specifications and delivery/pickup options.");
