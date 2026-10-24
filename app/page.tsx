@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useState} from "react";
-import {ArrowRight,ArrowUp,ArrowLeft,ArrowRight as ChevronRightIcon,Camera,Check,GraduationCap,Headphones,Mail,MapPin,Monitor,Phone,ShieldCheck,ShoppingCart,Smartphone,Wrench,Zap,X} from "lucide-react";
+import {ArrowRight,ArrowUp,ArrowLeft,ArrowRight as ChevronRightIcon,Camera,Check,GraduationCap,Headphones,Mail,MapPin,MessageCircle,Monitor,Phone,ShieldCheck,ShoppingCart,Smartphone,Wrench,Zap,X} from "lucide-react";
 import {SiteHeader,SiteFooter} from "./site-chrome";
 import NewsletterSignup from "./newsletter";
 const services=[["Electrical Wiring & Installation","Safe and professional electrical services.","/images/service-electrical-installation.svg",Zap],["CCTV Camera Installation","Secure your home and business.","/images/service-cctv-installation.svg",Camera],["Computer Repair & Maintenance","Fix, optimize and keep your system running smoothly.","/images/service-computer-repair.svg",Monitor],["Phone Repair, Flashing & Unlocking","All phone brands, software and hardware solutions.","/images/service-phone-repair.svg",Smartphone],["Phone Spares & Accessories","Original parts and quality accessories.","/images/service-accessories.svg",Headphones],["Computer Training","Build your skills for a brighter future.","/images/service-computer-training.svg",GraduationCap]];
