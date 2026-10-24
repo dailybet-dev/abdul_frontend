@@ -894,3 +894,56 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 @media(prefers-reduced-motion:reduce){.product-gallery-art,.product-gallery-art img,.product-related-card,.product-related-image img,.product-order-button{transition:none}}
 
 .home-product-detail-link{color:inherit;transition:color .2s}.home-product-detail-link:hover{color:#075fe3}
+
+
+/* Mobile-first shop quick navigation */
+.shop-mobile-bottom-nav,.shop-mobile-drawer-backdrop{display:none}
+.shop-product-card-clickable{cursor:pointer;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.shop-product-card-clickable:hover{transform:translateY(-4px);border-color:#c7ddf8;box-shadow:0 14px 34px #164c8412}
+.shop-product-card-clickable:focus-visible{outline:3px solid #3789ff;outline-offset:3px}
+@media(max-width:680px){
+.shop-page{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.shop-mobile-bottom-nav{position:fixed;z-index:90;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:stretch;min-height:66px;padding:7px 6px calc(7px + env(safe-area-inset-bottom));border-top:1px solid #dce8f7;background:#fffffffa;box-shadow:0 -7px 26px #153d6a14;backdrop-filter:blur(18px)}
+.shop-mobile-bottom-nav>button,.shop-mobile-bottom-nav>a{display:flex;min-width:0;align-items:center;justify-content:center;flex-direction:column;gap:4px;padding:2px;border:0;background:transparent;color:#58708e;font:inherit;text-decoration:none}
+.shop-mobile-bottom-nav svg{width:20px;height:20px;stroke-width:2}
+.shop-mobile-bottom-nav>button span:last-child,.shop-mobile-bottom-nav>a span{font-size:10px;line-height:1.1;font-weight:800}
+.shop-mobile-bottom-nav .shop-mobile-nav-call{color:#075bd2}
+.shop-mobile-bottom-nav .shop-mobile-nav-call svg{padding:4px;width:30px;height:30px;border-radius:10px;background:#e9f3ff}
+.shop-mobile-cart-icon{position:relative;display:grid;place-items:center}
+.shop-mobile-cart-icon i{position:absolute;right:-10px;top:-8px;min-width:17px;height:17px;padding:0 4px;border:2px solid #fff;border-radius:99px;background:#075fe3;color:#fff;font-size:9px;font-style:normal;font-weight:900;line-height:13px;text-align:center}
+.shop-mobile-drawer-backdrop{position:fixed;z-index:110;inset:0;display:flex;justify-content:flex-start;background:#061a35a8;backdrop-filter:blur(3px);animation:shopDrawerFade .18s ease}
+.shop-mobile-drawer{display:flex;flex-direction:column;width:min(88vw,390px);height:100%;overflow-y:auto;background:#fff;box-shadow:18px 0 55px #061a3533;animation:shopDrawerSlide .23s ease;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+.shop-mobile-drawer-head{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:25px 20px 20px;background:linear-gradient(140deg,#072c61,#0966e8);color:#fff}
+.shop-mobile-drawer-head>div>span{color:#b9d8ff;font-size:8px;font-weight:900;letter-spacing:1.15px}
+.shop-mobile-drawer-head h2{margin:7px 0 0;font-size:25px;letter-spacing:-.6px;font-weight:850}
+.shop-mobile-drawer-head>button{display:grid;place-items:center;width:38px;height:38px;flex-shrink:0;border:1px solid #ffffff4a;border-radius:11px;background:#ffffff18;color:#fff}
+.shop-mobile-drawer-head>button svg{width:19px}
+.shop-mobile-menu-feature{display:flex;align-items:center;gap:12px;margin:17px 15px 12px;padding:14px;border:1px solid #dceafa;border-radius:14px;background:#f3f8ff;color:#143a69;text-decoration:none}
+.shop-mobile-menu-feature>span{display:grid;place-items:center;width:43px;height:43px;border-radius:12px;background:#dcecff;color:#0865ec}
+.shop-mobile-menu-feature>span svg{width:21px}
+.shop-mobile-menu-feature>div{display:flex;flex:1;flex-direction:column;gap:4px}
+.shop-mobile-menu-feature b{font-size:13px}.shop-mobile-menu-feature small{color:#71839a;font-size:10px}.shop-mobile-menu-feature>svg{width:17px;color:#0865ec}
+.shop-mobile-menu-links{display:grid;padding:0 15px}
+.shop-mobile-menu-links>a{display:flex;align-items:center;gap:12px;padding:15px 6px;border-bottom:1px solid #edf2f8;color:#294a70;font-size:13px;font-weight:750;text-decoration:none}
+.shop-mobile-menu-links>a>svg:first-child{width:19px;color:#176de0}.shop-mobile-menu-links>a>svg:last-child{width:15px;margin-left:auto;color:#8297b0}
+.shop-mobile-drawer-contact{display:grid;gap:10px;margin:22px 20px 0;padding:16px;border-radius:14px;background:#f4f8fd}
+.shop-mobile-drawer-contact>span{margin-bottom:2px;color:#647b98;font-size:11px;font-weight:800}
+.shop-mobile-drawer-contact>a{display:flex;align-items:center;gap:9px;padding:11px 12px;border:1px solid #dce8f6;border-radius:10px;background:#fff;color:#14518f;font-size:12px;font-weight:850;text-decoration:none}
+.shop-mobile-drawer-contact>a:first-of-type{border-color:#ccebdd;background:#ecfbf3;color:#087746}
+.shop-mobile-drawer-contact svg{width:17px}
+.shop-mobile-category-list{padding:9px 13px 20px}
+.shop-mobile-category-list>button,.shop-mobile-category-group>button{display:flex;align-items:center;gap:11px;width:100%;padding:13px 5px;border:0;border-bottom:1px solid #edf2f8;background:#fff;color:#183c67;text-align:left}
+.shop-mobile-category-list>button.selected,.shop-mobile-category-group.selected>button{background:#f4f8ff}
+.shop-mobile-category-icon{display:grid;place-items:center;width:39px;height:39px;flex-shrink:0;border-radius:11px;background:#edf5ff;color:#0865ec}
+.shop-mobile-category-icon svg{width:18px}
+.shop-mobile-category-list button>span:nth-child(2){display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.shop-mobile-category-list button b{font-size:12px;font-weight:850}
+.shop-mobile-category-list button small{color:#7b8da4;font-size:9px;line-height:1.45}
+.shop-mobile-category-list button>svg{width:16px;flex-shrink:0;color:#8095ae}
+.shop-mobile-subcategories{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px 0 10px 48px}
+.shop-mobile-subcategories a{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:8px 7px;border:1px solid #e5edf7;border-radius:8px;background:#fbfdff;color:#506985;font-size:9px;line-height:1.3;text-decoration:none}
+.shop-mobile-subcategories a svg{width:12px;height:12px;flex-shrink:0;color:#0b68e9}
+}
+@keyframes shopDrawerFade{from{opacity:0}to{opacity:1}}
+@keyframes shopDrawerSlide{from{transform:translateX(-24px);opacity:.8}to{transform:translateX(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.shop-mobile-drawer-backdrop,.shop-mobile-drawer,.shop-product-card-clickable{animation:none;transition:none}}
