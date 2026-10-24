@@ -11,15 +11,15 @@ const CATALOG:Record<string,{name:string;price:number;image:string}>={
 "samsung-a15":{name:"Samsung Galaxy A15",price:965000,image:"/images/product-smartphone.svg"},
 "android-phone":{name:"Android Smartphone",price:450000,image:"/images/product-smartphone.svg"},
 "tablet":{name:"Android Tablet",price:550000,image:"/images/product-smartphone.svg"},
-"mouse":{name:"Wireless Mouse",price:25000,image:"/images/product-wireless-mouse.svg"},
+"mouse":{name:"Wireless Mouse",price:22000,image:"/images/product-wireless-mouse.svg"},
 "keyboard":{name:"USB Keyboard",price:35000,image:"/images/product-wireless-mouse.svg"},
-"flash":{name:"SanDisk 128GB USB Drive",price:90000,image:"/images/product-usb-flash-drive.svg"},
+"flash":{name:"SanDisk 128GB USB Drive",price:78000,image:"/images/product-usb-flash-drive.svg"},
 "flash-64":{name:"USB Flash Drive 64GB",price:55000,image:"/images/product-usb-flash-drive.svg"},
 "ssd":{name:"SSD Storage Upgrade",price:180000,image:"/images/product-laptop.svg"},
-"charger":{name:"Fast Charging Phone Charger",price:18000,image:"/images/product-phone-charger.svg"},
+"charger":{name:"Fast Charging Phone Charger",price:15000,image:"/images/product-phone-charger.svg"},
 "cable":{name:"Phone Charging Cable",price:10000,image:"/images/product-phone-charger.svg"},
 "earphones":{name:"Earphones & Headsets",price:25000,image:"/images/product-phone-charger.svg"},
-"cctv":{name:"CCTV Security Camera",price:120000,image:"/images/product-cctv-camera.svg"},
+"cctv":{name:"CCTV Security Camera",price:105000,image:"/images/product-cctv-camera.svg"},
 "cctv-kit":{name:"CCTV Camera System",price:650000,image:"/images/product-cctv-camera.svg"},
 "router":{name:"Wi-Fi Router",price:95000,image:"/images/product-wireless-mouse.svg"},
 "network-cable":{name:"Network Cable & Accessories",price:5000,image:"/images/product-wireless-mouse.svg"},
@@ -29,7 +29,7 @@ const CATALOG:Record<string,{name:string;price:number;image:string}>={
 const CART_KEY="abdul-ict-shop-cart-v1";
 const money=(n:number)=>"UGX "+n.toLocaleString("en-UG");
 const paymentMessage=(method:string,lines:Line[],subtotal:number)=>"Hello Abdul ICT & Electrical Solutions, I would like to arrange payment for my order.\nPayment method: "+method+"\n"+lines.map(line=>CATALOG[line.id]?"• "+CATALOG[line.id].name+" x "+line.quantity+" — "+money(CATALOG[line.id].price*line.quantity):"").filter(Boolean).join("\n")+"\nSubtotal: "+money(subtotal)+"\nPlease confirm stock, payment details and delivery charges.";
-function BrandMark({kind}:{kind:"mtn"|"airtel"|"centenary"}){if(kind==="mtn")return <span className="payment-brand-mark mtn-mark" aria-label="MTN logo"><b>MTN</b><i/></span>;if(kind==="airtel")return <span className="payment-brand-mark airtel-mark" aria-label="Airtel logo"><b>airtel</b><i/></span>;return <span className="payment-brand-mark centenary-mark" aria-label="Centenary Bank logo"><b>C</b><i/></span>}
+function BrandMark({kind}:{kind:"mtn"|"airtel"|"centenary"}){if(kind==="mtn")return <span className="payment-brand-mark mtn-mark" aria-label="MTN logo"><b>MTN</b><i/></span>;if(kind==="airtel")return <span className="payment-brand-mark airtel-mark" aria-label="Airtel logo"><b>airtel</b><i/></span>;return <span className="payment-brand-mark centenary-mark" aria-label="Centenary Bank Uganda logo"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Centenary_bank_logo.jpg" alt="Centenary Bank Uganda"/></span>}
 export default function PaymentPage(){const[cart,setCart]=useState<Line[]>([]);const[method,setMethod]=useState("mtn");const[copyMessage,setCopyMessage]=useState("");const[customerName,setCustomerName]=useState("");const[phone,setPhone]=useState("");const[fulfilment,setFulfilment]=useState("pickup");const[deliveryAddress,setDeliveryAddress]=useState("");const[deliveryArea,setDeliveryArea]=useState("");const[deliveryNotes,setDeliveryNotes]=useState("");
 useEffect(()=>{try{const rows=JSON.parse(localStorage.getItem(CART_KEY)||"[]");if(Array.isArray(rows))setCart(rows.filter((x:any)=>x&&typeof x.id==="string"&&Number.isInteger(x.quantity)&&x.quantity>0&&CATALOG[x.id]))}catch{}},[]);
 const lines=useMemo(()=>cart.filter(line=>CATALOG[line.id]),[cart]);const subtotal=lines.reduce((n,line)=>n+CATALOG[line.id].price*line.quantity,0);const deposit=Math.ceil(subtotal/2);
