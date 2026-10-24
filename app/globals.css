@@ -947,3 +947,13 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 @keyframes shopDrawerFade{from{opacity:0}to{opacity:1}}
 @keyframes shopDrawerSlide{from{transform:translateX(-24px);opacity:.8}to{transform:translateX(0);opacity:1}}
 @media(prefers-reduced-motion:reduce){.shop-mobile-drawer-backdrop,.shop-mobile-drawer,.shop-product-card-clickable{animation:none;transition:none}}
+
+/* Shared fixed mobile navigation across the entire website */
+.home-product-card-clickable{cursor:pointer;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.home-product-card-clickable:hover{transform:translateY(-4px);box-shadow:0 14px 34px #164c8412;border-color:#c7ddf8}
+.home-product-card-clickable:focus-visible{outline:3px solid #3789ff;outline-offset:3px}
+.global-mobile-bottom-nav{display:none}
+.global-mobile-category-link{display:flex;align-items:center;gap:11px;width:100%;padding:13px 5px;border-bottom:1px solid #edf2f8;color:#183c67;text-decoration:none;text-align:left}
+.global-mobile-category-link>span:nth-child(2){display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.global-mobile-category-link b{font-size:12px;font-weight:850}.global-mobile-category-link small{color:#7b8da4;font-size:9px}.global-mobile-category-link>svg{width:16px;color:#8095ae}
+@media(max-width:680px){.global-mobile-bottom-nav{display:grid}body:has(.global-mobile-bottom-nav) main{padding-bottom:calc(78px + env(safe-area-inset-bottom))}}
