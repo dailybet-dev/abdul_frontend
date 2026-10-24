@@ -346,3 +346,13 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 @keyframes whatsapp-ring{0%{transform:scale(.88);opacity:.6}75%,100%{transform:scale(1.28);opacity:0}}
 @media(max-width:560px){.floating-contact-actions{right:14px;bottom:16px;gap:11px}.back-to-top-fab,.floating-whatsapp-fab{width:49px;height:49px}.back-to-top-fab svg{width:21px;height:21px}.floating-whatsapp-fab svg{width:26px;height:26px}.floating-whatsapp-label{font-size:11px;padding:7px 10px}}
 @media(prefers-reduced-motion:reduce){.back-to-top-fab,.back-to-top-fab svg,.floating-whatsapp-fab,.floating-whatsapp-fab:before{animation:none!important;transition:none!important}}
+
+
+/* Clean, consistently aligned navigation chevrons for Services and Shop. */
+.nav .nav-dropdown-link{display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1;white-space:nowrap}
+.nav .nav-dropdown-link>span{display:inline-block}
+.nav .nav-dropdown-link .nav-chevron{display:block;flex:0 0 14px;width:14px;height:14px;margin:0;stroke-width:2.3;opacity:.78;transform:translateY(1px);transition:transform .2s ease,color .2s ease,opacity .2s ease}
+.nav .nav-dropdown-link:hover .nav-chevron,.nav .nav-dropdown-link:focus-visible .nav-chevron{color:var(--blue);opacity:1;transform:translateY(2px)}
+.nav .nav-dropdown-link:focus-visible{outline:2px solid #80b8ff;outline-offset:5px;border-radius:4px}
+@media(max-width:820px){.nav .nav-dropdown-link{justify-content:space-between;width:100%;gap:10px;line-height:1.4}.nav .nav-dropdown-link .nav-chevron{margin-left:auto;transform:rotate(-90deg);transition:transform .2s ease,color .2s ease}.nav .nav-dropdown-link:hover .nav-chevron,.nav .nav-dropdown-link:focus-visible .nav-chevron{transform:rotate(0deg)}}
+@media(prefers-reduced-motion:reduce){.nav .nav-dropdown-link .nav-chevron{transition:none}}
