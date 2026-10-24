@@ -330,7 +330,7 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 
 
 /* Floating quick actions: animated back-to-top above WhatsApp. */
-.floating-contact-actions{position:fixed;right:clamp(16px,2.5vw,30px);bottom:clamp(18px,3vw,30px);z-index:60;display:flex;flex-direction:column;align-items:center;gap:13px}
+.floating-contact-actions{position:fixed;right:clamp(16px,2.5vw,30px);bottom:clamp(18px,3vw,30px);z-index:120;display:flex;flex-direction:column;align-items:center;gap:13px}
 .back-to-top-fab,.floating-whatsapp-fab{position:relative;width:54px;height:54px;border:0;border-radius:50%;display:grid;place-items:center;box-shadow:0 9px 24px #052b5b30;transition:transform .25s ease,box-shadow .25s ease,filter .25s ease}
 .back-to-top-fab{background:linear-gradient(145deg,#1685ff,#0755d9);color:#fff;animation:fab-rise-in .35s ease both}
 .back-to-top-fab svg{width:23px;height:23px;stroke-width:2.6;animation:arrow-nudge 1.8s ease-in-out infinite}
@@ -344,7 +344,7 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 @keyframes arrow-nudge{0%,100%{transform:translateY(1px)}50%{transform:translateY(-3px)}}
 @keyframes whatsapp-breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.035)}}
 @keyframes whatsapp-ring{0%{transform:scale(.88);opacity:.6}75%,100%{transform:scale(1.28);opacity:0}}
-@media(max-width:560px){.floating-contact-actions{right:14px;bottom:16px;gap:11px}.back-to-top-fab,.floating-whatsapp-fab{width:49px;height:49px}.back-to-top-fab svg{width:21px;height:21px}.floating-whatsapp-fab svg{width:26px;height:26px}.floating-whatsapp-label{font-size:11px;padding:7px 10px}}
+@media(max-width:560px){.floating-contact-actions{right:14px;bottom:88px;gap:11px}.back-to-top-fab,.floating-whatsapp-fab{width:49px;height:49px}.back-to-top-fab svg{width:21px;height:21px}.floating-whatsapp-fab svg{width:26px;height:26px}.floating-whatsapp-label{font-size:11px;padding:7px 10px}}
 @media(prefers-reduced-motion:reduce){.back-to-top-fab,.back-to-top-fab svg,.floating-whatsapp-fab,.floating-whatsapp-fab:before{animation:none!important;transition:none!important}}
 
 
