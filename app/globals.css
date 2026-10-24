@@ -1038,12 +1038,15 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 /* Compact WhatsApp and phone actions on clickable service cards */
 .service-card-clickable,.our-service-card-clickable{cursor:pointer}
 .service-card-clickable:focus-visible,.our-service-card-clickable:focus-visible{outline:3px solid #3789ff;outline-offset:3px}
-.service-card-contact-actions{display:flex;align-items:center;gap:9px;margin-top:14px}
+.service-card-contact-actions{display:flex;align-items:center;gap:9px;margin-top:14px;flex-wrap:wrap}
 .service-card-contact-actions>a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid #cfe2f6;border-radius:11px;background:#f2f8ff;color:#075bd2;text-decoration:none;transition:transform .18s,background .18s,color .18s,border-color .18s}
-.service-card-contact-actions>a:first-child{border-color:#ccebdd;background:#eafaf1;color:#07834b}
-.service-card-contact-actions>a:hover{transform:translateY(-2px);background:#075bd2;border-color:#075bd2;color:#fff}
-.service-card-contact-actions>a:first-child:hover{background:#07834b;border-color:#07834b;color:#fff}
-.service-card-contact-actions svg{width:18px;height:18px;stroke-width:2.2}
+.service-card-contact-actions>a:first-child{border-color:#20b85a;background:#25d366;color:#fff}
+.service-card-contact-actions>a:first-child:hover{background:#128c48;border-color:#128c48;color:#fff}
+.service-card-contact-actions>a:nth-child(2):hover{transform:translateY(-2px);background:#075bd2;border-color:#075bd2;color:#fff}
+.service-card-contact-actions svg{width:20px;height:20px;stroke-width:2.2}
+.service-card-contact-actions .service-card-details{width:auto;min-height:38px;padding:0 13px;gap:7px;border-color:#075bd2;background:#075bd2;color:#fff;border-radius:10px;font-size:13px;font-weight:700;white-space:nowrap}
+.service-card-contact-actions .service-card-details svg{width:16px;height:16px}
+.service-card-contact-actions .service-card-details:hover{transform:translateY(-2px);background:#0649a7;border-color:#0649a7;color:#fff}
 .service-card-clickable .btn{display:none}
 .our-service-link{display:none}
 @media(prefers-reduced-motion:reduce){.service-card-contact-actions>a{transition:none}}
