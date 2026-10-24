@@ -1047,6 +1047,9 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .service-card-contact-actions .service-card-details{width:auto;min-height:38px;padding:0 13px;gap:7px;border-color:#075bd2;background:#075bd2;color:#fff;border-radius:10px;font-size:13px;font-weight:700;white-space:nowrap}
 .service-card-contact-actions .service-card-details svg{width:16px;height:16px}
 .service-card-contact-actions .service-card-details:hover{transform:translateY(-2px);background:#0649a7;border-color:#0649a7;color:#fff}
+.service-card-contact-actions .home-service-details{width:38px;min-width:38px;padding:0;border-color:#075bd2;background:#075bd2;color:#fff;border-radius:11px}
+.service-card-contact-actions .home-service-details svg{width:19px;height:19px}
+.service-card-contact-actions .home-service-details:hover{transform:translateY(-2px);background:#0649a7;border-color:#0649a7;color:#fff}
 .service-card-clickable .btn{display:none}
 .our-service-link{display:none}
 @media(prefers-reduced-motion:reduce){.service-card-contact-actions>a{transition:none}}
