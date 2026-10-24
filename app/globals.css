@@ -854,3 +854,11 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 /* Compact shop hero on phones while preserving the desktop layout. */
 @media(max-width:720px){.shop-hero{padding:26px 0 22px}.shop-hero-grid{gap:4px}.shop-hero h1{margin:10px 0;font-size:clamp(36px,9vw,48px);letter-spacing:-1.8px}.shop-hero-grid>div:first-child>p{font-size:12px;line-height:1.65}.shop-hero-actions{gap:8px;margin-top:14px}.shop-hero-actions .btn{padding:10px 12px;font-size:11px}.shop-trust{gap:8px 12px;margin-top:15px}.shop-hero-art{min-height:175px;margin-top:0}.shop-hero-art>img{height:170px;width:min(100%,300px)}.shop-hero-orbit.orbit-a{width:170px;height:170px}.shop-hero-orbit.orbit-b{width:220px;height:220px}.shop-float-card{bottom:0;padding:8px 10px}.shop-float-card>span{width:30px;height:30px}.shop-float-card b{font-size:10px}.shop-float-card small{font-size:8px}}
 @media(max-width:400px){.shop-hero{padding:22px 0 18px}.shop-hero-art{min-height:145px}.shop-hero-art>img{height:140px}.shop-hero-orbit.orbit-a{width:145px;height:145px}.shop-hero-orbit.orbit-b{width:185px;height:185px}.shop-float-card{left:0}}
+
+/* Keep the payment continuation action in view and make validation guidance clear. */
+.payment-page{padding-bottom:78px}
+.payment-contact-panel .payment-whatsapp{position:fixed!important;z-index:60;left:50%;bottom:12px;transform:translateX(-50%);width:min(560px,calc(100% - 28px));min-height:52px;box-shadow:0 8px 28px #052c5b30;border:1px solid #fff8}
+.payment-contact-panel .payment-whatsapp:hover{transform:translateX(-50%) translateY(-1px)}
+.payment-validation-error{position:fixed;z-index:61;left:50%;bottom:72px;transform:translateX(-50%);width:min(560px,calc(100% - 28px));margin:0;padding:10px 13px;border:1px solid #f1c7c7;border-radius:10px;background:#fff6f6;color:#a52d2d;font-size:12px;font-weight:800;box-shadow:0 5px 20px #4c11111a}
+.payment-field input:focus,.payment-field textarea:focus{outline:2px solid #70b0ff;outline-offset:1px}
+@media(max-width:520px){.payment-page{padding-bottom:78px}.payment-contact-panel .payment-whatsapp{bottom:10px;min-height:50px}.payment-validation-error{bottom:68px;font-size:11px}}
