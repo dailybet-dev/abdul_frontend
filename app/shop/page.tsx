@@ -1,7 +1,6 @@
 "use client";
 import {useEffect,useMemo,useState} from "react";
 import {ArrowRight,ArrowDownUp,Check,Minus,Plus,Search,ShoppingBag,ShoppingCart,Trash2,X,MessageCircle,ShieldCheck,Truck,Headphones,PackageCheck,SlidersHorizontal,ChevronDown} from "lucide-react";
-import {useSearchParams} from "next/navigation";
 import {SiteHeader,SiteFooter} from "../site-chrome";
 import NewsletterSignup from "../newsletter";
 type Product={id:string;name:string;description:string;price:number;category:string;image:string;tag?:string};
@@ -32,8 +31,8 @@ const CATEGORIES=["All Products","Laptops & Computers","Phones & Tablets","Compu
 const money=(n:number)=>"UGX "+n.toLocaleString("en-UG");
 const CART_KEY="abdul-ict-shop-cart-v1";
 const messageFor=(lines:CartLine[])=>{const rows=lines.map(line=>{const p=PRODUCTS.find(item=>item.id===line.id);return p?"• "+p.name+" x "+line.quantity+" — "+money(p.price*line.quantity):""}).filter(Boolean);const total=lines.reduce((sum,line)=>sum+(PRODUCTS.find(p=>p.id===line.id)?.price||0)*line.quantity,0);return "Hello Abdul ICT & Electrical Solutions, I would like to enquire/order these items:\n\n"+rows.join("\n")+"\n\nEstimated total: "+money(total)+"\nPlease confirm availability, final prices and delivery/pickup options."};
-export default function ShopPage(){const params=useSearchParams();const[cart,setCart]=useState<CartLine[]>([]);const[ready,setReady]=useState(false);const[category,setCategory]=useState("All Products");const[search,setSearch]=useState("");const[sort,setSort]=useState("featured");const[cartOpen,setCartOpen]=useState(false);const[mobileFilters,setMobileFilters]=useState(false);
-useEffect(()=>{try{const saved=localStorage.getItem(CART_KEY);if(saved){const parsed=JSON.parse(saved);if(Array.isArray(parsed))setCart(parsed.filter((x:any)=>x&&typeof x.id==="string"&&Number.isInteger(x.quantity)&&x.quantity>0&&PRODUCTS.some(p=>p.id===x.id)));}}catch{}setReady(true);const q=params.get("q");if(q)setSearch(q)},[params]);
+export default function ShopPage(){const[cart,setCart]=useState<CartLine[]>([]);const[ready,setReady]=useState(false);const[category,setCategory]=useState("All Products");const[search,setSearch]=useState("");const[sort,setSort]=useState("featured");const[cartOpen,setCartOpen]=useState(false);const[mobileFilters,setMobileFilters]=useState(false);
+useEffect(()=>{try{const saved=localStorage.getItem(CART_KEY);if(saved){const parsed=JSON.parse(saved);if(Array.isArray(parsed))setCart(parsed.filter((x:any)=>x&&typeof x.id==="string"&&Number.isInteger(x.quantity)&&x.quantity>0&&PRODUCTS.some(p=>p.id===x.id)));}}catch{}setReady(true);const q=new URLSearchParams(window.location.search).get("q");if(q)setSearch(q)},[]);
 useEffect(()=>{if(ready)localStorage.setItem(CART_KEY,JSON.stringify(cart))},[cart,ready]);
 const count=cart.reduce((n,line)=>n+line.quantity,0);const subtotal=cart.reduce((n,line)=>n+(PRODUCTS.find(p=>p.id===line.id)?.price||0)*line.quantity,0);
 const shown=useMemo(()=>{let list=PRODUCTS.filter(p=>(category==="All Products"||p.category===category)&&[p.name,p.description,p.category].some(s=>s.toLowerCase().includes(search.toLowerCase().trim())));if(sort==="price-low")list=[...list].sort((a,b)=>a.price-b.price);if(sort==="price-high")list=[...list].sort((a,b)=>b.price-a.price);if(sort==="name")list=[...list].sort((a,b)=>a.name.localeCompare(b.name));return list},[category,search,sort]);
