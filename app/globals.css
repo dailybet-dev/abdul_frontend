@@ -1255,3 +1255,86 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .shop-market-results-toolbar>div>label:first-child{display:none}
 .shop-market-product-image{height:128px!important;min-height:128px!important}
 }
+
+
+/* Responsive polish: keep hero photography visible and expose homepage browse strips */
+.hero-carousel{width:100%;max-width:none;min-height:410px;background:#f7f9fc}
+.hero-carousel-glow{display:none}
+.hero-carousel .hero-grid{width:100%;max-width:none;min-height:410px;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:22px;padding:18px clamp(18px,3.2vw,52px)}
+.hero-carousel .hero-carousel-copy{min-width:0;align-self:center}
+.hero-carousel .hero-art{position:relative;height:370px;min-width:0;overflow:hidden;isolation:isolate;background:#fff;border-radius:8px;animation:none}
+.hero-carousel .hero-art>img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center;border-radius:0;box-shadow:none;filter:none}
+.hero-carousel .hero-art-backdrop,.hero-carousel .hero-slide-badge,.hero-carousel .hero-slide-number{display:none!important}
+.hero-carousel .hero-carousel-art:before,.hero-carousel .hero-carousel-art:after{display:none!important;content:none!important}
+.hero-carousel .hero-carousel-copy{animation:none}
+.home-browse-strips{display:block!important;visibility:visible!important;position:relative;z-index:1;background:#f5f7fa;padding:16px 0 22px;overflow:hidden}
+.home-browse-strips>.container{width:min(1200px,calc(100% - 32px));max-width:1200px}
+.home-strip-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 8px}
+.home-strip-heading>div>span{font-size:9px;font-weight:800;letter-spacing:1px;color:#e97800}
+.home-strip-heading h2{margin:2px 0 0;font-size:19px;line-height:1.3}
+.home-strip-heading>a{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;white-space:nowrap}
+.home-horizontal-strip{display:flex!important;visibility:visible!important;width:100%;min-width:0;gap:10px;overflow-x:auto;overflow-y:hidden;padding:3px 2px 10px;scroll-snap-type:x mandatory;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.home-strip-card{flex:0 0 116px;min-width:116px}
+.home-services-strip .home-strip-card{flex:0 0 180px;min-width:180px}
+.service-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.service-card{min-width:0}
+.service-card>img{height:145px;object-fit:cover}
+.service-card>div{padding:10px;min-height:130px}
+.service-card h3{font-size:12px}
+.service-card p{font-size:10px}
+.service-card-contact-actions{gap:6px;margin-top:10px}
+.service-card-contact-actions>a{width:32px;height:32px;border-radius:8px}
+.service-card-contact-actions .home-service-details,.service-card-contact-actions .service-card-details{width:32px;min-height:32px;padding:0}
+.our-services-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.our-service-image{height:170px}
+.our-service-card-content{padding:16px}
+@media(max-width:760px){
+.hero-carousel{width:100%;min-height:0;padding:0;background:#fff}
+.hero-carousel .hero-grid{width:100%;min-height:0;display:flex;flex-direction:column-reverse;gap:0;padding:0}
+.hero-carousel .hero-art{width:100%;height:clamp(220px,64vw,340px);min-height:220px;border-radius:0;background:#fff;flex:none}
+.hero-carousel .hero-art>img{object-fit:cover;object-position:center}
+.hero-carousel .hero-carousel-copy{width:100%;min-height:0;padding:18px 18px 20px;background:#fff}
+.hero-carousel .hero-slide-eyebrow{margin-bottom:8px;font-size:9px}
+.hero-carousel h1,.hero-carousel .hero h1{font-size:clamp(27px,7.5vw,36px);letter-spacing:-.8px;margin-bottom:8px}
+.hero-carousel p{font-size:12px;line-height:1.55;margin-bottom:12px}
+.hero-carousel .hero-buttons{display:flex;flex-wrap:nowrap;gap:8px}
+.hero-carousel .hero-buttons .btn{flex:1 1 0;min-width:0;min-height:40px;padding:8px 7px;font-size:10px}
+.hero-carousel-controls{margin-top:12px}
+.home-browse-strips{display:block!important;padding:12px 0 18px}
+.home-browse-strips>.container{width:calc(100% - 20px);max-width:none}
+.home-strip-heading{margin-bottom:7px}
+.home-strip-heading h2{font-size:16px}
+.home-horizontal-strip{display:flex!important;gap:8px;overflow-x:auto;overflow-y:hidden;padding:3px 1px 10px;scroll-snap-type:x mandatory}
+.home-strip-card{flex:0 0 94px;min-width:94px;padding:8px 5px 7px;border-radius:9px;gap:5px}
+.home-strip-card img{width:58px;height:49px;object-fit:contain}
+.home-strip-card span{font-size:10px;line-height:1.25}
+.home-services-strip .home-strip-card{flex:0 0 155px;min-width:155px;gap:7px;padding:7px}
+.home-services-strip .home-strip-card img{width:48px;height:44px;object-fit:cover}
+.home-services-strip .home-strip-card span{font-size:10px}
+.service-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.service-card{border-radius:8px}
+.service-card>img{width:calc(100% - 10px);height:105px;margin:5px 5px 0;border-radius:5px}
+.service-card>div{padding:8px;min-height:132px}
+.service-card h3{font-size:11px;line-height:1.3}
+.service-card p{font-size:9px;line-height:1.45;margin-bottom:8px}
+.service-card-contact-actions{gap:5px;margin-top:8px}
+.service-card-contact-actions>a{width:28px;height:28px;border-radius:7px}
+.service-card-contact-actions>a svg{width:16px;height:16px}
+.service-card-contact-actions .home-service-details{width:28px;min-height:28px;padding:0}
+.our-services-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.our-service-card{border-radius:10px}
+.our-service-image{height:112px;margin:5px 5px 0;border-radius:7px}
+.our-service-image img{padding:4px;object-fit:cover}
+.our-service-number{top:6px;left:6px;width:24px;height:24px;border-radius:7px;font-size:9px}
+.our-service-card-content{padding:9px}
+.our-service-icon{width:30px;height:30px;border-radius:8px;margin-bottom:8px}
+.our-service-icon svg{width:16px;height:16px}
+.our-service-card h3{font-size:12px;line-height:1.3;margin-bottom:6px}
+.our-service-card p{font-size:10px;line-height:1.5;margin-bottom:10px}
+.service-card-contact-actions .service-card-details{width:28px;min-height:28px;padding:0}
+}
+@media(min-width:761px) and (max-width:1050px){
+.hero-carousel .hero-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px}
+.hero-carousel .hero-art{height:330px}
+.service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
