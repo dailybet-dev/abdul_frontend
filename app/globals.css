@@ -1543,3 +1543,44 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
     text-shadow: none !important;
   }
 }
+
+
+/* Admin dashboard sidebar: branded blue theme */
+.admin-shell .ad-sidebar {
+  background: linear-gradient(180deg, #082b5c 0%, #0b3978 100%);
+  border-right: 1px solid #17477f;
+  color: #fff;
+}
+.admin-shell .ad-brand b,
+.admin-shell .ad-workspace b,
+.admin-shell .ad-profile-link b,
+.admin-shell .ad-help b { color: #fff; }
+.admin-shell .ad-brand small,
+.admin-shell .ad-workspace small,
+.admin-shell .ad-profile-link small { color: #c4d8f5; }
+.admin-shell .ad-brand-mark { background: #fff; color: #0b3978; }
+.admin-shell .ad-workspace {
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.18);
+}
+.admin-shell .ad-workspace-avatar { background: #3d80e8; }
+.admin-shell .ad-nav-label { color: #a9c8f3; }
+.admin-shell .ad-nav-item { color: #d8e6fb; }
+.admin-shell .ad-nav-item:hover { background: rgba(255,255,255,.10); color: #fff; }
+.admin-shell .ad-nav-item.active {
+  color: #fff;
+  background: #2467c7;
+  box-shadow: inset 3px 0 0 #9fc6ff;
+}
+.admin-shell .ad-nav-item.active > svg:last-child { opacity: .9; }
+.admin-shell .ad-help {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.15);
+}
+.admin-shell .ad-help > svg { color: #a9ceff; }
+.admin-shell .ad-help p { color: #d0e0f7; }
+.admin-shell .ad-help button { color: #fff; }
+.admin-shell .ad-profile-link { border-top-color: rgba(255,255,255,.18); }
+.admin-shell .ad-avatar { background: #d8e8ff; color: #123e7c; }
+.admin-shell .ad-signout { color: #ffd5dc; }
+.admin-shell .ad-close-mobile { color: #fff; }
