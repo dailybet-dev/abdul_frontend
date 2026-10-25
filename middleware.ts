@@ -4,15 +4,36 @@ const LOGIN_PATH = "/admin/login";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
+  const cookie = request.headers.get("cookie");
+
   if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
+    if (request.nextUrl.searchParams.get("logout") === "1") {
+      if (backendUrl && cookie) {
+        try {
+          await fetch(`${backendUrl}/api/auth/logout`, {
+            method: "POST",
+            headers: { cookie, origin: request.nextUrl.origin },
+            cache: "no-store",
+            signal: AbortSignal.timeout(5000),
+          });
+        } catch {
+          // Still clear the browser cookie if the API is temporarily unavailable.
+        }
+      }
+      const login = request.nextUrl.clone();
+      login.search = "";
+      const response = NextResponse.redirect(login);
+      response.cookies.delete("admin_session");
+      return response;
+    }
     return NextResponse.next();
   }
 
-  const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
-  const cookie = request.headers.get("cookie");
   if (!backendUrl || !cookie) {
     const login = request.nextUrl.clone();
     login.pathname = LOGIN_PATH;
+    login.search = "";
     login.searchParams.set("next", pathname);
     return NextResponse.redirect(login);
   }
@@ -31,10 +52,9 @@ export async function middleware(request: NextRequest) {
 
   const login = request.nextUrl.clone();
   login.pathname = LOGIN_PATH;
+  login.search = "";
   login.searchParams.set("next", pathname);
   return NextResponse.redirect(login);
 }
 
-export const config = {
-  matcher: ["/admin/:path*"],
-};
+export const config = { matcher: ["/admin/:path*"] };
