@@ -1584,3 +1584,13 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .admin-shell .ad-avatar { background: #d8e8ff; color: #123e7c; }
 .admin-shell .ad-signout { color: #ffd5dc; }
 .admin-shell .ad-close-mobile { color: #fff; }
+
+
+/* Restore white text on the home hero carousel for contrast over the slide images. */
+.hero-carousel .hero-carousel-copy h1,
+.hero-carousel .hero-carousel-copy h1 em,
+.hero-carousel .hero-carousel-copy p,
+.hero-carousel .hero-carousel-copy h1 span {
+  color: #fff !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .35) !important;
+}
