@@ -51,7 +51,7 @@ price:group.prices[subIndex]+variant*Math.max(1000,Math.round(group.prices[subIn
 category:group.category,
 subcategory,
 image:group.category==="CCTV & Security"?"/images/product-cctv-camera.svg":group.category==="Laptops & Desktops"||group.category==="Laptops & Computers"?"/images/product-laptop.svg":group.category==="Tablets"||group.category==="Mobile Phones"||group.category==="Phones & Tablets"?"/images/product-smartphone.svg":group.category==="Storage & Memory"?"/images/product-usb-flash-drive.svg":group.category==="Repair Spare"||group.category==="Networking"||group.category==="Computer Accessories"?"/images/product-wireless-mouse.svg":"/images/product-phone-charger.svg",
-tag:variant===0?"Sample item":undefined,
+tag:"Sample item",
 details:[subcategory,"Sample catalogue option "+(variant+1),"Please confirm exact model, specifications and availability before ordering"],
 about:"This is a sample catalogue listing used to demonstrate the shop experience. Contact Abdul ICT & Electrical Solutions to confirm the exact model, specifications, condition, current price and availability before placing an order."
 }))));
