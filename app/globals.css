@@ -1121,3 +1121,137 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 @media(max-width:760px){.our-services-hero-photo{background-position:center;background-size:cover}.our-services-hero-photo:before{background:linear-gradient(90deg,rgba(3,18,39,.9),rgba(3,24,49,.55)),linear-gradient(0deg,rgba(3,18,39,.45),transparent)}}
 
 .our-services-hero-photo .our-services-hero-grid{position:relative;z-index:1}
+
+
+/* Marketplace-style shop layout based on the supplied reference screenshots */
+.shop-page{background:#f3f4f6;color:#222b3b;font-family:Arial,Helvetica,sans-serif}
+.shop-market-hero{width:calc(100% - 32px);max-width:1500px;margin:10px auto 12px;display:grid;grid-template-columns:244px minmax(0,1fr);gap:24px;align-items:stretch}
+.shop-market-sidebar{height:400px;min-width:0;border-radius:4px;background:#10141e;overflow:hidden;box-shadow:0 2px 8px #0000000b}
+.shop-market-sidebar h2{height:44px;display:flex;align-items:center;gap:5px;margin:0;padding:0 12px;background:#ffcbd3;color:#111;font-size:14px;font-weight:800}
+.shop-market-sidebar h2 svg{width:14px;height:14px;fill:#111}
+.shop-market-sidebar-list{height:calc(100% - 44px);overflow:auto;scrollbar-color:#a7a7a7 #f5f5f5;scrollbar-width:thin}
+.shop-market-sidebar-list button{width:100%;min-height:41px;padding:10px 12px;border:0;border-bottom:1px solid #39404c;background:#10141e;color:#f4f4f6;display:grid;grid-template-columns:25px 1fr 14px;gap:10px;align-items:center;text-align:left;font-size:12px;font-weight:600;line-height:1.3}
+.shop-market-sidebar-list button:hover,.shop-market-sidebar-list button.active{background:#1d2533}
+.shop-market-sidebar-list button>svg{width:16px;height:16px;stroke-width:3}
+.shop-market-side-icon{font-size:13px;text-align:center}
+.shop-market-slider{position:relative;min-width:0;min-height:400px;overflow:hidden;border-radius:2px;background-color:#11121a;background-position:center;background-size:cover;color:#fff;display:flex;align-items:center}
+.shop-market-slide-copy{padding:44px 16px;max-width:720px;position:relative;z-index:1}
+.shop-market-kicker{display:none}
+.shop-market-slide-copy h1{font-size:clamp(30px,4vw,50px);font-weight:750;line-height:1.12;letter-spacing:-.8px;color:#fff;margin:0 0 12px}
+.shop-market-slide-copy p{font-size:20px;line-height:1.4;margin:0 0 32px;color:#f2f2f5}
+.shop-market-explore{display:inline-flex;min-width:122px;min-height:48px;align-items:center;justify-content:center;border-radius:5px;background:#ff8000;color:#fff;font-weight:700;font-size:14px}
+.shop-market-explore:hover{background:#ee7000}
+.shop-market-arrow{position:absolute;z-index:2;top:50%;transform:translateY(-50%);width:42px;height:42px;border:0;border-radius:50%;background:#0b0c13b8;color:#fff;display:grid;place-items:center}
+.shop-market-arrow svg{width:23px;height:23px;stroke-width:3}
+.shop-market-arrow.prev{left:14px;transform:translateY(-50%) rotate(180deg)}
+.shop-market-arrow.next{right:16px}
+.shop-market-dots{position:absolute;z-index:2;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center}
+.shop-market-dots button{height:12px;width:12px;border:0;border-radius:50%;padding:0;background:#a7a7ad}
+.shop-market-dots button.active{background:#ff8000}
+.shop-market-content{width:calc(100% - 40px);max-width:1500px;margin:0 auto}
+.shop-market-category-tiles{display:flex;align-items:stretch;justify-content:space-around;gap:5px;min-height:110px;padding:8px 8px 6px;background:#fff;border:1px solid #e5e7eb;box-shadow:0 1px 3px #00000008;overflow-x:auto;scrollbar-width:none}
+.shop-market-category-tiles::-webkit-scrollbar{display:none}
+.shop-market-category-tiles>button{flex:1 0 100px;min-width:92px;border:0;border-radius:5px;background:transparent;color:#2b303a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 5px;font-size:14px;white-space:nowrap}
+.shop-market-category-tiles>button:hover,.shop-market-category-tiles>button.active{background:#fff5e9}
+.shop-market-tile-image{width:60px;height:60px;flex:0 0 60px;border:1px solid #e2e2e2;border-radius:50%;display:grid;place-items:center;background:#fff;overflow:hidden}
+.shop-market-tile-image img{width:43px;height:43px;object-fit:contain}
+.shop-market-tabs{display:grid;grid-template-columns:repeat(6,minmax(max-content,1fr));gap:0;margin-top:7px;background:#fff;border:1px solid #e4e4e4;padding:0 6px;min-height:29px}
+.shop-market-tabs button{min-width:0;border:0;border-radius:8px;background:transparent;padding:5px 8px;color:#161a22;font-size:11px;white-space:nowrap}
+.shop-market-tabs button.active{background:#ff8000;color:#fff;font-weight:700}
+.shop-market-brands{display:flex;align-items:center;gap:0;overflow:auto;white-space:nowrap;margin-top:8px;background:#c8c9cb;scrollbar-width:none}
+.shop-market-brands::-webkit-scrollbar{display:none}
+.shop-market-brands button{flex:0 0 auto;border:0;background:transparent;padding:6px 17px;color:#454957;font-size:11px;font-weight:700}
+.shop-market-brands button:hover{background:#b6b8bc;color:#111}
+.shop-market-results-toolbar{min-height:40px;margin-top:8px;padding:5px 8px 5px 16px;background:#fff;border:1px solid #e7e7e7;border-radius:9px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#59616d;font-size:14px}
+.shop-market-results-toolbar>span b{font-weight:500}
+.shop-market-results-toolbar>div{display:flex;align-items:center;gap:12px}
+.shop-market-results-toolbar label{display:flex;align-items:center;gap:7px;white-space:nowrap}
+.shop-market-results-toolbar select{height:33px;border:1px solid #d8d8d8;border-radius:5px;background:#fff;padding:0 9px;color:#252a33;font:inherit}
+.shop-market-sort select{min-width:145px}
+.shop-market-catalog-layout{display:block!important;margin-top:0!important}
+.shop-market-filter-sidebar{display:none!important}
+.shop-market-results-line{display:flex;align-items:center;gap:12px;padding:7px 8px;color:#626a76;font-size:13px}
+.shop-market-results-line>span{display:none}
+.shop-market-results-line>button{border:0;background:none;color:#e87500;font-size:12px}
+.shop-market-results-line .shop-search{display:none}
+.shop-market-results-line .shop-mobile-filter{display:none}
+.shop-market-product-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important}
+.shop-market-product-card{min-width:0;overflow:hidden;border:1px solid #e3e3e3!important;border-radius:9px!important;background:#fff!important;box-shadow:none!important;display:flex;flex-direction:column}
+.shop-market-product-image{height:194px!important;min-height:194px!important;position:relative;background:#fff!important;padding:12px 10px 20px!important;display:flex;align-items:center;justify-content:center}
+.shop-market-product-image>img{width:100%!important;height:100%!important;object-fit:contain!important;max-width:220px;max-height:170px}
+.shop-market-product-image .shop-product-tag{position:absolute;z-index:1;top:10px;left:8px;border-radius:5px;background:#b69a0a!important;color:#fff!important;padding:3px 6px!important;font-size:10px!important;font-weight:700}
+.shop-market-product-image .shop-quick-add{display:none!important}
+.shop-market-views{position:absolute;right:9px;bottom:8px;padding:2px 5px;border-radius:5px;background:#fff;color:#347b55;font-size:10px}
+.shop-market-product-info{padding:8px 9px 10px!important;display:flex;flex:1;flex-direction:column;gap:2px}
+.shop-market-product-info .shop-product-category{display:inline-block;align-self:flex-start;max-width:100%;margin:0 0 2px;padding:2px 6px;border-radius:2px;background:#f1f1f1;color:#4d5360;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shop-market-updated{font-size:10px;color:#6e7b8d}
+.shop-market-delivery{font-size:11px;color:#c23c3c;line-height:1.45}
+.shop-market-product-info h3{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:3px 0 0;color:#202632;font-size:14px;font-weight:500;line-height:1.3}
+.shop-market-product-info>p{display:none}
+.shop-market-rating{display:flex;align-items:center;gap:4px;margin:2px 0 5px;line-height:1}
+.shop-market-rating>span{color:#efc400;font-size:15px;letter-spacing:-1px}
+.shop-market-rating small{font-size:11px;color:#626a76}
+.shop-market-product-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px;margin-top:auto!important;padding-top:3px}
+.shop-market-product-bottom .shop-product-prices{display:flex;flex-direction:column;gap:2px;min-width:0}
+.shop-market-product-bottom .shop-product-prices b{font-size:15px;font-weight:800;color:#101114;white-space:nowrap}
+.shop-market-product-bottom .shop-product-prices del{font-size:10px;color:#818894}
+.shop-market-product-bottom .shop-add-button{display:none}
+.shop-market-product-bottom .shop-card-quantity{margin-left:auto}
+.shop-market-warranty{display:block;margin-top:6px;color:#777f8a;font-size:11px;line-height:1.4}
+.shop-market-results-toolbar+ .shop-catalog-layout .shop-market-product-grid{margin-top:0}
+@media(max-width:1050px){
+.shop-market-hero{grid-template-columns:220px minmax(0,1fr);gap:14px}
+.shop-market-sidebar{height:360px}
+.shop-market-slider{min-height:360px}
+.shop-market-product-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.shop-market-category-tiles>button{flex-basis:94px}
+}
+@media(max-width:760px){
+.shop-market-hero{width:calc(100% - 20px);display:block;margin:8px auto 10px}
+.shop-market-sidebar{display:none}
+.shop-market-slider{min-height:250px;height:250px;background-position:center;background-size:cover}
+.shop-market-slide-copy{padding:24px 20px 36px;max-width:80%}
+.shop-market-slide-copy h1{font-size:clamp(26px,7vw,35px);line-height:1.12;margin-bottom:9px}
+.shop-market-slide-copy p{font-size:14px;margin-bottom:20px}
+.shop-market-explore{min-height:40px;min-width:100px}
+.shop-market-arrow{width:34px;height:34px}
+.shop-market-arrow.prev{left:6px}
+.shop-market-arrow.next{right:6px}
+.shop-market-dots{bottom:12px;gap:8px}
+.shop-market-dots button{width:9px;height:9px}
+.shop-market-content{width:calc(100% - 16px)}
+.shop-market-category-tiles{min-height:100px;padding:7px 3px}
+.shop-market-category-tiles>button{min-width:78px;flex-basis:78px;font-size:11px;gap:4px}
+.shop-market-tile-image{width:49px;height:49px;flex-basis:49px}
+.shop-market-tile-image img{width:35px;height:35px}
+.shop-market-tabs{display:flex;overflow-x:auto;grid-template-columns:none;scrollbar-width:none;padding:3px;gap:3px}
+.shop-market-tabs button{flex:1 0 auto;font-size:10px;padding:6px 12px}
+.shop-market-brands button{padding:6px 12px;font-size:10px}
+.shop-market-results-toolbar{min-height:42px;padding:5px 8px;font-size:11px;gap:5px}
+.shop-market-results-toolbar>div{gap:5px}
+.shop-market-results-toolbar label{gap:4px}
+.shop-market-results-toolbar select{max-width:72px;height:30px;padding:0 4px;font-size:10px}
+.shop-market-sort select{min-width:105px;max-width:120px}
+.shop-market-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important}
+.shop-market-product-image{height:145px!important;min-height:145px!important;padding:9px 8px 18px!important}
+.shop-market-product-image>img{max-height:120px}
+.shop-market-product-image .shop-product-tag{top:7px;left:6px;font-size:9px!important;padding:3px 5px!important}
+.shop-market-views{font-size:9px;right:5px;bottom:5px}
+.shop-market-product-info{padding:7px!important}
+.shop-market-product-info h3{font-size:12px;line-height:1.3}
+.shop-market-updated{font-size:9px}
+.shop-market-delivery{font-size:10px}
+.shop-market-rating>span{font-size:13px}
+.shop-market-product-bottom .shop-product-prices b{font-size:12px}
+.shop-market-warranty{font-size:10px}
+.shop-market-results-line{padding:5px 2px}
+.shop-market-results-line .shop-search{display:flex;flex:1;min-width:0;padding:5px 8px;background:#fff}
+.shop-market-results-line .shop-search input{min-width:0;padding:4px;font-size:11px}
+.shop-market-results-line .shop-mobile-filter{display:none}
+}
+@media(max-width:390px){
+.shop-market-slide-copy{max-width:84%;padding-left:16px}
+.shop-market-slide-copy h1{font-size:25px}
+.shop-market-results-toolbar>div>label:first-child{display:none}
+.shop-market-product-image{height:128px!important;min-height:128px!important}
+}
