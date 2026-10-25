@@ -1,0 +1,40 @@
+import { NextRequest, NextResponse } from "next/server";
+
+const LOGIN_PATH = "/admin/login";
+
+export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
+    return NextResponse.next();
+  }
+
+  const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
+  const cookie = request.headers.get("cookie");
+  if (!backendUrl || !cookie) {
+    const login = request.nextUrl.clone();
+    login.pathname = LOGIN_PATH;
+    login.searchParams.set("next", pathname);
+    return NextResponse.redirect(login);
+  }
+
+  try {
+    const response = await fetch(`${backendUrl}/api/auth/me`, {
+      method: "GET",
+      headers: { cookie },
+      cache: "no-store",
+      signal: AbortSignal.timeout(5000),
+    });
+    if (response.ok) return NextResponse.next();
+  } catch {
+    // Fail closed: an unavailable auth API must not expose admin pages.
+  }
+
+  const login = request.nextUrl.clone();
+  login.pathname = LOGIN_PATH;
+  login.searchParams.set("next", pathname);
+  return NextResponse.redirect(login);
+}
+
+export const config = {
+  matcher: ["/admin/:path*"],
+};
