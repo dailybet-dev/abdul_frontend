@@ -1517,3 +1517,29 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
     object-position: center;
   }
 }
+
+
+/* Home carousel contrast update: dark-blue copy and matching Buy Products button. */
+.hero-carousel .hero-carousel-copy h1,
+.hero-carousel .hero-carousel-copy h1 em,
+.hero-carousel .hero-carousel-copy p {
+  color: #082b5c !important;
+  text-shadow: none !important;
+}
+.hero-carousel .hero-buttons .btn.outline {
+  background: #082b5c !important;
+  border-color: #082b5c !important;
+  color: #fff !important;
+}
+.hero-carousel .hero-buttons .btn.outline:hover {
+  background: #0b3c7d !important;
+  border-color: #0b3c7d !important;
+}
+@media (max-width: 760px) {
+  .hero-carousel .hero-carousel-copy h1,
+  .hero-carousel .hero-carousel-copy h1 em,
+  .hero-carousel .hero-carousel-copy p {
+    color: #082b5c !important;
+    text-shadow: none !important;
+  }
+}
