@@ -1338,3 +1338,32 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .hero-carousel .hero-art{height:330px}
 .service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+
+/* Shop theme: use Abdul ICT blue with a soft off-white category panel */
+.shop-page .shop-market-sidebar{background:#f7f9fc;border:1px solid #e1e8f2;box-shadow:0 2px 8px #102f5a0a}
+.shop-page .shop-market-sidebar h2{background:#0b4f91;color:#fff}
+.shop-page .shop-market-sidebar h2 svg{fill:#fff;color:#fff}
+.shop-page .shop-market-sidebar-list{background:#f7f9fc}
+.shop-page .shop-market-sidebar-list button{background:#f7f9fc;color:#17283d;border-bottom:1px solid #e0e7f0}
+.shop-page .shop-market-sidebar-list button:hover,.shop-page .shop-market-sidebar-list button.active{background:#e7f0fb;color:#0b4f91}
+.shop-page .shop-market-sidebar-list button>svg{color:#0b4f91}
+.shop-page .shop-market-explore,.shop-page .shop-market-tabs button.active{background:#0b5cab;color:#fff}
+.shop-page .shop-market-explore:hover{background:#084783}
+.shop-page .shop-market-dots button.active{background:#0b5cab}
+.shop-page .shop-market-category-tiles>button:hover,.shop-page .shop-market-category-tiles>button.active{background:#eaf2fc}
+.shop-page .shop-market-tabs button.active{font-weight:700}
+.shop-page .shop-market-results-line>button{color:#0b5cab}
+.shop-page .shop-market-product-info .shop-market-delivery{color:#b64242}
+.shop-page .shop-market-product-image .shop-product-tag{background:#0b5cab!important;color:#fff!important}
+.shop-page .shop-market-product-bottom .shop-add-button{background:#0b5cab}
+.shop-page .shop-market-product-bottom .shop-add-button:hover{background:#084783}
+.shop-page .shop-market-results-toolbar select:focus,.shop-page .shop-market-results-line .shop-search:focus-within{outline:1px solid #0b5cab;border-color:#0b5cab}
+.shop-page .shop-market-sidebar-list button:focus-visible,.shop-page .shop-market-category-tiles button:focus-visible,.shop-page .shop-market-tabs button:focus-visible{outline:2px solid #0b5cab;outline-offset:-2px}
+.shop-page .shop-market-kicker{color:#dceaff}
+.shop-page .shop-market-slide-copy .shop-market-explore{background:#0b5cab}
+.shop-page .shop-market-slide-copy .shop-market-explore:hover{background:#084783}
+.shop-page .shop-market-product-info .shop-product-tag{background:#0b5cab}
+.shop-page .shop-market-results-line button:hover{color:#083f79}
+.shop-page .shop-market-sidebar-list button .shop-market-side-icon{color:inherit}
+.shop-page .shop-market-dots button.active{background:#0b5cab}
