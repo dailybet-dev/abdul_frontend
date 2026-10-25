@@ -1,3 +1,79 @@
 "use client";
-import {useState} from "react";import Link from "next/link";import {ArrowLeft,Eye,EyeOff,LockKeyhole,Mail,ShieldCheck,Zap} from "lucide-react";
-export default function AdminLogin(){const[show,setShow]=useState(false);const[message,setMessage]=useState("");return <main className="admin-auth"><header className="admin-auth-brand"><Link href="/admin"><span><Zap/></span><b>ABDUL ICT <small>ADMIN</small></b></Link><Link href="/"><ArrowLeft size={15}/> Back to website</Link></header><div className="admin-auth-layout"><section className="admin-auth-promo"><span className="admin-auth-tag"><ShieldCheck size={15}/> SECURE ADMINISTRATION</span><h1>Your business.<br/><em>One powerful</em><br/>workspace.</h1><p>Manage products, orders, services and customer enquiries from one organised dashboard.</p><div className="admin-auth-feature"><span><LockKeyhole/></span><div><b>Protected workspace</b><small>Administrator account tools</small></div></div><div className="admin-auth-feature"><span><Zap/></span><div><b>Everything in one place</b><small>Store operations at a glance</small></div></div></section><section className="admin-auth-card"><div className="admin-auth-card-icon"><LockKeyhole/></div><span className="admin-auth-kicker">WELCOME BACK</span><h2>Sign in to your account</h2><p>Enter your administrator credentials to continue.</p><form onSubmit={e=>{e.preventDefault();setMessage("Secure authentication is not connected yet. Configure an authentication provider before using this page for real admin access.")}}><label>Email address<div className="admin-auth-input"><Mail/><input required type="email" placeholder="admin@abdulict.com"/></div></label><label>Password<div className="admin-auth-input"><LockKeyhole/><input required type={show?"text":"password"} placeholder="Enter your password"/><button type="button" onClick={()=>setShow(!show)}>{show?<EyeOff/>:<Eye/>}</button></div></label><div className="admin-auth-forgot"><label><input type="checkbox"/> Remember me</label><Link href="/admin/reset-password">Forgot password?</Link></div><button className="admin-auth-submit">Sign in to dashboard →</button>{message&&<div className="admin-auth-message">{message}</div>}</form><div className="admin-auth-card-foot"><ShieldCheck/> Never share your administrator password.</div></section></div></main>}
+
+import { FormEvent, useState } from "react";
+import Link from "next/link";
+import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, Zap } from "lucide-react";
+
+export default function AdminLogin() {
+  const [show, setShow] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    setLoading(true);
+    try {
+      const response = await fetch("/api/backend/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        cache: "no-store",
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.success) {
+        setMessage(data.message || "Unable to sign in. Check your email and password, then try again.");
+        return;
+      }
+      const params = new URLSearchParams(window.location.search);
+      const next = params.get("next") || "/admin";
+      const destination = next.startsWith("/admin") && !next.startsWith("//") && next !== "/admin/login"
+        ? next
+        : "/admin";
+      window.location.assign(destination);
+    } catch {
+      setMessage("The authentication service could not be reached. Please try again shortly.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main className="admin-auth">
+      <header className="admin-auth-brand">
+        <Link href="/admin/login"><span><Zap /></span><b>ABDUL ICT <small>ADMIN</small></b></Link>
+        <Link href="/"><ArrowLeft size={15} /> Back to website</Link>
+      </header>
+      <div className="admin-auth-layout">
+        <section className="admin-auth-promo">
+          <span className="admin-auth-tag"><ShieldCheck size={15} /> SECURE ADMINISTRATION</span>
+          <h1>Your business.<br /><em>One powerful</em><br />workspace.</h1>
+          <p>Manage products, orders, services and customer enquiries from one organised dashboard.</p>
+          <div className="admin-auth-feature"><span><LockKeyhole /></span><div><b>Protected workspace</b><small>Administrator account tools</small></div></div>
+          <div className="admin-auth-feature"><span><Zap /></span><div><b>Everything in one place</b><small>Store operations at a glance</small></div></div>
+        </section>
+        <section className="admin-auth-card">
+          <div className="admin-auth-card-icon"><LockKeyhole /></div>
+          <span className="admin-auth-kicker">WELCOME BACK</span>
+          <h2>Sign in to your account</h2>
+          <p>Enter your administrator credentials to continue.</p>
+          <form onSubmit={submit}>
+            <label>Email address
+              <div className="admin-auth-input"><Mail /><input autoComplete="username" required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@abdulict.com" /></div>
+            </label>
+            <label>Password
+              <div className="admin-auth-input"><LockKeyhole /><input autoComplete="current-password" required minLength={12} type={show ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter your password" /><button type="button" aria-label={show ? "Hide password" : "Show password"} onClick={() => setShow(!show)}>{show ? <EyeOff /> : <Eye />}</button></div>
+            </label>
+            <div className="admin-auth-forgot"><span>Use your administrator account.</span><Link href="/admin/reset-password">Forgot password?</Link></div>
+            <button className="admin-auth-submit" type="submit" disabled={loading}>{loading ? "Signing in…" : "Sign in to dashboard →"}</button>
+            {message && <div className="admin-auth-message" role="alert">{message}</div>}
+          </form>
+          <div className="admin-auth-card-foot"><ShieldCheck /> Never share your administrator password.</div>
+        </section>
+      </div>
+    </main>
+  );
+}
