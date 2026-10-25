@@ -1053,3 +1053,69 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .service-card-clickable .btn{display:none}
 .our-service-link{display:none}
 @media(prefers-reduced-motion:reduce){.service-card-contact-actions>a{transition:none}}
+
+/* 2026 photo-led homepage carousel and compact browse strips */
+.hero-carousel{background:#071e3d;color:#fff;min-height:430px;overflow:hidden}
+.hero-carousel .hero-grid{position:relative;display:block;min-height:430px;padding-top:0;padding-bottom:0}
+.hero-carousel .hero-carousel-copy{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;min-height:430px;max-width:660px;padding:48px 0}
+.hero-carousel .hero-art{position:absolute;z-index:0;inset:0;width:100%;height:100%;min-width:0;margin:0;overflow:hidden;border-radius:0;animation:none}
+.hero-carousel .hero-art>img{position:absolute;inset:0;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center 45%;border-radius:0;box-shadow:none;filter:none;opacity:.78}
+.hero-carousel .hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(3,18,39,.96) 0%,rgba(3,24,49,.83) 42%,rgba(3,24,49,.28) 100%),linear-gradient(0deg,rgba(3,18,39,.28),transparent 45%)}
+.hero-carousel .hero-art-backdrop,.hero-carousel .hero-slide-badge,.hero-carousel .hero-slide-number,.hero-carousel-glow{display:none}
+.hero-carousel .hero-slide-eyebrow{color:#ffcf5a}
+.hero-carousel .hero-slide-eyebrow i{background:#ffbd2e;box-shadow:0 0 0 5px #ffbd2e26}
+.hero-carousel h1,.hero-carousel .hero h1{color:#fff;font-size:clamp(32px,4vw,52px);max-width:650px;margin-bottom:10px}
+.hero-carousel h1 em{color:#ffca42}
+.hero-carousel p{color:#f0f5fc;font-size:clamp(12px,1.2vw,15px);line-height:1.65;max-width:470px;margin-bottom:16px}
+.hero-carousel .hero-buttons .btn.outline{background:#ffffff14;border-color:#ffffffb0;color:#fff}
+.hero-carousel .hero-buttons .btn.primary{background:#ffbd2e;border-color:#ffbd2e;color:#09244a}
+.hero-carousel-controls{margin-top:20px}
+.hero-carousel-count{color:#fff}.hero-carousel-count i{color:#b6c5d9}
+.hero-carousel-arrows button{background:#ffffff1c;border-color:#ffffff70;color:#fff}
+.home-browse-strips{padding:20px 0 25px;background:#f6f9fe}
+.home-strip-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:0 0 10px}
+.home-strip-heading>div>span{display:block;color:#0b68d9;font-size:8px;font-weight:900;letter-spacing:1.2px;margin-bottom:3px}
+.home-strip-heading h2{margin:0;color:#0a2d5d;font-size:clamp(17px,2vw,22px);font-weight:850;letter-spacing:-.4px}
+.home-strip-heading>a{display:inline-flex;align-items:center;gap:5px;flex-shrink:0;color:#075bd2;font-size:10px;font-weight:850;text-decoration:none}
+.home-horizontal-strip{display:flex;gap:10px;overflow-x:auto;padding:3px 1px 10px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#bfd3ec transparent}
+.home-strip-card{position:relative;display:flex;flex:0 0 116px;min-width:0;flex-direction:column;align-items:center;gap:7px;padding:10px 8px 9px;border:1px solid #e0eaf6;border-radius:13px;background:#fff;color:#183b68;text-decoration:none;box-shadow:0 4px 13px #173c6808;scroll-snap-align:start;transition:transform .18s,border-color .18s,box-shadow .18s}
+.home-strip-card:hover{transform:translateY(-2px);border-color:#a9c9f1;box-shadow:0 8px 20px #173c6812}
+.home-strip-card img{width:70px;height:58px;object-fit:contain}
+.home-strip-card span{font-size:10px;font-weight:850;line-height:1.3;text-align:center}
+.home-strip-card>svg{position:absolute;right:7px;top:7px;width:12px;height:12px;color:#0b6de5}
+.home-service-strip-heading{margin-top:12px}
+.home-services-strip .home-strip-card{flex-basis:155px;flex-direction:row;justify-content:flex-start;gap:9px;padding:8px 10px}
+.home-services-strip .home-strip-card img{width:54px;height:48px;flex-shrink:0;object-fit:cover;border-radius:8px}
+.home-services-strip .home-strip-card span{text-align:left;font-size:10px;flex:1}
+@media(max-width:680px){
+.hero-carousel{min-height:440px}
+.hero-carousel .hero-grid{min-height:440px;padding:0 18px}
+.hero-carousel .hero-carousel-copy{min-height:440px;padding:34px 0 28px;max-width:100%}
+.hero-carousel .hero-art{inset:0}
+.hero-carousel .hero-art>img{object-position:center center;opacity:.67}
+.hero-carousel .hero-art:after{background:linear-gradient(90deg,rgba(3,18,39,.88),rgba(3,24,49,.48)),linear-gradient(0deg,rgba(3,18,39,.62),rgba(3,18,39,.08))}
+.hero-carousel h1,.hero-carousel .hero h1{font-size:clamp(30px,8.5vw,40px);line-height:1.08;letter-spacing:-1px}
+.hero-carousel p{font-size:12px;line-height:1.55;max-width:340px;margin-bottom:14px}
+.hero-carousel .hero-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.hero-carousel .hero-buttons .btn{min-height:42px;flex:1 1 135px;justify-content:center;padding:9px 10px;font-size:10px}
+.hero-carousel-controls{margin-top:17px;gap:10px}
+.hero-carousel-arrows{margin-left:auto}
+.home-browse-strips{padding:16px 0 20px}
+.home-strip-heading h2{font-size:17px}
+.home-strip-card{flex-basis:102px;padding:9px 6px}
+.home-strip-card img{width:62px;height:52px}
+.home-strip-card span{font-size:9px}
+.home-services-strip .home-strip-card{flex-basis:145px}
+}
+@media(prefers-reduced-motion:reduce){.home-strip-card{transition:none}}
+
+/* Services page uses the supplied branded installation photograph as its hero background */
+.our-services-hero-photo{position:relative;isolation:isolate;overflow:hidden;background:#061e40 url("/images/Complete%20Electrical%2C%20CCTV%20%26%20Phone%20Repair%20Services-3.png") center 45%/cover no-repeat;color:#fff}
+.our-services-hero-photo:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,18,39,.94),rgba(3,24,49,.78) 48%,rgba(3,24,49,.25))}
+.our-services-hero-photo .our-services-hero-copy .our-services-eyebrow{color:#ffcf5a}
+.our-services-hero-photo .our-services-hero-copy h1{color:#fff}
+.our-services-hero-photo .our-services-hero-copy h1 em{color:#ffca42}
+.our-services-hero-photo .our-services-hero-copy>p{color:#f0f5fc}
+.our-services-hero-photo .our-services-hero-visual>img{visibility:hidden}
+.our-services-hero-photo .our-services-hero-badge{background:#ffffffed}
+@media(max-width:760px){.our-services-hero-photo{background-position:center;background-size:cover}.our-services-hero-photo:before{background:linear-gradient(90deg,rgba(3,18,39,.9),rgba(3,24,49,.55)),linear-gradient(0deg,rgba(3,18,39,.45),transparent)}}
