@@ -1407,3 +1407,74 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 
 /* Mobile quick navigation: neutral by default; only the current/selected item is blue. */
 @media(max-width:680px){.global-mobile-bottom-nav>button,.global-mobile-bottom-nav>a{color:#58708e!important;background:transparent!important}.global-mobile-bottom-nav>button svg,.global-mobile-bottom-nav>a>svg,.global-mobile-bottom-nav .shop-mobile-cart-icon svg{color:inherit!important}.global-mobile-bottom-nav>button.is-active,.global-mobile-bottom-nav>a.is-active{color:#075bd2!important}.global-mobile-bottom-nav .shop-mobile-nav-home.is-active svg{padding:4px;width:30px;height:30px;border-radius:10px;background:#e9f3ff}.global-mobile-bottom-nav .shop-mobile-nav-call{color:#58708e!important}.global-mobile-bottom-nav .shop-mobile-nav-search{color:#58708e!important}.global-mobile-bottom-nav .shop-mobile-nav-search.is-active{color:#075bd2!important}}
+
+/* Mobile homepage carousel: keep the active slide image visible behind the copy. */
+@media(max-width:760px){
+  .hero-carousel{
+    position:relative!important;
+    min-height:0!important;
+    background:#061a32!important;
+    overflow:hidden!important;
+  }
+  .hero-carousel .hero-grid{
+    position:relative!important;
+    display:block!important;
+    width:100%!important;
+    min-height:0!important;
+    padding:0!important;
+  }
+  .hero-carousel .hero-art{
+    position:absolute!important;
+    z-index:0!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    margin:0!important;
+    display:block!important;
+    background:#061a32!important;
+    border-radius:0!important;
+    pointer-events:none!important;
+  }
+  .hero-carousel .hero-art>img{
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+    opacity:1!important;
+    visibility:visible!important;
+    border-radius:0!important;
+  }
+  .hero-carousel .hero-art:after{
+    display:block!important;
+    content:""!important;
+    position:absolute!important;
+    inset:0!important;
+    background:linear-gradient(0deg,rgba(3,18,39,.78) 0%,rgba(3,24,49,.32) 60%,rgba(3,24,49,.18) 100%)!important;
+    pointer-events:none!important;
+  }
+  .hero-carousel .hero-carousel-copy{
+    position:relative!important;
+    z-index:2!important;
+    width:100%!important;
+    min-height:360px!important;
+    padding:28px 20px 22px!important;
+    background:transparent!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:flex-end!important;
+    align-items:flex-start!important;
+  }
+  .hero-carousel .hero-carousel-copy h1{color:#fff!important}
+  .hero-carousel .hero-carousel-copy h1 em{color:#ffca42!important}
+  .hero-carousel .hero-carousel-copy p{color:#fff!important;text-shadow:0 1px 5px rgba(0,0,0,.3)}
+  .hero-carousel .hero-slide-eyebrow{color:#ffda79!important}
+  .hero-carousel .hero-buttons .btn.outline{background:#ffffff20!important;border-color:#ffffffc7!important;color:#fff!important}
+  .hero-carousel .hero-carousel-controls{max-width:none!important}
+  .hero-carousel .hero-carousel-count{color:#fff!important}
+  .hero-carousel .hero-carousel-arrows button{background:#ffffff24!important;border-color:#ffffff90!important;color:#fff!important}
+}
