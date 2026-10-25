@@ -1111,7 +1111,7 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 
 /* Services page uses the supplied branded installation photograph as its hero background */
 .our-services-hero-photo{position:relative;isolation:isolate;overflow:hidden;background:#061e40 url("/images/Complete%20Electrical%2C%20CCTV%20%26%20Phone%20Repair%20Services-3.png") center 45%/cover no-repeat;color:#fff}
-.our-services-hero-photo:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(3,18,39,.94),rgba(3,24,49,.78) 48%,rgba(3,24,49,.25))}
+.our-services-hero-photo:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(3,18,39,.94),rgba(3,24,49,.78) 48%,rgba(3,24,49,.25))}
 .our-services-hero-photo .our-services-hero-copy .our-services-eyebrow{color:#ffcf5a}
 .our-services-hero-photo .our-services-hero-copy h1{color:#fff}
 .our-services-hero-photo .our-services-hero-copy h1 em{color:#ffca42}
@@ -1119,3 +1119,5 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .our-services-hero-photo .our-services-hero-visual>img{visibility:hidden}
 .our-services-hero-photo .our-services-hero-badge{background:#ffffffed}
 @media(max-width:760px){.our-services-hero-photo{background-position:center;background-size:cover}.our-services-hero-photo:before{background:linear-gradient(90deg,rgba(3,18,39,.9),rgba(3,24,49,.55)),linear-gradient(0deg,rgba(3,18,39,.45),transparent)}}
+
+.our-services-hero-photo .our-services-hero-grid{position:relative;z-index:1}
