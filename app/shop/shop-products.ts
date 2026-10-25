@@ -43,16 +43,17 @@ const DUMMY_CATEGORIES=[
 {category:"Networking",subcategories:["Wi-Fi Routers","Mesh Wi-Fi","Network Switches","Ethernet Cables","Access Points","USB Wi-Fi Adapters","Network Tools"],names:["Dual-Band Wi-Fi Router","Mesh Wi-Fi Unit","8-Port Network Switch","Cat6 Ethernet Cable","Wireless Access Point","USB Wi-Fi Adapter","Network Crimping Tool"],image:"/images/product-wireless-mouse.svg",prices:[95000,185000,125000,5000,165000,35000,45000]},
 {category:"Power & Electrical",subcategories:["Power Extensions","Surge Protectors","UPS Backup","Rechargeable Lights","Electrical Toolkits","Circuit Breakers","Solar Cables"],names:["4-Way Power Extension","Surge Protection Strip","Computer UPS","Rechargeable Emergency Lamp","Electrical Tool Kit","Circuit Breaker","Solar Cable Set"],image:"/images/product-phone-charger.svg",prices:[25000,45000,280000,55000,125000,35000,65000]},
 ] as const;
-const generated:Product[]=DUMMY_CATEGORIES.flatMap((group,groupIndex)=>group.names.map((name,index)=>({
-id:"sample-"+group.category.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+(index+1),
-name,
-description:group.subcategories[index]+" · Sample catalogue item",
-price:group.prices[index],
+const generated:Product[]=DUMMY_CATEGORIES.flatMap((group,groupIndex)=>group.subcategories.flatMap((subcategory,subIndex)=>Array.from({length:7},(_,variant)=>({
+id:"sample-"+group.category.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+subcategory.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+(variant+1),
+name:variant===0?group.names[subIndex]:group.names[subIndex]+" (Option "+(variant+1)+")",
+description:subcategory+" · Sample catalogue item",
+price:group.prices[subIndex]+variant*Math.max(1000,Math.round(group.prices[subIndex]*0.035)),
 category:group.category,
-subcategory:group.subcategories[index],
-image:group.category==="CCTV & Security"?"/images/product-cctv-camera.svg":group.category==="Laptops & Desktops"?"/images/product-laptop.svg":group.category==="Tablets"||group.category==="Mobile Phones"?"/images/product-smartphone.svg":group.category==="Storage & Memory"?"/images/product-usb-flash-drive.svg":group.category==="Repair Spare"||group.category==="Networking"?"/images/product-wireless-mouse.svg":"/images/product-phone-charger.svg",
-tag:index===0?"Sample item":undefined,
-details:[group.subcategories[index],"Sample catalogue listing","Please confirm exact model, specifications and availability before ordering"],
+subcategory,
+image:group.category==="CCTV & Security"?"/images/product-cctv-camera.svg":group.category==="Laptops & Desktops"||group.category==="Laptops & Computers"?"/images/product-laptop.svg":group.category==="Tablets"||group.category==="Mobile Phones"||group.category==="Phones & Tablets"?"/images/product-smartphone.svg":group.category==="Storage & Memory"?"/images/product-usb-flash-drive.svg":group.category==="Repair Spare"||group.category==="Networking"||group.category==="Computer Accessories"?"/images/product-wireless-mouse.svg":"/images/product-phone-charger.svg",
+tag:variant===0?"Sample item":undefined,
+details:[subcategory,"Sample catalogue option "+(variant+1),"Please confirm exact model, specifications and availability before ordering"],
 about:"This is a sample catalogue listing used to demonstrate the shop experience. Contact Abdul ICT & Electrical Solutions to confirm the exact model, specifications, condition, current price and availability before placing an order."
-})));
+}))));
+
 export const PRODUCTS:Product[]=[...BASE_PRODUCTS,...generated];
