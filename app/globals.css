@@ -1380,3 +1380,10 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .shop-page .shop-product-card-clickable:focus-visible{outline:2px solid #0b5cab;outline-offset:-2px}
 .shop-page .shop-market-results-toolbar .shop-market-sort select:focus{border-color:#0b5cab}
 @media(max-width:760px){.shop-page .shop-market-subcategories{padding:2px 2px 9px;gap:6px}.shop-page .shop-market-subcategories button{padding:6px 10px;font-size:10px}}
+
+
+.shop-page .shop-market-pagination{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 8px 20px;color:#586779;font-size:12px}
+.shop-page .shop-market-pagination>div{display:flex;gap:8px}
+.shop-page .shop-market-pagination button{border:1px solid #d4e1f0;border-radius:6px;background:#fff;color:#0b5cab;padding:8px 12px;font-weight:700}
+.shop-page .shop-market-pagination button:disabled{opacity:.45;cursor:not-allowed}
+.shop-page .shop-market-pagination button:not(:disabled):hover{background:#0b5cab;color:#fff}
