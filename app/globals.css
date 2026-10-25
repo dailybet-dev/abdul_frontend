@@ -1367,3 +1367,16 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .shop-page .shop-market-results-line button:hover{color:#083f79}
 .shop-page .shop-market-sidebar-list button .shop-market-side-icon{color:inherit}
 .shop-page .shop-market-dots button.active{background:#0b5cab}
+
+
+.shop-page .shop-market-subcategories{display:flex;gap:7px;overflow-x:auto;overflow-y:hidden;padding:2px 8px 10px;scrollbar-width:thin;scrollbar-color:#bfd4ed transparent}
+.shop-page .shop-market-subcategories button{flex:0 0 auto;border:1px solid #d7e4f4;border-radius:18px;background:#f8fbff;color:#254566;padding:6px 12px;font-size:11px;white-space:nowrap}
+.shop-page .shop-market-subcategories button:hover,.shop-page .shop-market-subcategories button.active{border-color:#0b5cab;background:#0b5cab;color:#fff}
+.shop-page .shop-market-subcategories button:focus-visible{outline:2px solid #0b5cab;outline-offset:2px}
+.shop-page .shop-market-product-bottom .shop-card-quantity button{background:#0b5cab;border-color:#0b5cab;color:#fff}
+.shop-page .shop-market-product-bottom .shop-card-quantity button:hover{background:#084783}
+.shop-page .shop-market-product-bottom .shop-card-quantity{border-color:#cbdcf0}
+.shop-page .shop-market-product-bottom .shop-card-quantity b{color:#174a7e}
+.shop-page .shop-product-card-clickable:focus-visible{outline:2px solid #0b5cab;outline-offset:-2px}
+.shop-page .shop-market-results-toolbar .shop-market-sort select:focus{border-color:#0b5cab}
+@media(max-width:760px){.shop-page .shop-market-subcategories{padding:2px 2px 9px;gap:6px}.shop-page .shop-market-subcategories button{padding:6px 10px;font-size:10px}}
