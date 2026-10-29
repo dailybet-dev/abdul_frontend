@@ -1,6 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const LOGIN_PATH = "/admin/login";
+const ADMIN_SESSION_QUERY = `query AdminSession { adminMe { id } }`;
+const LOGOUT_MUTATION = `mutation AdminLogout { logout { success } }`;
+
+async function executeGraphQL(
+  backendUrl: string,
+  query: string,
+  cookie: string | null,
+  origin: string,
+) {
+  return fetch(`${backendUrl}/api/graphql`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      origin,
+      ...(cookie ? { cookie } : {}),
+    },
+    body: JSON.stringify({ query }),
+    cache: "no-store",
+    signal: AbortSignal.timeout(5000),
+  });
+}
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -11,14 +32,9 @@ export async function middleware(request: NextRequest) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
       if (backendUrl && cookie) {
         try {
-          await fetch(`${backendUrl}/api/auth/logout`, {
-            method: "POST",
-            headers: { cookie, origin: request.nextUrl.origin },
-            cache: "no-store",
-            signal: AbortSignal.timeout(5000),
-          });
+          await executeGraphQL(backendUrl, LOGOUT_MUTATION, cookie, request.nextUrl.origin);
         } catch {
-          // Still clear the browser cookie if the API is temporarily unavailable.
+          // Still clear the browser cookie if the GraphQL service is unavailable.
         }
       }
       const login = request.nextUrl.clone();
@@ -39,15 +55,11 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const response = await fetch(`${backendUrl}/api/auth/me`, {
-      method: "GET",
-      headers: { cookie },
-      cache: "no-store",
-      signal: AbortSignal.timeout(5000),
-    });
-    if (response.ok) return NextResponse.next();
+    const response = await executeGraphQL(backendUrl, ADMIN_SESSION_QUERY, cookie, request.nextUrl.origin);
+    const payload = await response.json().catch(() => ({}));
+    if (response.ok && payload.data?.adminMe?.id) return NextResponse.next();
   } catch {
-    // Fail closed: an unavailable auth API must not expose admin pages.
+    // Fail closed: an unavailable GraphQL service must not expose admin pages.
   }
 
   const login = request.nextUrl.clone();
