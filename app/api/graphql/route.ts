@@ -9,9 +9,14 @@ export async function POST(request: NextRequest) {
   }
 
   const headers = new Headers({ "Content-Type": request.headers.get("content-type") || "application/json" });
-  const cookie = request.headers.get("cookie");
+  const sessionToken = request.cookies.get("admin_session")?.value;
+  const rawCookie = request.headers.get("cookie") || "";
+  const cookie = sessionToken && !/(^|;\\s*)admin_session=/.test(rawCookie)
+    ? `${rawCookie ? rawCookie + "; " : ""}admin_session=${encodeURIComponent(sessionToken)}`
+    : rawCookie;
   const origin = request.headers.get("origin");
   if (cookie) headers.set("cookie", cookie);
+  if (sessionToken) headers.set("x-admin-session", sessionToken);
   if (origin) headers.set("origin", origin);
   const authorization = request.headers.get("authorization");
   if (authorization) headers.set("authorization", authorization);
