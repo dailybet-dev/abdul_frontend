@@ -30,6 +30,7 @@ const UPDATE_NAMES = { contacts: "updateContactSubmission", newsletter: "updateN
 const DELETE_NAMES = { contacts: "deleteContactSubmission", newsletter: "deleteNewsletterSubscription", training: "deleteTrainingEnquiry" };
 const dateText = (value?: string) => value ? new Date(value).toLocaleString() : "—";
 const labelStatus = (value: string) => value.replaceAll("_", " ").toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+const whatsappNumber = (value: string) => { const digits = value.replace(/\D/g, ""); if (digits.startsWith("256")) return digits; if (digits.startsWith("0")) return "256" + digits.slice(1); return digits; };
 
 export default function SubmissionManager({ kind }: { kind: Kind }) {
   const [rows, setRows] = useState<Row[]>([]);
@@ -144,7 +145,7 @@ export default function SubmissionManager({ kind }: { kind: Kind }) {
         <div className="submission-actions">
           {row.email && <a href={`mailto:${row.email}`}><Mail size={15}/> Email</a>}
           {row.phone && <a href={`tel:${row.phone.replace(/[^+\d]/g,"")}`}><Phone size={15}/> Call</a>}
-          {row.phone && <a href={`https://wa.me/${row.phone.replace(/\D/g,"")}`} target="_blank" rel="noreferrer"><ExternalLink size={15}/> WhatsApp</a>}
+          {row.phone && <a href={`https://wa.me/${whatsappNumber(row.phone)}`} target="_blank" rel="noreferrer"><ExternalLink size={15}/> WhatsApp</a>}
           <button type="button" onClick={() => setExpanded(expanded === row.id ? null : row.id)}>{expanded === row.id ? "Hide actions" : "Manage record"}</button>
         </div>
         {expanded === row.id && <div className="submission-management">
