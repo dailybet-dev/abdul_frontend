@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, LockKeyhole, Save, ShieldCheck, Zap, LoaderCircle } from "lucide-react";
+import { LockKeyhole, Save, ShieldCheck, LoaderCircle } from "lucide-react";
 import { graphqlRequest } from "@/lib/graphql";
+import AdminPageShell from "../admin-page-shell";
 
 type AdminProfile = { id: string; displayName: string; email: string };
 
-export default function AdminProfile() {
+export default function AdminProfilePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
@@ -52,11 +52,8 @@ export default function AdminProfile() {
     }
   }
 
-  return <main className="admin-settings-page">
-    <header><Link href="/admin"><span><Zap /></span> ABDUL ICT <small>ADMIN</small></Link><Link href="/admin"><ArrowLeft /> Dashboard</Link></header>
-    <div className="admin-settings-wrap">
-      <div className="admin-settings-eyebrow">ACCOUNT SETTINGS</div><h1>Your profile</h1>
-      <p className="admin-settings-intro">Your details are loaded from your administrator account. Changes are saved securely to the database.</p>
+  return (
+    <AdminPageShell active="Profile" title="My profile" subtitle="Manage your administrator details and account security.">
       <section className="admin-settings-card">
         <div className="admin-settings-card-head"><span><ShieldCheck /></span><div><h2>Personal information</h2><p>Update the name and email associated with your account.</p></div></div>
         <div className="admin-profile-avatar">{(name.trim()[0] || "A").toUpperCase()}</div>
@@ -69,8 +66,7 @@ export default function AdminProfile() {
         {error && <p className="admin-auth-message" role="alert">{error}</p>}
         {msg && <p className="admin-auth-message" role="status">{msg}</p>}
       </section>
-      <section className="admin-settings-card"><div className="admin-settings-card-head"><span><LockKeyhole /></span><div><h2>Account security</h2><p>Keep your administrator account protected.</p></div></div><div className="admin-security-row"><span><b>Password</b><small>Change your password using your current password.</small></span><Link href="/admin/reset-password">Change password →</Link></div></section>
-      <Link className="admin-settings-logout" href="/admin/login?logout=1">Sign out of admin ↗</Link>
-    </div>
-  </main>;
+      <section className="admin-settings-card"><div className="admin-settings-card-head"><span><LockKeyhole /></span><div><h2>Account security</h2><p>Keep your administrator account protected.</p></div></div><div className="admin-security-row"><span><b>Password</b><small>Change your password using your current password.</small></span><a href="/admin/reset-password">Change password →</a></div></section>
+    </AdminPageShell>
+  );
 }
