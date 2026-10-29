@@ -1747,7 +1747,7 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .service-admin-modal .category-admin-modal-heading h2{margin:0}
 .service-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .service-form-grid>label{display:flex;flex-direction:column;gap:6px;color:#465a77;font-size:11px;font-weight:750;min-width:0}
-.service-form-grid input:not([type=checkbox]),.service-form-grid textarea{width:100%;min-width:0;border:1px solid #dbe5f2;border-radius:9px;background:#fff;padding:10px 12px;color:#203957;font:500 12px/1.45 inherit;outline:none}
+.service-form-grid input:not([type=checkbox]),.service-form-grid textarea{width:100%;min-width:0;border:1px solid #dbe5f2;border-radius:9px;background:#fff;padding:10px 12px;color:#203957;font-family:inherit;font-size:12px;font-weight:500;line-height:1.45;outline:none}
 .service-form-grid textarea{resize:vertical}
 .service-form-grid input:focus,.service-form-grid textarea:focus{border-color:#4388f5;box-shadow:0 0 0 3px #4388f51a}
 .service-form-grid label small{color:#8a99af;font-size:10px;font-weight:500}
