@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LockKeyhole, Save, ShieldCheck, LoaderCircle } from "lucide-react";
+import { Save, UserRound, LoaderCircle } from "lucide-react";
 import { graphqlRequest } from "@/lib/graphql";
 import AdminPageShell from "../admin-page-shell";
 
@@ -53,9 +53,9 @@ export default function AdminProfilePage() {
   }
 
   return (
-    <AdminPageShell active="Profile" title="My profile" subtitle="Manage your administrator details and account security.">
+    <AdminPageShell active="Profile" title="My profile" subtitle="View and update the full name and email saved for your administrator account.">
       <section className="admin-settings-card">
-        <div className="admin-settings-card-head"><span><ShieldCheck /></span><div><h2>Personal information</h2><p>Update the name and email associated with your account.</p></div></div>
+        <div className="admin-settings-card-head"><span><UserRound /></span><div><h2>Personal information</h2><p>Update the name and email associated with your account.</p></div></div>
         <div className="admin-profile-avatar">{(name.trim()[0] || "A").toUpperCase()}</div>
         <form onSubmit={save}>
           <label>Full name<input required minLength={2} maxLength={80} value={name} onChange={e => setName(e.target.value)} disabled={loading || saving} /></label>
@@ -66,7 +66,6 @@ export default function AdminProfilePage() {
         {error && <p className="admin-auth-message" role="alert">{error}</p>}
         {msg && <p className="admin-auth-message" role="status">{msg}</p>}
       </section>
-      <section className="admin-settings-card"><div className="admin-settings-card-head"><span><LockKeyhole /></span><div><h2>Account security</h2><p>Keep your administrator account protected.</p></div></div><div className="admin-security-row"><span><b>Password</b><small>Change your password using your current password.</small></span><a href="/admin/reset-password">Change password →</a></div></section>
     </AdminPageShell>
   );
 }
