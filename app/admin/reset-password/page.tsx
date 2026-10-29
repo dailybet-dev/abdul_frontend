@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, KeyRound, LockKeyhole, Zap, LoaderCircle } from "lucide-react";
+import { CheckCircle2, KeyRound, LockKeyhole, LoaderCircle } from "lucide-react";
 import { graphqlRequest } from "@/lib/graphql";
+import AdminPageShell from "../admin-page-shell";
 
 type ChangePasswordData = { changeAdminPassword: { success: boolean; message: string } };
 
@@ -36,6 +37,9 @@ export default function ChangeAdminPassword() {
         }`,
         { input: { currentPassword, newPassword } },
       );
+      if (!data.changeAdminPassword?.success) {
+        throw new Error(data.changeAdminPassword?.message || "The password could not be changed.");
+      }
       setChanged(true);
       setMessage(data.changeAdminPassword.message || "Your password has been changed. Please sign in again.");
     } catch (e) {
@@ -45,21 +49,22 @@ export default function ChangeAdminPassword() {
     }
   }
 
-  return <main className="admin-reset-page">
-    <header><Link href="/admin"><span><Zap /></span> ABDUL ICT <small>ADMIN</small></Link><Link href="/admin"><ArrowLeft /> Dashboard</Link></header>
-    <section className="admin-reset-card">
-      <div className="admin-reset-icon">{changed ? <CheckCircle2 /> : <KeyRound />}</div>
-      <span className="admin-auth-kicker">{changed ? "PASSWORD UPDATED" : "ACCOUNT SECURITY"}</span>
-      <h1>{changed ? "Password changed" : "Change password"}</h1>
-      <p>{changed ? "Your new password is active. Sign in again with your new credentials." : "Confirm your current password and choose a strong new password. It must be at least 12 characters long."}</p>
-      {changed ? <><p className="admin-auth-message" role="status">{message}</p><Link className="admin-auth-submit" href="/admin/login">Continue to sign in →</Link></> : <form onSubmit={submit}>
-        <label>Current password<div className="admin-auth-input"><LockKeyhole /><input required type="password" autoComplete="current-password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} /></div></label>
-        <label>New password<div className="admin-auth-input"><KeyRound /><input required type="password" minLength={12} maxLength={200} autoComplete="new-password" value={newPassword} onChange={e => setNewPassword(e.target.value)} /></div></label>
-        <label>Confirm new password<div className="admin-auth-input"><KeyRound /><input required type="password" minLength={12} maxLength={200} autoComplete="new-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} /></div></label>
-        {error && <p className="admin-auth-message" role="alert">{error}</p>}
-        <button className="admin-auth-submit" disabled={loading}>{loading ? <><LoaderCircle className="animate-spin" /> Updating password…</> : "Update password →"}</button>
-      </form>}
-      {!changed && <small className="admin-reset-note">Changing your password signs out all active administrator sessions.</small>}
-    </section>
-  </main>;
+  return (
+    <AdminPageShell active="Change Password" title={changed ? "Password changed" : "Change password"} subtitle="Protect your administrator account with a strong, unique password.">
+      <section className="admin-reset-card">
+        <div className="admin-reset-icon">{changed ? <CheckCircle2 /> : <KeyRound />}</div>
+        <span className="admin-auth-kicker">{changed ? "PASSWORD UPDATED" : "ACCOUNT SECURITY"}</span>
+        <h2>{changed ? "Password changed" : "Update your password"}</h2>
+        <p>{changed ? "Your new password has been saved. For security, sign in again with your new credentials." : "Confirm your current password and choose a strong new password. It must be at least 12 characters long."}</p>
+        {changed ? <><p className="admin-auth-message" role="status">{message}</p><Link className="admin-auth-submit" href="/admin/login">Continue to sign in →</Link></> : <form onSubmit={submit}>
+          <label>Current password<div className="admin-auth-input"><LockKeyhole /><input required type="password" autoComplete="current-password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} disabled={loading} /></div></label>
+          <label>New password<div className="admin-auth-input"><KeyRound /><input required type="password" minLength={12} maxLength={200} autoComplete="new-password" value={newPassword} onChange={e => setNewPassword(e.target.value)} disabled={loading} /></div></label>
+          <label>Confirm new password<div className="admin-auth-input"><KeyRound /><input required type="password" minLength={12} maxLength={200} autoComplete="new-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} disabled={loading} /></div></label>
+          {error && <p className="admin-auth-message" role="alert">{error}</p>}
+          <button className="admin-auth-submit" disabled={loading}>{loading ? <><LoaderCircle className="animate-spin" /> Updating password…</> : "Update password →"}</button>
+        </form>}
+        {!changed && <small className="admin-reset-note">Changing your password signs out all active administrator sessions.</small>}
+      </section>
+    </AdminPageShell>
+  );
 }
