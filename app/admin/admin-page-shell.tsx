@@ -69,11 +69,6 @@ export default function AdminPageShell({ active, title, subtitle, children }: Pr
           ))}
         </nav>
         <div className="ad-sidebar-bottom">
-          <div className="ad-help"><ShieldCheck /><b>Need a hand?</b><p>Manage your store with confidence.</p><Link href="/contact">Contact support →</Link></div>
-          <Link href="/admin/profile" className="ad-profile-link">
-            <span className="ad-avatar">{(adminName.trim()[0] || "A").toUpperCase()}</span>
-            <span><b>{adminName}</b><small>Manage profile</small></span>
-          </Link>
           <Link href="/admin/login?logout=1" className="ad-signout"><LogOut size={15} /> Sign out</Link>
         </div>
       </aside>
@@ -83,7 +78,6 @@ export default function AdminPageShell({ active, title, subtitle, children }: Pr
           <button className="ad-menu-btn" onClick={() => setMobile(true)} aria-label="Open admin menu"><Menu /></button>
           <div className="ad-breadcrumb"><Link href="/admin">Workspace</Link><ChevronRight size={14} /><b>{active}</b></div>
           <div className="ad-top-actions">
-            <Link href="/" className="ad-view-site">View website ↗</Link>
             <div className="ad-user-menu">
               <button className={"ad-user-trigger " + (profileOpen ? "is-open" : "")} aria-label="Open account menu" aria-expanded={profileOpen} onClick={() => setProfileOpen(v => !v)}>
                 <span className="ad-user-icon"><UserRound size={18} /></span><span className="ad-user-name">{adminName}</span><ChevronDown size={14} />
