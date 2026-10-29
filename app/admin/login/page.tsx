@@ -56,10 +56,24 @@ export default function AdminLogin() {
       <div className="admin-auth-layout">
         <section className="admin-auth-promo">
           <span className="admin-auth-tag"><ShieldCheck size={15} /> SECURE ADMINISTRATION</span>
-          <h1>Your business.<br /><em>One powerful</em><br />workspace.</h1>
-          <p>Manage products, orders, services and customer enquiries from one organised dashboard.</p>
-          <div className="admin-auth-feature"><span><LockKeyhole /></span><div><b>Protected workspace</b><small>Administrator account tools</small></div></div>
-          <div className="admin-auth-feature"><span><Zap /></span><div><b>Everything in one place</b><small>Store operations at a glance</small></div></div>
+          <h1>Power your business.<br /><em>Control every</em><br />connection.</h1>
+          <p>Your command centre for products, orders, services and customer enquiries — built for the people who keep everything running.</p>
+          <div className="admin-tech-visual" aria-hidden="true">
+            <div className="admin-tech-orbit admin-tech-orbit-one"></div>
+            <div className="admin-tech-orbit admin-tech-orbit-two"></div>
+            <div className="admin-tech-grid"></div>
+            <div className="admin-tech-camera">
+              <div className="admin-camera-mount"></div>
+              <div className="admin-camera-body"><div className="admin-camera-top"></div><div className="admin-camera-lens"><span></span></div><i></i><b></b></div>
+              <div className="admin-camera-status"><span></span> SYSTEM ONLINE</div>
+            </div>
+            <div className="admin-tech-scan"></div>
+            <span className="admin-tech-node admin-tech-node-a">SECURE / 24·7</span>
+            <span className="admin-tech-node admin-tech-node-b">LIVE MONITORING</span>
+            <span className="admin-tech-cross admin-tech-cross-a">+</span><span className="admin-tech-cross admin-tech-cross-b">+</span>
+          </div>
+          <div className="admin-auth-feature"><span><LockKeyhole /></span><div><b>Protected workspace</b><small>Private access for authorised administrators</small></div></div>
+          <div className="admin-auth-feature"><span><Zap /></span><div><b>Everything in one place</b><small>Manage your operations with confidence</small></div></div>
         </section>
         <section className="admin-auth-card">
           <div className="admin-auth-card-icon"><LockKeyhole /></div>
@@ -67,10 +81,10 @@ export default function AdminLogin() {
           <h2>Sign in to your account</h2>
           <p>Enter your administrator credentials to continue.</p>
           <form onSubmit={submit}>
-            <label>Email address
-              <div className="admin-auth-input"><Mail /><input autoComplete="username" required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@abdulict.com" /></div>
+            <label>Email address <small className="admin-auth-hint">Use your administrator email</small>
+              <div className="admin-auth-input"><Mail /><input autoComplete="username" required type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Enter your email address" autoCapitalize="none" autoCorrect="off" /></div>
             </label>
-            <label>Password
+            <label>Password <small className="admin-auth-hint">Enter your secure password</small>
               <div className="admin-auth-input"><LockKeyhole /><input autoComplete="current-password" required minLength={12} type={show ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter your password" /><button type="button" aria-label={show ? "Hide password" : "Show password"} onClick={() => setShow(!show)}>{show ? <EyeOff /> : <Eye />}</button></div>
             </label>
             <div className="admin-auth-forgot"><span>Use your administrator account.</span><Link href="/admin/reset-password">Forgot password?</Link></div>
