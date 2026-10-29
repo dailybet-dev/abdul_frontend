@@ -3,6 +3,11 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, Zap } from "lucide-react";
+import { graphqlRequest } from "@/lib/graphql";
+
+type LoginData = {
+  login: { success: boolean; admin: { id: string; email: string; displayName: string } };
+};
 
 export default function AdminLogin() {
   const [show, setShow] = useState(false);
@@ -16,16 +21,17 @@ export default function AdminLogin() {
     setMessage("");
     setLoading(true);
     try {
-      const response = await fetch("/api/backend/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        cache: "no-store",
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.success) {
-        setMessage(data.message || "Unable to sign in. Check your email and password, then try again.");
+      const data = await graphqlRequest<LoginData>(
+        `mutation AdminLogin($input: LoginInput!) {
+          login(input: $input) {
+            success
+            admin { id email displayName }
+          }
+        }`,
+        { input: { email: email.trim(), password } },
+      );
+      if (!data.login.success) {
+        setMessage("Unable to sign in. Check your email and password, then try again.");
         return;
       }
       const params = new URLSearchParams(window.location.search);
@@ -34,8 +40,8 @@ export default function AdminLogin() {
         ? next
         : "/admin";
       window.location.assign(destination);
-    } catch {
-      setMessage("The authentication service could not be reached. Please try again shortly.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to sign in. Please try again.");
     } finally {
       setLoading(false);
     }
