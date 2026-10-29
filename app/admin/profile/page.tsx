@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, LockKeyhole, Save, ShieldCheck, Zap, LoaderCircle } from "lucide-react";
+import { graphqlRequest } from "@/lib/graphql";
 
 type AdminProfile = { id: string; displayName: string; email: string };
 
@@ -16,17 +17,16 @@ export default function AdminProfile() {
 
   useEffect(() => {
     let active = true;
-    fetch("/api/backend/auth/me", { credentials: "include", cache: "no-store" })
-      .then(async (response) => {
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.authenticated || !data.admin) throw new Error(data.message || "Could not load your administrator profile.");
-        if (active) {
-          setName(data.admin.displayName || "Administrator");
-          setEmail(data.admin.email || "");
-        }
-      })
-      .catch((e) => { if (active) setError(e.message || "Unable to load profile. Please sign in again."); })
-      .finally(() => { if (active) setLoading(false); });
+    graphqlRequest<{ adminMe: AdminProfile }>(
+      `query AdminMe { adminMe { id displayName email } }`,
+    ).then(data => {
+      if (active) {
+        setName(data.adminMe.displayName || "Administrator");
+        setEmail(data.adminMe.email || "");
+      }
+    }).catch(e => {
+      if (active) setError(e instanceof Error ? e.message : "Unable to load profile. Please sign in again.");
+    }).finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
 
@@ -36,17 +36,14 @@ export default function AdminProfile() {
     setError("");
     setSaving(true);
     try {
-      const response = await fetch("/api/backend/auth/profile", {
-        method: "PUT",
-        credentials: "include",
-        cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ displayName: name.trim(), email: email.trim() }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.success) throw new Error(data.message || "Could not save profile changes.");
-      setName(data.admin.displayName);
-      setEmail(data.admin.email);
+      const data = await graphqlRequest<{ updateAdminProfile: AdminProfile }>(
+        `mutation UpdateAdminProfile($input: UpdateProfileInput!) {
+          updateAdminProfile(input: $input) { id displayName email }
+        }`,
+        { input: { displayName: name.trim(), email: email.trim() } },
+      );
+      setName(data.updateAdminProfile.displayName);
+      setEmail(data.updateAdminProfile.email);
       setMsg("Your profile has been updated and saved to the database.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unable to save profile changes.");
