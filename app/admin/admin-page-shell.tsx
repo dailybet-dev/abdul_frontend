@@ -28,7 +28,6 @@ const menu = [
   ["Contact submissions", Contact],
   ["Newsletter", Mail],
   ["Training enquiries", GraduationCap],
-  ["Settings", Settings],
 ] as const;
 
 export default function AdminPageShell({ active, title, subtitle, children }: Props) {
