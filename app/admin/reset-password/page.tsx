@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, KeyRound, LockKeyhole, Zap, LoaderCircle } from "lucide-react";
+import { graphqlRequest } from "@/lib/graphql";
+
+type ChangePasswordData = { changeAdminPassword: { success: boolean; message: string } };
 
 export default function ChangeAdminPassword() {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -27,17 +30,14 @@ export default function ChangeAdminPassword() {
     }
     setLoading(true);
     try {
-      const response = await fetch("/api/backend/auth/change-password", {
-        method: "POST",
-        credentials: "include",
-        cache: "no-store",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok || !data.success) throw new Error(data.message || "Could not change your password.");
+      const data = await graphqlRequest<ChangePasswordData>(
+        `mutation ChangeAdminPassword($input: ChangeAdminPasswordInput!) {
+          changeAdminPassword(input: $input) { success message }
+        }`,
+        { input: { currentPassword, newPassword } },
+      );
       setChanged(true);
-      setMessage("Your password has been changed and saved securely. For your protection, all administrator sessions have been signed out.");
+      setMessage(data.changeAdminPassword.message || "Your password has been changed. Please sign in again.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unable to change password. Please try again.");
     } finally {
