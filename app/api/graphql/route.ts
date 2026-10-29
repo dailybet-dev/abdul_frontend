@@ -28,10 +28,8 @@ export async function POST(request: NextRequest) {
       "Content-Type": upstream.headers.get("content-type") || "application/json",
       "Cache-Control": "no-store",
     });
-    const cookies = typeof upstream.headers.getSetCookie === "function"
-      ? upstream.headers.getSetCookie()
-      : (upstream.headers.get("set-cookie") ? [upstream.headers.get("set-cookie")!] : []);
-    for (const value of cookies) responseHeaders.append("Set-Cookie", value);
+    const setCookie = upstream.headers.get("set-cookie");
+    if (setCookie) responseHeaders.set("Set-Cookie", setCookie);
     return new NextResponse(await upstream.arrayBuffer(), {
       status: upstream.status,
       headers: responseHeaders,
