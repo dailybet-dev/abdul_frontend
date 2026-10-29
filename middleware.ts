@@ -17,6 +17,7 @@ async function executeGraphQL(
       // Do not forward an Origin header: the backend's browser-origin check
       // should not reject session validation because FRONTEND_URL differs.
       ...(cookie ? { cookie } : {}),
+      ...(sessionToken ? { "x-admin-session": sessionToken } : {}),
     },
     body: JSON.stringify({ query }),
     cache: "no-store",
@@ -27,7 +28,14 @@ async function executeGraphQL(
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
-  const cookie = request.headers.get("cookie");
+  // NextRequest exposes cookies independently of the raw header. Rebuild the
+  // session cookie explicitly so middleware validation and browser GraphQL
+  // requests always forward the same administrator session.
+  const sessionToken = request.cookies.get("admin_session")?.value;
+  const rawCookie = request.headers.get("cookie") || "";
+  const cookie = sessionToken && !/(^|;\\s*)admin_session=/.test(rawCookie)
+    ? `${rawCookie ? rawCookie + "; " : ""}admin_session=${encodeURIComponent(sessionToken)}`
+    : rawCookie;
 
   if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
