@@ -8,6 +8,7 @@ async function executeGraphQL(
   backendUrl: string,
   query: string,
   cookie: string | null,
+  sessionToken: string | undefined,
 ) {
   return fetch(`${backendUrl}/api/graphql`, {
     method: "POST",
@@ -33,7 +34,8 @@ export async function middleware(request: NextRequest) {
   // requests always forward the same administrator session.
   const sessionToken = request.cookies.get("admin_session")?.value;
   const rawCookie = request.headers.get("cookie") || "";
-  const cookie = sessionToken && !/(^|;\\s*)admin_session=/.test(rawCookie)
+  const hasSessionCookie = rawCookie.split(";").some((part) => part.trim().startsWith("admin_session="));
+  const cookie = sessionToken && !hasSessionCookie
     ? `${rawCookie ? rawCookie + "; " : ""}admin_session=${encodeURIComponent(sessionToken)}`
     : rawCookie;
 
@@ -41,7 +43,7 @@ export async function middleware(request: NextRequest) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
       if (backendUrl && cookie) {
         try {
-          await executeGraphQL(backendUrl, LOGOUT_MUTATION, cookie);
+          await executeGraphQL(backendUrl, LOGOUT_MUTATION, cookie, sessionToken);
         } catch {
           // Still clear the browser cookie if the GraphQL service is unavailable.
         }
@@ -64,7 +66,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const response = await executeGraphQL(backendUrl, ADMIN_SESSION_QUERY, cookie);
+    const response = await executeGraphQL(backendUrl, ADMIN_SESSION_QUERY, cookie, sessionToken);
     const payload = await response.json().catch(() => ({}));
     if (response.ok && payload.data?.adminMe?.id) return NextResponse.next();
   } catch {
