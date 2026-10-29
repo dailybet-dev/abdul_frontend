@@ -9,9 +9,14 @@ const ALLOWED_TYPES = new Set([
   "application/pdf",
 ]);
 
-function safeFileName(name: string) {
-  const ext = name.toLowerCase().match(/\.[a-z0-9]{1,10}$/)?.[0] || "";
-  const base = name.slice(0, name.length - ext.length)
+function safeFileName(name: string, contentType: string) {
+  const extensions: Record<string, string> = {
+    "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
+    "image/gif": ".gif", "image/avif": ".avif", "application/pdf": ".pdf",
+  };
+  const ext = extensions[contentType] || "";
+  const originalExt = name.toLowerCase().match(/\.[a-z0-9]{1,10}$/)?.[0] || "";
+  const base = name.slice(0, name.length - originalExt.length)
     .normalize("NFKD").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "")
     .slice(0, 70) || "upload";
   return `${base}-${Date.now()}-${crypto.randomUUID().slice(0, 8)}${ext}`;
@@ -59,7 +64,7 @@ export async function POST(request: NextRequest) {
     if (!ALLOWED_TYPES.has(file.type)) return NextResponse.json({ error: "Supported formats: JPG, PNG, WebP, GIF, AVIF and PDF." }, { status: 415 });
     if (file.size <= 0 || file.size > MAX_FILE_SIZE) return NextResponse.json({ error: "Files must be smaller than 8 MB." }, { status: 413 });
 
-    const filename = safeFileName(file.name);
+    const filename = safeFileName(file.name, file.type);
     const path = `${uploadPath}/${filename}`;
     const bytes = Buffer.from(await file.arrayBuffer());
     const githubResponse = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${path.split("/").map(encodeURIComponent).join("/")}`, {
