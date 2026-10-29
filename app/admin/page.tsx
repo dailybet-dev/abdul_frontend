@@ -36,7 +36,7 @@ export default function AdminPage(){
 
  const load=useCallback(async()=>{
   setRefreshing(true);setError("");
-  const tasks=[
+  const results=await Promise.allSettled([
    graphqlRequest<{ordersList:Order[]}>("query DashboardOrders{ordersList{ id orderNumber customerName customerPhone status paymentStatus total amountPaid createdAt items{productName quantity} }}"),
    graphqlRequest<{products:Product[]}>("query DashboardProducts{products{ id name conditions{stock isAvailable price salePrice} }}"),
    graphqlRequest<{services:Service[]}>("query DashboardServices{services{ id title isActive }}"),
@@ -44,8 +44,7 @@ export default function AdminPage(){
    graphqlRequest<{trainingEnquiries:Training[]}>("query DashboardTraining{trainingEnquiries{ id fullName course status createdAt }}"),
    graphqlRequest<{newsletterSubscriptions:Subscriber[]}>("query DashboardNewsletter{newsletterSubscriptions{ id email status subscribedAt }}"),
    graphqlRequest<{homepageSlides:Slide[]}>("query DashboardSlides{homepageSlides{ id title isActive sortOrder }}"),
-  ];
-  const results=await Promise.allSettled(tasks);
+  ]);
   const failures:string[]=[];
   if(results[0].status==="fulfilled")setOrders(results[0].value.ordersList);else failures.push("orders");
   if(results[1].status==="fulfilled")setProducts(results[1].value.products);else failures.push("products");
