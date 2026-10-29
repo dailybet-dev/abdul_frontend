@@ -11,7 +11,8 @@ export async function POST(request: NextRequest) {
   const headers = new Headers({ "Content-Type": request.headers.get("content-type") || "application/json" });
   const sessionToken = request.cookies.get("admin_session")?.value;
   const rawCookie = request.headers.get("cookie") || "";
-  const cookie = sessionToken && !/(^|;\\s*)admin_session=/.test(rawCookie)
+  const hasSessionCookie = rawCookie.split(";").some((part) => part.trim().startsWith("admin_session="));
+  const cookie = sessionToken && !hasSessionCookie
     ? `${rawCookie ? rawCookie + "; " : ""}admin_session=${encodeURIComponent(sessionToken)}`
     : rawCookie;
   const origin = request.headers.get("origin");
