@@ -19,7 +19,7 @@ const emptyForm: FormState = {
 };
 const FIELDS = "id title slug category description homeDescription imageUrl icon whatsappMessage intro detailDescription detailItems sortOrder isActive createdAt updatedAt";
 function slugify(value: string) {
-  return value.toLowerCase().trim().normalize("NFKD").replace(/[\\u0300-\\u036f]/g, "")
+  return value.toLowerCase().trim().normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
     .replace(/&/g, " and ").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 function toForm(service: Service): FormState {
