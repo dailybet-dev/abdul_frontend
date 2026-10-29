@@ -4,6 +4,7 @@ import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { BriefcaseBusiness, Check, Edit3, ExternalLink, LoaderCircle, Plus, Search, Trash2, X } from "lucide-react";
 import AdminPageShell from "../admin-page-shell";
 import { graphqlRequest } from "@/lib/graphql";
+import { uploadAdminFile } from "@/lib/admin-upload";
 
 type Service = {
   id: string; title: string; slug: string; category: string; description: string;
@@ -36,6 +37,7 @@ export default function AdminServicesPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
@@ -75,6 +77,21 @@ export default function AdminServicesPage() {
   function change<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm(current => ({ ...current, [key]: value, ...(key === "title" && !slugTouched ? { slug: slugify(String(value)) } : {}) }));
   }
+  async function uploadServiceImage(file?: File) {
+    if (!file) return;
+    setUploadingImage(true);
+    setNotice(null);
+    try {
+      const uploaded = await uploadAdminFile(file);
+      change("imageUrl", uploaded.url);
+      setNotice({ type: "success", text: "Service image uploaded to GitHub. Save the service to apply it." });
+    } catch (error) {
+      setNotice({ type: "error", text: error instanceof Error ? error.message : "Could not upload service image." });
+    } finally {
+      setUploadingImage(false);
+    }
+  }
+
   async function saveService(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const title = form.title.trim();
@@ -157,7 +174,7 @@ export default function AdminServicesPage() {
           <label>URL slug *<input required value={form.slug} onChange={event => { setSlugTouched(true); change("slug", event.target.value); }} placeholder="cctv-camera-installation"/></label>
           <label>Category / eyebrow<input value={form.category} onChange={event => change("category", event.target.value)} placeholder="Security solutions"/></label>
           <label>Icon key<input value={form.icon} onChange={event => change("icon", event.target.value)} placeholder="Camera, Zap, Monitor…"/></label>
-          <label className="service-form-wide">Image URL *<input required value={form.imageUrl} onChange={event => change("imageUrl", event.target.value)} placeholder="/images/your-service-image.png"/><small>Use the existing /images/ asset path or a complete HTTPS image URL.</small></label>
+          <div className="service-form-wide"><label>Service image *<input required value={form.imageUrl} onChange={event => change("imageUrl", event.target.value)} placeholder="Upload an image or paste an HTTPS image URL"/></label><label className="service-image-upload-control"> <span>{uploadingImage ? "Uploading image to GitHub…" : "Choose image from device"}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" disabled={uploadingImage || saving} onChange={event => { void uploadServiceImage(event.target.files?.[0]); event.currentTarget.value = ""; }}/></label><small>JPG, PNG, WebP, GIF or AVIF · max 8 MB. Uploaded images are stored in your GitHub repository.</small></div>
           {form.imageUrl && <div className="service-image-preview service-form-wide"><img src={form.imageUrl} alt="Service preview" onError={event => { event.currentTarget.style.visibility = "hidden"; }}/><span>Image preview</span></div>}
           <label className="service-form-wide">Services page card description *<textarea required rows={2} value={form.description} onChange={event => change("description", event.target.value)} placeholder="Short description shown on the Our Services page"/></label>
           <label className="service-form-wide">Homepage card description *<textarea required rows={2} value={form.homeDescription} onChange={event => change("homeDescription", event.target.value)} placeholder="Short description shown on the homepage"/></label>
@@ -168,7 +185,7 @@ export default function AdminServicesPage() {
           <label>Sort order<input type="number" min="0" step="1" required value={form.sortOrder} onChange={event => change("sortOrder", Number(event.target.value))}/></label>
           <label className="service-active-toggle"><input type="checkbox" checked={form.isActive} onChange={event => change("isActive", event.target.checked)}/> Show this service on the website</label>
         </div>
-        <div className="category-admin-modal-actions"><button type="button" className="category-admin-secondary" onClick={() => setModalOpen(false)} disabled={saving}>Cancel</button><button type="submit" className="category-admin-primary" disabled={saving}>{saving ? <><LoaderCircle size={16} className="animate-spin"/> Saving…</> : <><Check size={16}/>{editing ? "Save changes" : "Create service"}</>}</button></div>
+        <div className="category-admin-modal-actions"><button type="button" className="category-admin-secondary" onClick={() => setModalOpen(false)} disabled={saving}>Cancel</button><button type="submit" className="category-admin-primary" disabled={saving || uploadingImage}>{saving ? <><LoaderCircle size={16} className="animate-spin"/> Saving…</> : <><Check size={16}/>{editing ? "Save changes" : "Create service"}</>}</button></div>
       </form>
     </div>}
   </AdminPageShell>;
