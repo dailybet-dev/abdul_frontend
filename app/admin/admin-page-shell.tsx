@@ -10,7 +10,7 @@ import {
 import { graphqlRequest } from "@/lib/graphql";
 
 type Props = {
-  active: "Profile" | "Change Password" | "Orders" | "Homepage carousel" | "Categories" | "Subcategories" | "Brands" | "Products" | "Services" | "Contact submissions" | "Newsletter" | "Training enquiries";
+  active: "Overview" | "Profile" | "Change Password" | "Orders" | "Homepage carousel" | "Categories" | "Subcategories" | "Brands" | "Products" | "Services" | "Contact submissions" | "Newsletter" | "Training enquiries";
   title: string;
   subtitle: string;
   children: ReactNode;
