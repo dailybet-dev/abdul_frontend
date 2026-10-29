@@ -4,8 +4,8 @@ import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Activity, Boxes, BriefcaseBusiness, ChevronDown, ChevronRight, Contact,
-  GraduationCap, Image, LayoutDashboard, LogOut, Mail, Menu, MessageSquare,
-  Package, Search, Settings, ShieldCheck, ShoppingCart, Tags, UserRound, X, Zap,
+  GraduationCap, Image, LayoutDashboard, LogOut, Mail, Menu,
+  Package, Settings, ShieldCheck, ShoppingCart, Tags, UserRound, X, Zap,
 } from "lucide-react";
 import { graphqlRequest } from "@/lib/graphql";
 
