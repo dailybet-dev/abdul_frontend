@@ -1723,8 +1723,8 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .category-admin-form{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .category-admin-form label{display:block;color:#465a77;font-size:10px;font-weight:800}
 .category-admin-form label.full{grid-column:1/-1}
-.category-admin-form input,.category-admin-form textarea{display:block;width:100%;margin-top:7px;padding:11px 12px;border:1px solid #dfe7f2;border-radius:9px;background:#fbfcff;color:#253b5c;font:inherit;font-size:12px;outline:none}
-.category-admin-form input:focus,.category-admin-form textarea:focus{border-color:#7ba6eb;box-shadow:0 0 0 3px #3579df15}
+.category-admin-form input,.category-admin-form textarea,.category-admin-form select{display:block;width:100%;margin-top:7px;padding:11px 12px;border:1px solid #dfe7f2;border-radius:9px;background:#fbfcff;color:#253b5c;font:inherit;font-size:12px;outline:none}
+.category-admin-form input:focus,.category-admin-form textarea:focus,.category-admin-form select:focus{border-color:#7ba6eb;box-shadow:0 0 0 3px #3579df15}
 .category-admin-form textarea{min-height:76px;resize:vertical}
 .category-admin-modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:21px}
 .category-admin-secondary{padding:10px 14px;border:1px solid #e0e7f1;border-radius:9px;background:#fff;color:#60718b;font-size:11px;font-weight:800}
