@@ -22,7 +22,26 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
  function toggle(c:ProductCondition,on:boolean){setConditions(old=>on?[...old,fresh(c)]:old.filter(x=>x.condition!==c))}
  function patch(c:ProductCondition,p:Partial<Omit<ConditionRow,"condition">>){setConditions(old=>old.map(x=>x.condition===c?{...x,...p,condition:x.condition}:x))}
  async function addImages(c:ProductCondition,e:ChangeEvent<HTMLInputElement>){const files=Array.from(e.target.files||[]);e.target.value="";const row=conditions.find(x=>x.condition===c);if(!row||!files.length)return;if(files.length+row.images.length>6){setError("Maximum six images per condition.");return}if(files.some(f=>!["image/jpeg","image/png"].includes(f.type)||!/\.(jpe?g|png)$/i.test(f.name))){setError("Only JPG/JPEG and PNG images are accepted.");return}try{const data=await Promise.all(files.map(f=>new Promise<string>((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>typeof reader.result==="string"?resolve(reader.result):reject();reader.onerror=()=>reject();reader.readAsDataURL(f)})));patch(c,{images:[...row.images,...data]})}catch{setError("Could not read an image.")}}
- async function submit(e:FormEvent){e.preventDefault();setError("");if(duplicate){setError(duplicate);return}if(!conditions.length){setError("Select at least one condition.");return}if(conditions.some(c=>c.salePrice!==null&&c.salePrice>c.price)){setError("Sale price cannot exceed regular price.");return}setSaving(true);const input={name:name.trim(),sku:sku.trim()||undefined,description:description.trim(),categoryId:categoryId||null,subcategoryId:subcategoryId||null,brandId:brandId||null,conditions:conditions.map(c=>({...c,price:Math.max(0,Math.floor(Number(c.price)||0)),stock:Math.max(0,Math.floor(Number(c.stock)||0)),salePrice:c.salePrice?Math.max(0,Math.floor(Number(c.salePrice))):null}))};try{const r=product?await graphqlRequest<{updateProduct:Product}>("mutation Update($id:ID!,$input:ProductInput!){updateProduct(id:$id,input:$input){"+fields+"}}",{id:product.id,input}):await graphqlRequest<{createProduct:Product}>("mutation Create($input:ProductInput!){createProduct(input:$input){"+fields+"}}",{input});onSaved(product?r.updateProduct:r.createProduct)}catch(e){setError(e instanceof Error?e.message:"Could not save product.")}finally{setSaving(false)}}
+  async function submit(e:FormEvent){
+    e.preventDefault();setError("");
+    if(duplicate){setError(duplicate);return}
+    if(!conditions.length){setError("Select at least one condition.");return}
+    if(conditions.some(c=>c.salePrice!==null&&c.salePrice>c.price)){setError("Sale price cannot exceed regular price.");return}
+    setSaving(true);
+    const input={name:name.trim(),sku:sku.trim()||undefined,description:description.trim(),categoryId:categoryId||null,subcategoryId:subcategoryId||null,brandId:brandId||null,conditions:conditions.map(c=>({...c,price:Math.max(0,Math.floor(Number(c.price)||0)),stock:Math.max(0,Math.floor(Number(c.stock)||0)),salePrice:c.salePrice?Math.max(0,Math.floor(Number(c.salePrice))):null}))};
+    try{
+      let saved:Product;
+      if(product){
+        const r=await graphqlRequest<{updateProduct:Product}>("mutation Update($id:ID!,$input:ProductInput!){updateProduct(id:$id,input:$input){"+fields+"}}",{id:product.id,input});
+        saved=r.updateProduct;
+      }else{
+        const r=await graphqlRequest<{createProduct:Product}>("mutation Create($input:ProductInput!){createProduct(input:$input){"+fields+"}}",{input});
+        saved=r.createProduct;
+      }
+      onSaved(saved);
+    }catch(e){setError(e instanceof Error?e.message:"Could not save product.")}
+    finally{setSaving(false)}
+  }
  return <form className="product-editor" onSubmit={submit}>
  <section className="product-editor-section"><div className="product-editor-section-title"><span>01</span><div><h3>Product information</h3><p>Details shared across all conditions.</p></div></div><div className="product-editor-grid">
  <label className="product-field product-field-wide">Product name <span>*</span><input required maxLength={180} value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Samsung Galaxy A55"/>{checking&&<small className="product-field-hint">Checking for duplicate names…</small>}{duplicate&&<small className="product-duplicate"><AlertTriangle size={14}/>{duplicate}</small>}</label>
