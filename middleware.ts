@@ -8,13 +8,14 @@ async function executeGraphQL(
   backendUrl: string,
   query: string,
   cookie: string | null,
-  origin: string,
 ) {
   return fetch(`${backendUrl}/api/graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      origin,
+      // This is a server-to-server middleware request, not a browser request.
+      // Do not forward an Origin header: the backend's browser-origin check
+      // should not reject session validation because FRONTEND_URL differs.
       ...(cookie ? { cookie } : {}),
     },
     body: JSON.stringify({ query }),
@@ -32,7 +33,7 @@ export async function middleware(request: NextRequest) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
       if (backendUrl && cookie) {
         try {
-          await executeGraphQL(backendUrl, LOGOUT_MUTATION, cookie, request.nextUrl.origin);
+          await executeGraphQL(backendUrl, LOGOUT_MUTATION, cookie);
         } catch {
           // Still clear the browser cookie if the GraphQL service is unavailable.
         }
@@ -55,7 +56,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const response = await executeGraphQL(backendUrl, ADMIN_SESSION_QUERY, cookie, request.nextUrl.origin);
+    const response = await executeGraphQL(backendUrl, ADMIN_SESSION_QUERY, cookie);
     const payload = await response.json().catch(() => ({}));
     if (response.ok && payload.data?.adminMe?.id) return NextResponse.next();
   } catch {
