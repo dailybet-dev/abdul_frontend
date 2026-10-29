@@ -10,7 +10,7 @@ import {
 import { graphqlRequest } from "@/lib/graphql";
 
 type Props = {
-  active: "Profile" | "Change Password" | "Categories" | "Subcategories";
+  active: "Profile" | "Change Password" | "Categories" | "Subcategories" | "Brands";
   title: string;
   subtitle: string;
   children: ReactNode;
@@ -63,7 +63,7 @@ export default function AdminPageShell({ active, title, subtitle, children }: Pr
         <div className="ad-nav-label">WORKSPACE</div>
         <nav className="ad-nav" aria-label="Admin navigation">
           {menu.map(([label, Icon]) => (
-            <Link key={label} href={label === "Overview" ? "/admin" : label === "Categories" ? "/admin/categories" : label === "Subcategories" ? "/admin/subcategories" : `/admin?section=${encodeURIComponent(label)}`} className={"ad-nav-item " + (active === label ? "active" : "")} onClick={() => setMobile(false)}>
+            <Link key={label} href={label === "Overview" ? "/admin" : label === "Categories" ? "/admin/categories" : label === "Subcategories" ? "/admin/subcategories" : label === "Brands" ? "/admin/brands" : `/admin?section=${encodeURIComponent(label)}`} className={"ad-nav-item " + (active === label ? "active" : "")} onClick={() => setMobile(false)}>
               <Icon size={18} /><span>{label}</span><ChevronRight size={14} />
             </Link>
           ))}
