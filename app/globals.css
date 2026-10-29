@@ -1626,3 +1626,70 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
   .ad-topbar { padding:0 10px; }
   .ad-user-dropdown { width:218px; }
 }
+
+
+/* Modern animated admin sign-in experience */
+.admin-auth{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 15% 35%,#e6efff 0%,transparent 38%),linear-gradient(135deg,#f8faff 0%,#eef3fc 55%,#f7f9ff 100%)}
+.admin-auth:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.28;background-image:linear-gradient(#8ba5d51c 1px,transparent 1px),linear-gradient(90deg,#8ba5d51c 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(90deg,#000,transparent 85%)}
+.admin-auth-brand{position:relative;z-index:2;background:#ffffffd9;backdrop-filter:blur(18px)}
+.admin-auth-layout{position:relative;z-index:1;max-width:1220px;grid-template-columns:minmax(0,1fr) minmax(360px,450px);gap:clamp(36px,6vw,92px);padding-top:clamp(28px,5vh,64px);padding-bottom:clamp(28px,5vh,64px)}
+.admin-auth-promo{min-width:0;padding:18px 0}
+.admin-auth-tag{padding:9px 13px;border:1px solid #d9e4fb;background:#ffffffa6;border-radius:999px;letter-spacing:1.35px;box-shadow:0 8px 22px #4266aa0a}
+.admin-auth-promo h1{font-size:clamp(36px,4.3vw,59px);line-height:1.08;letter-spacing:-2.5px;margin:22px 0 14px}
+.admin-auth-promo h1 em{background:linear-gradient(100deg,#315ed7,#6578f4 55%,#31a9dd);background-clip:text;-webkit-background-clip:text;color:transparent}
+.admin-auth-promo>p{max-width:490px;font-size:13px;line-height:1.85;color:#697b98}
+.admin-tech-visual{height:225px;max-width:510px;position:relative;overflow:hidden;margin:18px 0 22px;border:1px solid #dbe6fb;border-radius:22px;background:linear-gradient(135deg,#edf4ffed,#f8fbffed 55%,#e8f1ff);box-shadow:inset 0 1px #fff,0 20px 55px #33558d0d}
+.admin-tech-grid{position:absolute;inset:0;background-image:linear-gradient(#7298d51a 1px,transparent 1px),linear-gradient(90deg,#7298d51a 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(ellipse,#000 10%,transparent 78%)}
+.admin-tech-orbit{position:absolute;left:50%;top:50%;border:1px solid #7fa3e94c;border-radius:50%;transform:translate(-50%,-50%)}
+.admin-tech-orbit-one{width:200px;height:200px;animation:adminOrbit 18s linear infinite}
+.admin-tech-orbit-two{width:150px;height:150px;border-style:dashed;animation:adminOrbit 12s linear infinite reverse}
+.admin-tech-camera{position:absolute;left:50%;top:48%;width:160px;height:118px;transform:translate(-50%,-50%);filter:drop-shadow(0 16px 12px #31558b24);animation:adminCameraFloat 4s ease-in-out infinite}
+.admin-camera-mount{position:absolute;left:77px;top:4px;width:11px;height:28px;background:linear-gradient(90deg,#8198bd,#f5f8ff 45%,#718ab0);border-radius:5px 5px 2px 2px}
+.admin-camera-body{position:absolute;left:25px;top:21px;width:112px;height:58px;border:1px solid #b8c9e4;border-radius:13px 17px 17px 13px;background:linear-gradient(145deg,#fff 0%,#edf3fc 40%,#cad8ee 100%);box-shadow:inset 0 2px 0 #fff,inset 0 -4px 7px #8fa8cf3b}
+.admin-camera-top{position:absolute;left:17px;top:-5px;width:61px;height:7px;border-radius:5px;background:#d4e0f2;border:1px solid #b6c8e2}
+.admin-camera-lens{position:absolute;left:12px;top:10px;width:38px;height:38px;border:5px solid #d9e5f6;border-radius:50%;background:radial-gradient(circle at 35% 30%,#72c6f4 0 6%,#254b83 13%,#0d1b3b 48%,#142b50 64%,#8ca7d3 72%,#eef5ff 77%);box-shadow:0 0 0 2px #9fb5d7,0 0 19px #4b95ff4b}
+.admin-camera-lens span{position:absolute;left:6px;top:5px;width:8px;height:5px;border-radius:50%;background:#e9faffc9;transform:rotate(-35deg)}
+.admin-camera-body>i{position:absolute;right:14px;top:15px;width:7px;height:7px;border-radius:50%;background:#2ad9a2;box-shadow:0 0 0 4px #2ad9a21a,0 0 12px #2ad9a2;animation:adminStatusPulse 1.8s ease-in-out infinite}
+.admin-camera-body>b{position:absolute;right:14px;bottom:11px;width:26px;height:3px;border-radius:3px;background:#a4b8d8}
+.admin-camera-status{position:absolute;left:36px;top:89px;display:flex;align-items:center;gap:6px;color:#4d6489;font-size:8px;font-weight:900;letter-spacing:1.4px;white-space:nowrap}
+.admin-camera-status span{width:5px;height:5px;border-radius:50%;background:#2ad9a2;box-shadow:0 0 8px #2ad9a2}
+.admin-tech-scan{position:absolute;left:8%;right:8%;height:1px;top:25%;background:linear-gradient(90deg,transparent,#3e9aff,#8fe7ff,transparent);box-shadow:0 0 15px #4c9cff;animation:adminScan 4.8s ease-in-out infinite}
+.admin-tech-node{position:absolute;padding:7px 9px;border:1px solid #d6e3f8;background:#ffffffc9;border-radius:7px;color:#6880a5;font-size:7px;font-weight:900;letter-spacing:1.15px;box-shadow:0 5px 16px #4266aa0b}
+.admin-tech-node-a{left:15px;top:25px}.admin-tech-node-b{right:13px;bottom:24px}
+.admin-tech-cross{position:absolute;color:#7da0df;font-size:16px;font-weight:300;animation:adminStatusPulse 2.4s ease-in-out infinite}
+.admin-tech-cross-a{right:27%;top:24px}.admin-tech-cross-b{left:22%;bottom:21px;animation-delay:.7s}
+.admin-auth-feature{margin-top:15px}
+.admin-auth-feature>span{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#fff,#f0f5ff);border-color:#dce6f8;box-shadow:0 5px 14px #2b4d8509}
+.admin-auth-feature b{font-size:11px;color:#293d60}.admin-auth-feature small{font-size:10px}
+.admin-auth-card{position:relative;padding:clamp(25px,3vw,36px);border:1px solid #ffffff;border-radius:24px;background:#ffffffed;backdrop-filter:blur(18px);box-shadow:0 30px 90px #213b6916,0 4px 16px #294b8510;overflow:hidden}
+.admin-auth-card:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#2f76ef,#5d5ce9,#38b6db)}
+.admin-auth-card-icon{width:52px;height:52px;border:1px solid #dfe8ff;background:linear-gradient(145deg,#edf4ff,#f7f4ff);box-shadow:0 8px 22px #4e73d515}
+.admin-auth-kicker{font-size:9px;letter-spacing:1.8px}
+.admin-auth-card h2{font-size:25px;line-height:1.2;letter-spacing:-.9px;color:#1b2d4b;margin-top:10px}
+.admin-auth-card>p{font-size:12px;color:#7787a1;margin-bottom:22px}
+.admin-auth-card form>label{margin-top:18px;font-size:11px;color:#394b68}
+.admin-auth-hint{display:block;margin-top:5px;color:#8b99b0;font-size:9px;font-weight:500;letter-spacing:.05px}
+.admin-auth-input{height:50px;margin-top:8px;gap:10px;padding:0 13px;border:1px solid #dce5f2;border-radius:11px;background:#f9fbff;transition:border-color .2s,box-shadow .2s,background .2s}
+.admin-auth-input:focus-within{border-color:#6c8df0;background:#fff;box-shadow:0 0 0 4px #5579ed17}
+.admin-auth-input>svg{width:17px;height:17px;flex-shrink:0;color:#8294b4}
+.admin-auth-input input{font-size:12px;color:#203453}
+.admin-auth-input input::placeholder{color:#a0acc0;opacity:1}
+.admin-auth-input button{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;cursor:pointer}
+.admin-auth-input button:hover{background:#edf2ff;color:#4768d9}
+.admin-auth-input button svg{width:17px;height:17px}
+.admin-auth-forgot{font-size:10px;margin:17px 0 20px}
+.admin-auth-forgot>span{color:#8996aa}
+.admin-auth-forgot a{color:#4b68dc}
+.admin-auth-submit{min-height:50px;border-radius:11px;background:linear-gradient(105deg,#286fe9,#575be7 60%,#477ce9);font-size:11px;letter-spacing:.15px;box-shadow:0 10px 20px #4c6ee52b;transition:transform .2s,box-shadow .2s,filter .2s}
+.admin-auth-submit:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 14px 25px #4c6ee53b;filter:saturate(1.1)}
+.admin-auth-submit:disabled{opacity:.72;cursor:wait}
+.admin-auth-card-foot{padding-top:16px;border-top:1px solid #edf1f8;color:#8594aa;font-size:9px}
+.admin-auth-card-foot svg{width:15px;height:15px;color:#4c83d8;flex-shrink:0}
+.admin-auth-message{border:1px solid #f4d9ad;border-radius:10px;background:#fff8e9;color:#895b18;font-size:11px}
+@keyframes adminOrbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes adminCameraFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-5px)}}
+@keyframes adminStatusPulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes adminScan{0%{top:18%;opacity:0}12%{opacity:1}88%{opacity:1}100%{top:84%;opacity:0}}
+@media(max-width:800px){.admin-auth-layout{grid-template-columns:1fr minmax(320px,420px);gap:28px;padding:30px 18px}.admin-auth-promo h1{font-size:clamp(32px,5vw,45px)}.admin-tech-visual{height:190px}.admin-auth-card{padding:27px}}
+@media(max-width:680px){.admin-auth-brand{height:66px;padding:0 17px}.admin-auth-brand>a:first-child{font-size:12px}.admin-auth-brand>a:first-child>span{width:34px;height:34px}.admin-auth-layout{min-height:calc(100vh - 66px);grid-template-columns:1fr;gap:15px;padding:25px 16px 34px}.admin-auth-promo{padding:5px 0 0}.admin-auth-promo h1{font-size:clamp(32px,8vw,43px);letter-spacing:-1.7px;margin:17px 0 10px}.admin-auth-promo>p{font-size:12px;line-height:1.7}.admin-tech-visual{height:175px;margin:15px 0 15px}.admin-auth-feature{display:none}.admin-auth-card{width:100%;max-width:460px;margin:0 auto;padding:25px 22px;border-radius:20px}.admin-auth-card h2{font-size:22px}.admin-auth-card>p{margin-bottom:17px}.admin-auth-card form>label{margin-top:15px}.admin-auth-forgot{font-size:9px}.admin-auth-card-foot{margin-top:17px}}
+@media(prefers-reduced-motion:reduce){.admin-tech-orbit,.admin-tech-camera,.admin-camera-body>i,.admin-tech-scan,.admin-tech-cross{animation:none!important}.admin-auth-submit{transition:none}}
