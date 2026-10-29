@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   Activity, Boxes, BriefcaseBusiness, ChevronDown, ChevronRight, Contact,
   GraduationCap, Image, LayoutDashboard, LogOut, Mail, Menu,
-  Package, Settings, ShieldCheck, ShoppingCart, Tags, UserRound, X, Zap,
+  Package, ShieldCheck, ShoppingCart, Tags, UserRound, X, Zap,
 } from "lucide-react";
 import { graphqlRequest } from "@/lib/graphql";
 
