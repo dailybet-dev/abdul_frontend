@@ -71,6 +71,6 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
  </section>)}
  {!conditions.length&&<div className="product-form-warning">Select at least one condition to continue.</div>}</section>
  {error&&<div className="product-form-error"><AlertTriangle size={16}/><span>{error}</span><button type="button" onClick={()=>setError("")}><X size={14}/></button></div>}
- <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||!!duplicate||checking||!conditions.length}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
+ <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages||!!duplicate||checking||!conditions.length}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
  </form>
 }
