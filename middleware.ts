@@ -33,10 +33,13 @@ export async function middleware(request: NextRequest) {
   // duplicate/stale copies from the raw header before forwarding the session.
   const sessionToken = request.cookies.get("admin_session")?.value;
   const rawCookie = request.headers.get("cookie") || "";
-  const cookieParts = rawCookie.split(";").map((part) => part.trim())
-    .filter((part) => part && !part.startsWith("admin_session="));
-  if (sessionToken) cookieParts.push(`admin_session=${encodeURIComponent(sessionToken)}`);
-  const cookie = cookieParts.join("; ");
+  const cookie = sessionToken
+    ? [
+        ...rawCookie.split(";").map((part) => part.trim())
+          .filter((part) => part && !part.startsWith("admin_session=")),
+        `admin_session=${encodeURIComponent(sessionToken)}`,
+      ].join("; ")
+    : rawCookie;
 
   if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
