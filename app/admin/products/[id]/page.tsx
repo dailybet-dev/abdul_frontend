@@ -1,7 +1,7 @@
 "use client";
 import {useCallback,useEffect,useState} from "react";
 import Link from "next/link";
-import {AlertCircle,ArrowLeft,CheckCircle2,Edit3,ExternalLink,LoaderCircle,Package,RefreshCw,Trash2,X,XCircle} from "lucide-react";
+import {AlertCircle,ArrowLeft,CheckCircle2,Edit3,ExternalLink,LoaderCircle,Package,RefreshCw,XCircle} from "lucide-react";
 import {useParams} from "next/navigation";
 import AdminPageShell from "../../admin-page-shell";
 import ProductEditor,{Product} from "../product-editor";
