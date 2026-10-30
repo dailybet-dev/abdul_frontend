@@ -41,6 +41,18 @@ export async function middleware(request: NextRequest) {
       ].join("; ")
     : rawCookie;
 
+  // API calls are separate browser requests from admin page navigation.
+  // Carry the middleware-resolved cookie session explicitly into the GraphQL route.
+  if (pathname === "/api/graphql") {
+    const forwardedHeaders = new Headers(request.headers);
+    if (sessionToken) {
+      forwardedHeaders.set("x-admin-session", sessionToken);
+      forwardedHeaders.set("authorization", `Bearer ${sessionToken}`);
+      forwardedHeaders.set("cookie", cookie);
+    }
+    return NextResponse.next({ request: { headers: forwardedHeaders } });
+  }
+
   if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
       if (backendUrl && cookie) {
@@ -95,4 +107,4 @@ export async function middleware(request: NextRequest) {
   return NextResponse.redirect(login);
 }
 
-export const config = { matcher: ["/admin/:path*"] };
+export const config = { matcher: ["/admin/:path*", "/api/graphql"] };
