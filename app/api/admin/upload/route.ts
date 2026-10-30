@@ -49,18 +49,23 @@ export async function POST(request: NextRequest) {
   // admin guard checks each admin_session candidate, so a stale duplicate
   // cookie cannot mask the valid session used for the admin upload.
   const cookie = request.headers.get("cookie") || "";
-  if (!cookie) {
+  const sessionToken = request.cookies.get("admin_session")?.value;
+  if (!cookie && !sessionToken) {
     return NextResponse.json({ error: "Administrator login required. Please sign in again." }, { status: 401 });
   }
 
   try {
-    const origin = request.headers.get("origin");
     const authResponse = await fetch(`${backendUrl}/api/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: cookie,
-        ...(origin ? { Origin: origin } : {}),
+        ...(cookie ? { Cookie: cookie } : {}),
+        // Match the credentials used by the admin middleware and GraphQL proxy.
+        // The backend guard validates this token against the admin session store.
+        ...(sessionToken ? {
+          "x-admin-session": sessionToken,
+          Authorization: `Bearer ${sessionToken}`,
+        } : {}),
       },
       body: JSON.stringify({ query: "query VerifyAdminUpload { adminMe { id } }" }),
       cache: "no-store",
