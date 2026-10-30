@@ -12,24 +12,23 @@ export async function POST(request: NextRequest) {
     "Content-Type": request.headers.get("content-type") || "application/json",
   });
 
-  // Preserve the browser's complete Cookie header. Do not collapse duplicate
-  // admin_session values here: the backend guard can validate each candidate
-  // against the session table and select the valid one.
+  // Preserve all session-cookie candidates. The backend guard validates each
+  // candidate against the database, including duplicate cookies from migrations.
   const cookie = request.headers.get("cookie");
   if (cookie) headers.set("cookie", cookie);
 
-  // Also forward the parsed host-only session as explicit server-to-server
-  // credentials. Some proxy/runtime combinations preserve Cookie differently
-  // for GraphQL POSTs; the backend guard accepts this header as an additional
-  // candidate while still validating it against the admin-session table.
+  // Forward the session explicitly as a fallback for proxy runtimes that
+  // normalize or omit Cookie headers on server-to-server requests.
   const sessionToken = request.cookies.get("admin_session")?.value;
   if (sessionToken) {
     headers.set("x-admin-session", sessionToken);
     headers.set("authorization", `Bearer ${sessionToken}`);
   }
 
-  const origin = request.headers.get("origin");
-  if (origin) headers.set("origin", origin);
+  // Do not forward the browser Origin header. This route is the same-origin
+  // frontend proxy; the backend's origin check is intended for browser calls,
+  // not this trusted server-to-server hop. Middleware and upload verification
+  // already follow this same rule.
 
   try {
     const upstream = await fetch(`${backendUrl}/api/graphql`, {
