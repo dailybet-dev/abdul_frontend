@@ -38,6 +38,7 @@ export default function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [imagePreviewFailed, setImagePreviewFailed] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
@@ -75,10 +76,20 @@ export default function AdminServicesPage() {
     setEditing(service); setForm(toForm(service)); setSlugTouched(true); setNotice(null); setModalOpen(true);
   }
   function change<K extends keyof FormState>(key: K, value: FormState[K]) {
+    if (key === "imageUrl") setImagePreviewFailed(false);
     setForm(current => ({ ...current, [key]: value, ...(key === "title" && !slugTouched ? { slug: slugify(String(value)) } : {}) }));
   }
   async function uploadServiceImage(file?: File) {
     if (!file) return;
+    const allowedTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"]);
+    if (!allowedTypes.has(file.type)) {
+      setNotice({ type: "error", text: "Choose a JPG, PNG, WebP, GIF or AVIF image." });
+      return;
+    }
+    if (file.size <= 0 || file.size > 8 * 1024 * 1024) {
+      setNotice({ type: "error", text: "Service images must be smaller than 8 MB." });
+      return;
+    }
     setUploadingImage(true);
     setNotice(null);
     try {
@@ -175,7 +186,7 @@ export default function AdminServicesPage() {
           <label>Category / eyebrow<input value={form.category} onChange={event => change("category", event.target.value)} placeholder="Security solutions"/></label>
           <label>Icon key<input value={form.icon} onChange={event => change("icon", event.target.value)} placeholder="Camera, Zap, Monitor…"/></label>
           <div className="service-form-wide"><label>Service image *<input required value={form.imageUrl} onChange={event => change("imageUrl", event.target.value)} placeholder="Upload an image or paste an HTTPS image URL"/></label><label className="service-image-upload-control"> <span>{uploadingImage ? "Uploading image to GitHub…" : "Choose image from device"}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" disabled={uploadingImage || saving} onChange={event => { void uploadServiceImage(event.target.files?.[0]); event.currentTarget.value = ""; }}/></label><small>JPG, PNG, WebP, GIF or AVIF · max 8 MB. Uploaded images are stored in your GitHub repository.</small></div>
-          {form.imageUrl && <div className="service-image-preview service-form-wide"><img src={form.imageUrl} alt="Service preview" onError={event => { event.currentTarget.style.visibility = "hidden"; }}/><span>Image preview</span></div>}
+          {form.imageUrl && <div className="service-image-preview service-form-wide">{imagePreviewFailed ? <span role="status">The image URL could not be previewed. Check the URL or upload the image again.</span> : <><img src={form.imageUrl} alt="Service preview" onError={() => setImagePreviewFailed(true)}/><span>Image preview · this image will be saved with the service</span></>}</div>}
           <label className="service-form-wide">Services page card description *<textarea required rows={2} value={form.description} onChange={event => change("description", event.target.value)} placeholder="Short description shown on the Our Services page"/></label>
           <label className="service-form-wide">Homepage card description *<textarea required rows={2} value={form.homeDescription} onChange={event => change("homeDescription", event.target.value)} placeholder="Short description shown on the homepage"/></label>
           <label className="service-form-wide">WhatsApp enquiry message<textarea rows={2} value={form.whatsappMessage} onChange={event => change("whatsappMessage", event.target.value)} placeholder="Message prefilled when customer taps WhatsApp"/></label>
