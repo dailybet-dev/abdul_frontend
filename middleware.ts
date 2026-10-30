@@ -18,7 +18,7 @@ async function executeGraphQL(
       // Do not forward an Origin header: the backend's browser-origin check
       // should not reject session validation because FRONTEND_URL differs.
       ...(cookie ? { cookie } : {}),
-      ...(sessionToken ? { "x-admin-session": sessionToken } : {}),
+      ...(sessionToken ? { "x-admin-session": sessionToken, authorization: `Bearer ${sessionToken}` } : {}),
     },
     body: JSON.stringify({ query }),
     cache: "no-store",
