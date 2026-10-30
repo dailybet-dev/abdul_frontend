@@ -25,20 +25,31 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
  async function addImages(c:ProductCondition,e:ChangeEvent<HTMLInputElement>){
   const files=Array.from(e.target.files||[]);e.target.value="";
   const row=conditions.find(x=>x.condition===c);if(!row||!files.length)return;
-  if(files.length+row.images.length>6){setError("Maximum six images per condition.");return}
-  if(files.some(f=>!["image/jpeg","image/png","image/webp","image/gif","image/avif"].includes(f.type))){setError("Use JPG, PNG, WebP, GIF or AVIF images.");return}
+  if(files.length+row.images.length>6){setError("A maximum of six images is allowed per condition.");return}
+  const invalid=files.find(f=>!["image/jpeg","image/png","image/webp","image/gif","image/avif"].includes(f.type));
+  if(invalid){setError(invalid.name+" is not supported. Use JPG, PNG, WebP, GIF or AVIF.");return}
+  const tooLarge=files.find(f=>f.size<=0||f.size>8*1024*1024);
+  if(tooLarge){setError(tooLarge.name+" is empty or exceeds the 8 MB limit.");return}
   setUploadingImages(true);setError("");
-  try{const uploaded=await Promise.all(files.map(uploadAdminFile));patch(c,{images:[...row.images,...uploaded.map(file=>file.url)]})}
-  catch(error){setError(error instanceof Error?error.message:"Could not upload product images.")}
-  finally{setUploadingImages(false)}
- }
+  try{
+    const results=await Promise.allSettled(files.map(uploadAdminFile));
+    const uploaded=results.filter((x):x is PromiseFulfilledResult<Awaited<ReturnType<typeof uploadAdminFile>>>=>x.status==="fulfilled").map(x=>x.value.url);
+    if(uploaded.length)setConditions(old=>old.map(x=>x.condition===c?{...x,images:[...x.images,...uploaded].slice(0,6)}:x));
+    const failed=results.find(x=>x.status==="rejected");
+    if(failed){const reason=failed.reason;setError(uploaded.length+" of "+files.length+" image(s) uploaded. "+(reason instanceof Error?reason.message:"One or more images could not be uploaded."))}
+  }finally{setUploadingImages(false)}
+}
   async function submit(e:FormEvent){
     e.preventDefault();setError("");
     if(duplicate){setError(duplicate);return}
+    if(!categoryId){setError("Select a product category before saving.");return}
     if(!conditions.length){setError("Select at least one condition.");return}
-    if(conditions.some(c=>c.salePrice!==null&&c.salePrice>c.price)){setError("Sale price cannot exceed regular price.");return}
+    if(conditions.some(c=>!Number.isInteger(Number(c.price))||Number(c.price)<=0)){setError("Every selected condition must have a whole-number price greater than zero.");return}
+    if(conditions.some(c=>!Number.isInteger(Number(c.stock))||Number(c.stock)<0)){setError("Stock quantities must be whole numbers of zero or more.");return}
+    if(conditions.some(c=>c.salePrice!==null&&(!Number.isInteger(Number(c.salePrice))||Number(c.salePrice)<=0||Number(c.salePrice)>=Number(c.price)))){setError("Sale price must be greater than zero and lower than the regular price.");return}
+    if(conditions.some(c=>c.images.length>6)){setError("Each condition can have a maximum of six images.");return}
     setSaving(true);
-    const input={name:name.trim(),sku:sku.trim()||undefined,description:description.trim(),categoryId:categoryId||null,subcategoryId:subcategoryId||null,brandId:brandId||null,conditions:conditions.map(c=>({...c,price:Math.max(0,Math.floor(Number(c.price)||0)),stock:Math.max(0,Math.floor(Number(c.stock)||0)),salePrice:c.salePrice?Math.max(0,Math.floor(Number(c.salePrice))):null}))};
+    const input={name:name.trim(),sku:sku.trim()||undefined,description:description.trim(),categoryId:categoryId||null,subcategoryId:subcategoryId||null,brandId:brandId||null,conditions:conditions.map(c=>({...c,price:Math.max(0,Math.floor(Number(c.price)||0)),stock:Math.max(0,Math.floor(Number(c.stock)||0)),salePrice:c.salePrice!==null&&c.salePrice!==undefined?Math.floor(Number(c.salePrice)):null}))};
     try{
       let saved:Product;
       if(product){
@@ -65,12 +76,12 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
  <div className="product-condition-checks">{(["BRAND_NEW","UK_USED","PREMIUM_REPACK"] as ProductCondition[]).map(c=><label key={c} className={"product-condition-check "+(conditions.some(x=>x.condition===c)?"selected":"")}><input type="checkbox" checked={conditions.some(x=>x.condition===c)} onChange={e=>toggle(c,e.target.checked)}/><span className="product-condition-checkmark">{conditions.some(x=>x.condition===c)?"✓":""}</span><span><b>{labels[c]}</b><small>{c==="BRAND_NEW"?"Factory new":c==="UK_USED"?"Pre-owned / imported used":"Refurbished or premium repack"}</small></span></label>)}</div>
  {conditions.map((c,i)=><section className="product-condition-panel" key={c.condition}><div className="product-condition-panel-head"><div><span className="product-condition-number">0{i+1}</span><div><h4>{labels[c.condition]}</h4><p>Condition-specific inventory and photos.</p></div></div><span className="product-condition-active">Enabled</span></div>
  <div className="product-editor-grid product-editor-grid-3"><label className="product-field">Price (UGX) <span>*</span><input type="number" min="0" step="1" required value={c.price} onChange={e=>patch(c.condition,{price:Math.max(0,Number(e.target.value)||0)})}/></label><label className="product-field">Sale price (UGX)<input type="number" min="0" step="1" value={c.salePrice??""} onChange={e=>patch(c.condition,{salePrice:e.target.value===""?null:Math.max(0,Number(e.target.value)||0)})} placeholder="Optional"/></label><label className="product-field">Stock quantity <span>*</span><input type="number" min="0" step="1" required value={c.stock} onChange={e=>patch(c.condition,{stock:Math.max(0,Math.floor(Number(e.target.value)||0)),isAvailable:Number(e.target.value)>0})}/></label></div>
- <div className="product-images-heading"><div><b>Condition photos</b><small>JPG, PNG, WebP, GIF or AVIF · maximum 6 images</small></div><span>{c.images.length}/6</span></div>
+ <div className="product-images-heading"><div><b>Condition photos</b><small>JPG, PNG, WebP, GIF or AVIF · max 8 MB each · maximum 6 images</small></div><span>{c.images.length}/6</span></div>
  <div className="product-image-grid">{c.images.map((src,n)=><div className="product-image-preview" key={src.slice(0,32)+n}><img src={src} alt={labels[c.condition]+" product image "+(n+1)}/><button type="button" onClick={()=>patch(c.condition,{images:c.images.filter((_,i)=>i!==n)})} aria-label="Remove image"><X size={14}/></button><small>{n===0?"Main image":"Image "+(n+1)}</small></div>)}{c.images.length<6&&<label className="product-image-upload"><input type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple disabled={uploadingImages} onChange={e=>void addImages(c.condition,e)}/><UploadCloud size={22}/><b>{uploadingImages?"Uploading…":"Upload images"}</b><small>{uploadingImages?"Saving to GitHub":`${6-c.images.length} remaining`}</small></label>}</div>
  <label className="product-availability-toggle"><input type="checkbox" checked={c.isAvailable} onChange={e=>patch(c.condition,{isAvailable:e.target.checked})}/><span><b>Available for purchase</b><small>Turn off to hide this condition without deleting it.</small></span></label>
  </section>)}
  {!conditions.length&&<div className="product-form-warning">Select at least one condition to continue.</div>}</section>
- {error&&<div className="product-form-error"><AlertTriangle size={16}/><span>{error}</span><button type="button" onClick={()=>setError("")}><X size={14}/></button></div>}
- <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages||!!duplicate||checking||!conditions.length}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
+ {error&&<div className="product-dialog-backdrop" role="presentation"><section className="product-dialog" role="alertdialog" aria-modal="true" aria-labelledby="product-error-title"><span className="product-dialog-icon"><AlertTriangle size={22}/></span><h3 id="product-error-title">Please check this product</h3><p>{error}</p><button type="button" className="product-save-btn" onClick={()=>setError("")}>Okay</button></section></div>}
+ <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages||!!duplicate||checking||!conditions.length||!categoryId}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
  </form>
 }
