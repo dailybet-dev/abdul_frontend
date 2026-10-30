@@ -1819,3 +1819,11 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .product-dialog-icon.success{background:#e8f7ee;color:#258153}.product-dialog-icon.error{background:#fff0ef;color:#b43f3f}
 .product-dialog h3{margin:0 0 8px;color:#1e2d46;font-size:18px}.product-dialog p{margin:0 auto 19px;max-width:360px;color:#68768c;font-size:13px;line-height:1.65;overflow-wrap:anywhere}
 .product-dialog-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}.product-row-actions button:disabled{opacity:.5;cursor:not-allowed}
+
+
+/* Homepage testimonial avatars: neutral illustrated user silhouettes */
+.testimonial-avatar{width:44px;height:44px;flex:0 0 44px;border-radius:50%;display:grid;place-items:center;overflow:hidden;border:1px solid #d5e6fa}
+.testimonial-avatar svg{width:31px;height:31px;display:block}
+.testimonial-avatar-male{color:#0757a8;background:linear-gradient(145deg,#e8f3ff,#cfe4fb)}
+.testimonial-avatar-female{color:#8a3f83;background:linear-gradient(145deg,#fff0fa,#f2d9ee)}
+@media(max-width:520px){.testimonial-avatar{width:42px;height:42px;flex-basis:42px}.testimonial-avatar svg{width:30px;height:30px}}
