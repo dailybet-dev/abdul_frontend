@@ -29,17 +29,10 @@ async function executeGraphQL(
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
-  // Use Next's parsed httpOnly cookie as the source of truth. Strip any
-  // duplicate/stale copies from the raw header before forwarding the session.
+  // Keep the original cookie header intact so the backend can validate
+  // every same-name admin_session cookie if a browser has a stale duplicate.
   const sessionToken = request.cookies.get("admin_session")?.value;
-  const rawCookie = request.headers.get("cookie") || "";
-  const cookie = sessionToken
-    ? [
-        ...rawCookie.split(";").map((part) => part.trim())
-          .filter((part) => part && !part.startsWith("admin_session=")),
-        `admin_session=${encodeURIComponent(sessionToken)}`,
-      ].join("; ")
-    : rawCookie;
+  const cookie = request.headers.get("cookie") || "";
 
   // Leave GraphQL API cookies untouched. The backend guard validates all
   // same-name session-cookie candidates, which is important during cookie
