@@ -8,39 +8,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ errors: [{ message: "The GraphQL backend is not configured." }] }, { status: 503 });
   }
 
-  const headers = new Headers({ "Content-Type": request.headers.get("content-type") || "application/json" });
-  // Read the httpOnly session from Next's cookie parser, with a raw-header
-  // fallback for deployments/proxies where NextRequest.cookies is not populated.
-  // Decode the cookie value once, then forward one canonical copy downstream.
-  const rawCookie = request.headers.get("cookie") || "";
-  const rawSessionCookie = rawCookie.split(";").map((part) => part.trim())
-    .find((part) => part.startsWith("admin_session="));
-  let rawSessionToken: string | undefined;
-  if (rawSessionCookie) {
-    const value = rawSessionCookie.slice("admin_session=".length);
-    try { rawSessionToken = decodeURIComponent(value); }
-    catch { rawSessionToken = value; }
-  }
-  const forwardedSession = request.headers.get("x-admin-session") || undefined;
-  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken || forwardedSession;
-  const cookie = sessionToken
-    ? [
-        ...rawCookie.split(";").map((part) => part.trim())
-          .filter((part) => part && !part.startsWith("admin_session=")),
-        `admin_session=${encodeURIComponent(sessionToken)}`,
-      ].join("; ")
-    : rawCookie;
-  const origin = request.headers.get("origin");
+  const headers = new Headers({
+    "Content-Type": request.headers.get("content-type") || "application/json",
+  });
+
+  // Preserve the browser's complete Cookie header. Do not collapse duplicate
+  // admin_session values here: the backend guard can validate each candidate
+  // against the session table and select the valid one.
+  const cookie = request.headers.get("cookie");
   if (cookie) headers.set("cookie", cookie);
-  if (sessionToken) {
-    headers.set("x-admin-session", sessionToken);
-    // Forward the canonical browser cookie session. Never let an incoming
-    // stale Authorization header replace this authenticated session.
-    headers.set("authorization", `Bearer ${sessionToken}`);
-  } else {
-    const authorization = request.headers.get("authorization");
-    if (authorization) headers.set("authorization", authorization);
-  }
+
+  const origin = request.headers.get("origin");
   if (origin) headers.set("origin", origin);
 
   try {
