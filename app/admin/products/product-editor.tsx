@@ -42,6 +42,9 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
   async function submit(e:FormEvent){
     e.preventDefault();setError("");
     if(!name.trim()){setError("Product name is required. Enter a name before saving.");return}
+    if(optionsLoading){setError("Please wait while product categories, subcategories and brands finish loading.");return}
+    if(!categories.length){setError("No product categories are available. Create a category before adding products.");return}
+    if(checking){setError("Please wait while the product name is checked for duplicates.");return}
     if(duplicate){setError(duplicate);return}
     if(!categoryId){setError("Select a product category before saving.");return}
     if(!conditions.length){setError("Select at least one condition.");return}
@@ -83,6 +86,6 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
  </section>)}
  {!conditions.length&&<div className="product-form-warning">Select at least one condition to continue.</div>}</section>
  {error&&<div className="product-dialog-backdrop" role="presentation"><section className="product-dialog" role="alertdialog" aria-modal="true" aria-labelledby="product-error-title"><span className="product-dialog-icon"><AlertTriangle size={22}/></span><h3 id="product-error-title">Please check this product</h3><p>{error}</p><button type="button" className="product-save-btn" onClick={()=>setError("")}>Okay</button></section></div>}
- <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving||uploadingImages} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages||!!duplicate||checking||!conditions.length||!categoryId}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
+ <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving||uploadingImages} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
  </form>
 }
