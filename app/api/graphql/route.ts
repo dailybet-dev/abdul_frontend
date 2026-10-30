@@ -21,7 +21,8 @@ export async function POST(request: NextRequest) {
     try { rawSessionToken = decodeURIComponent(value); }
     catch { rawSessionToken = value; }
   }
-  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken;
+  const forwardedSession = request.headers.get("x-admin-session") || undefined;
+  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken || forwardedSession;
   const cookie = sessionToken
     ? [
         ...rawCookie.split(";").map((part) => part.trim())
