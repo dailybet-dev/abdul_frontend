@@ -45,11 +45,26 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "GitHub uploads are not configured. Set GITHUB_TOKEN, GITHUB_OWNER and GITHUB_REPO in Railway." }, { status: 503 });
   }
 
-  const cookie = request.headers.get("cookie") || "";
-  const sessionCookie = cookie.split(";").map(part => part.trim()).find(part => part.startsWith("admin_session="));
-  if (!sessionCookie || !sessionCookie.slice("admin_session=".length)) {
-    return NextResponse.json({ error: "Administrator login required." }, { status: 401 });
+  // Forward the same canonical session credentials used by the shared GraphQL
+  // proxy. This avoids differences in how the Next.js runtime parses cookies.
+  const rawCookie = request.headers.get("cookie") || "";
+  const rawSessionCookie = rawCookie.split(";").map(part => part.trim())
+    .find(part => part.startsWith("admin_session="));
+  let rawSessionToken: string | undefined;
+  if (rawSessionCookie) {
+    const value = rawSessionCookie.slice("admin_session=".length);
+    try { rawSessionToken = decodeURIComponent(value); }
+    catch { rawSessionToken = value; }
   }
+  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken;
+  if (!sessionToken) {
+    return NextResponse.json({ error: "Administrator login required. Please sign in again." }, { status: 401 });
+  }
+  const cookie = [
+    ...rawCookie.split(";").map(part => part.trim())
+      .filter(part => part && !part.startsWith("admin_session=")),
+    `admin_session=${encodeURIComponent(sessionToken)}`,
+  ].join("; ");
 
   try {
     const origin = request.headers.get("origin");
@@ -58,6 +73,8 @@ export async function POST(request: NextRequest) {
       headers: {
         "Content-Type": "application/json",
         Cookie: cookie,
+        "x-admin-session": sessionToken,
+        Authorization: `Bearer ${sessionToken}`,
         ...(origin ? { Origin: origin } : {}),
       },
       body: JSON.stringify({ query: "query VerifyAdminUpload { adminMe { id } }" }),
