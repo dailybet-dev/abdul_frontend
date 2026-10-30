@@ -41,17 +41,11 @@ export async function middleware(request: NextRequest) {
       ].join("; ")
     : rawCookie;
 
-  // API calls are separate browser requests from admin page navigation.
-  // Carry the middleware-resolved cookie session explicitly into the GraphQL route.
-  if (pathname === "/api/graphql") {
-    const forwardedHeaders = new Headers(request.headers);
-    if (sessionToken) {
-      forwardedHeaders.set("x-admin-session", sessionToken);
-      forwardedHeaders.set("authorization", `Bearer ${sessionToken}`);
-      forwardedHeaders.set("cookie", cookie);
-    }
-    return NextResponse.next({ request: { headers: forwardedHeaders } });
-  }
+  // Leave GraphQL API cookies untouched. The backend guard validates all
+  // same-name session-cookie candidates, which is important during cookie
+  // migrations where browsers can send an older Domain cookie beside the
+  // current host-only cookie.
+  if (pathname === "/api/graphql") return NextResponse.next();
 
   if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
