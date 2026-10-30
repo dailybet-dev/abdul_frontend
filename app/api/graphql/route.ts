@@ -9,10 +9,19 @@ export async function POST(request: NextRequest) {
   }
 
   const headers = new Headers({ "Content-Type": request.headers.get("content-type") || "application/json" });
-  // Use Next's parsed httpOnly cookie as the source of truth. Strip any
-  // duplicate/stale copies from the raw header before forwarding the session.
-  const sessionToken = request.cookies.get("admin_session")?.value;
+  // Read the httpOnly session from Next's cookie parser, with a raw-header
+  // fallback for deployments/proxies where NextRequest.cookies is not populated.
+  // Decode the cookie value once, then forward one canonical copy downstream.
   const rawCookie = request.headers.get("cookie") || "";
+  const rawSessionCookie = rawCookie.split(";").map((part) => part.trim())
+    .find((part) => part.startsWith("admin_session="));
+  let rawSessionToken: string | undefined;
+  if (rawSessionCookie) {
+    const value = rawSessionCookie.slice("admin_session=".length);
+    try { rawSessionToken = decodeURIComponent(value); }
+    catch { rawSessionToken = value; }
+  }
+  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken;
   const cookie = sessionToken
     ? [
         ...rawCookie.split(";").map((part) => part.trim())
