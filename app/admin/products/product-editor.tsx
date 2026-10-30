@@ -41,6 +41,7 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
 }
   async function submit(e:FormEvent){
     e.preventDefault();setError("");
+    if(!name.trim()){setError("Product name is required. Enter a name before saving.");return}
     if(duplicate){setError(duplicate);return}
     if(!categoryId){setError("Select a product category before saving.");return}
     if(!conditions.length){setError("Select at least one condition.");return}
@@ -63,7 +64,7 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
     }catch(e){setError(e instanceof Error?e.message:"Could not save product.")}
     finally{setSaving(false)}
   }
- return <form className="product-editor" onSubmit={submit}>
+ return <form className="product-editor" onSubmit={submit} noValidate>
  <section className="product-editor-section"><div className="product-editor-section-title"><span>01</span><div><h3>Product information</h3><p>Details shared across all conditions.</p></div></div><div className="product-editor-grid">
  <label className="product-field product-field-wide">Product name <span>*</span><input required maxLength={180} value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Samsung Galaxy A55"/>{checking&&<small className="product-field-hint">Checking for duplicate names…</small>}{duplicate&&<small className="product-duplicate"><AlertTriangle size={14}/>{duplicate}</small>}</label>
  <label className="product-field">SKU / product code<input value={sku} onChange={e=>setSku(e.target.value)} placeholder="Auto-generated if blank"/></label>
@@ -82,6 +83,6 @@ export default function ProductEditor({product,onCancel,onSaved}:Props){
  </section>)}
  {!conditions.length&&<div className="product-form-warning">Select at least one condition to continue.</div>}</section>
  {error&&<div className="product-dialog-backdrop" role="presentation"><section className="product-dialog" role="alertdialog" aria-modal="true" aria-labelledby="product-error-title"><span className="product-dialog-icon"><AlertTriangle size={22}/></span><h3 id="product-error-title">Please check this product</h3><p>{error}</p><button type="button" className="product-save-btn" onClick={()=>setError("")}>Okay</button></section></div>}
- <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages||!!duplicate||checking||!conditions.length||!categoryId}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
+ <div className="product-editor-footer"><div><b>{conditions.length} condition{conditions.length===1?"":"s"} selected</b><small>Stock and photos are tracked independently.</small></div><div>{onCancel&&<button type="button" className="product-secondary-btn" disabled={saving||uploadingImages} onClick={onCancel}>Cancel</button>}<button className="product-save-btn" disabled={saving||uploadingImages||!!duplicate||checking||!conditions.length||!categoryId}>{saving?<LoaderCircle className="animate-spin" size={16}/>:<Check size={16}/>} {saving?"Saving…":product?"Save changes":"Create product"}</button></div></div>
  </form>
 }
