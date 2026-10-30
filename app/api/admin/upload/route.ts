@@ -9,6 +9,16 @@ const ALLOWED_TYPES = new Set([
   "application/pdf",
 ]);
 
+function hasValidSignature(bytes: Buffer, contentType: string) {
+  if (contentType === "image/jpeg") return bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+  if (contentType === "image/png") return bytes.subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
+  if (contentType === "image/gif") return /^GIF8[79]a$/.test(bytes.subarray(0, 6).toString("ascii"));
+  if (contentType === "image/webp") return bytes.length >= 12 && bytes.subarray(0, 4).toString("ascii") === "RIFF" && bytes.subarray(8, 12).toString("ascii") === "WEBP";
+  if (contentType === "image/avif") return bytes.length >= 12 && bytes.subarray(4, 8).toString("ascii") === "ftyp" && /avif|avis/.test(bytes.subarray(8, 16).toString("ascii"));
+  if (contentType === "application/pdf") return bytes.subarray(0, 5).toString("ascii") === "%PDF-";
+  return false;
+}
+
 function safeFileName(name: string, contentType: string) {
   const extensions: Record<string, string> = {
     "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
@@ -36,7 +46,8 @@ export async function POST(request: NextRequest) {
   }
 
   const cookie = request.headers.get("cookie") || "";
-  if (!cookie.includes("admin_session=")) {
+  const sessionCookie = cookie.split(";").map(part => part.trim()).find(part => part.startsWith("admin_session="));
+  if (!sessionCookie || !sessionCookie.slice("admin_session=".length)) {
     return NextResponse.json({ error: "Administrator login required." }, { status: 401 });
   }
 
@@ -67,6 +78,9 @@ export async function POST(request: NextRequest) {
     const filename = safeFileName(file.name, file.type);
     const path = `${uploadPath}/${filename}`;
     const bytes = Buffer.from(await file.arrayBuffer());
+    if (!hasValidSignature(bytes, file.type)) {
+      return NextResponse.json({ error: "The selected file does not contain valid " + file.type + " data. Please choose a genuine file." }, { status: 415 });
+    }
     const githubResponse = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${path.split("/").map(encodeURIComponent).join("/")}`, {
       method: "PUT",
       headers: {
