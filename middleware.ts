@@ -69,10 +69,23 @@ export async function middleware(request: NextRequest) {
 
   try {
     const response = await executeGraphQL(backendUrl, ADMIN_SESSION_QUERY, cookie, sessionToken);
+    // An unavailable backend does not mean the administrator has signed out.
+    // Preserve the session and return a retryable error instead of redirecting.
+    if (response.status >= 500) {
+      return NextResponse.json(
+        { error: "Administrator session verification is temporarily unavailable. Please retry shortly." },
+        { status: 503 },
+      );
+    }
     const payload = await response.json().catch(() => ({}));
     if (response.ok && payload.data?.adminMe?.id) return NextResponse.next();
   } catch {
-    // Fail closed: an unavailable GraphQL service must not expose admin pages.
+    // Fail closed without clearing the browser cookie or pretending that a
+    // temporary network failure means the administrator signed out.
+    return NextResponse.json(
+      { error: "Unable to verify the administrator session right now. Please retry shortly." },
+      { status: 503 },
+    );
   }
 
   const login = request.nextUrl.clone();

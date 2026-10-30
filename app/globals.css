@@ -1803,3 +1803,9 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .service-image-upload-control,.hc-upload-control{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;padding:11px 13px;border:1px dashed #9aacc4;border-radius:10px;background:#f6f9fd;color:#315b8d;font-size:12px;font-weight:750;cursor:pointer}
 .service-image-upload-control input[type=file],.hc-upload-control input[type=file]{max-width:100%;font:inherit;color:#53647d;font-size:11px}
 .service-image-upload-control span,.hc-upload-control span{display:inline-flex;align-items:center;min-height:28px}
+
+
+/* Shop subcategory chips: improve separation and tap targets on all screens. */
+.shop-market-subcategories{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin:14px 0 20px;padding:4px 0}
+.shop-market-subcategories>button{margin:0;padding:9px 15px;line-height:1.35;white-space:nowrap}
+@media(max-width:600px){.shop-market-subcategories{gap:10px 12px;margin:12px 0 17px}.shop-market-subcategories>button{padding:8px 12px}}

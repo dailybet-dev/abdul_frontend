@@ -24,13 +24,14 @@ export async function POST(request: NextRequest) {
   if (cookie) headers.set("cookie", cookie);
   if (sessionToken) {
     headers.set("x-admin-session", sessionToken);
-    // Send the canonical session in both supported auth headers. Some proxy /
-    // GraphQL adapter combinations omit custom headers while preserving Authorization.
+    // Forward the canonical browser cookie session. Never let an incoming
+    // stale Authorization header replace this authenticated session.
     headers.set("authorization", `Bearer ${sessionToken}`);
+  } else {
+    const authorization = request.headers.get("authorization");
+    if (authorization) headers.set("authorization", authorization);
   }
   if (origin) headers.set("origin", origin);
-  const authorization = request.headers.get("authorization");
-  if (authorization) headers.set("authorization", authorization);
 
   try {
     const upstream = await fetch(`${backendUrl}/api/graphql`, {
