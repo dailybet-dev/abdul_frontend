@@ -22,7 +22,12 @@ export async function POST(request: NextRequest) {
     : rawCookie;
   const origin = request.headers.get("origin");
   if (cookie) headers.set("cookie", cookie);
-  if (sessionToken) headers.set("x-admin-session", sessionToken);
+  if (sessionToken) {
+    headers.set("x-admin-session", sessionToken);
+    // Send the canonical session in both supported auth headers. Some proxy /
+    // GraphQL adapter combinations omit custom headers while preserving Authorization.
+    headers.set("authorization", `Bearer ${sessionToken}`);
+  }
   if (origin) headers.set("origin", origin);
   const authorization = request.headers.get("authorization");
   if (authorization) headers.set("authorization", authorization);
