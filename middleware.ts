@@ -29,15 +29,14 @@ async function executeGraphQL(
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
-  // NextRequest exposes cookies independently of the raw header. Rebuild the
-  // session cookie explicitly so middleware validation and browser GraphQL
-  // requests always forward the same administrator session.
+  // Use Next's parsed httpOnly cookie as the source of truth. Strip any
+  // duplicate/stale copies from the raw header before forwarding the session.
   const sessionToken = request.cookies.get("admin_session")?.value;
   const rawCookie = request.headers.get("cookie") || "";
-  const hasSessionCookie = rawCookie.split(";").some((part) => part.trim().startsWith("admin_session="));
-  const cookie = sessionToken && !hasSessionCookie
-    ? `${rawCookie ? rawCookie + "; " : ""}admin_session=${encodeURIComponent(sessionToken)}`
-    : rawCookie;
+  const cookieParts = rawCookie.split(";").map((part) => part.trim())
+    .filter((part) => part && !part.startsWith("admin_session="));
+  if (sessionToken) cookieParts.push(`admin_session=${encodeURIComponent(sessionToken)}`);
+  const cookie = cookieParts.join("; ");
 
   if (pathname === LOGIN_PATH || pathname.startsWith("/admin/login/")) {
     if (request.nextUrl.searchParams.get("logout") === "1") {
