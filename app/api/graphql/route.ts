@@ -19,7 +19,19 @@ export async function POST(request: NextRequest) {
 
   // Forward the session explicitly as a fallback for proxy runtimes that
   // normalize or omit Cookie headers on server-to-server requests.
-  const sessionToken = request.cookies.get("admin_session")?.value;
+  // NextRequest.cookies normally provides the parsed value, but retain a
+  // raw-header fallback so the explicit session header is still populated
+  // when an intermediary/runtime does not expose parsed cookies.
+  const rawSessionToken = cookie
+    .split(";")
+    .map((part) => part.trim())
+    .filter((part) => part.startsWith("admin_session="))
+    .map((part) => {
+      const value = part.slice("admin_session=".length);
+      try { return decodeURIComponent(value); } catch { return value; }
+    })
+    .find((value) => value.length > 0);
+  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken;
   if (sessionToken) {
     headers.set("x-admin-session", sessionToken);
     headers.set("authorization", `Bearer ${sessionToken}`);
