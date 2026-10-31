@@ -49,20 +49,6 @@ export async function middleware(request: NextRequest) {
     sessionCookieCandidates[0] ||
     request.cookies.getAll("admin_session").map((item) => item.value).find((value) => value.length > 0);
 
-  // Bridge the browser's HttpOnly session into the protected submissions API
-  // request. Middleware sees the original browser cookie before route handlers.
-  if (pathname.startsWith("/api/admin/submissions/")) {
-    if (!sessionToken) {
-      return NextResponse.json(
-        { error: "The browser did not send the admin_session cookie. Sign out and sign in again." },
-        { status: 401 },
-      );
-    }
-    const forwardedHeaders = new Headers(request.headers);
-    forwardedHeaders.set("x-admin-session", sessionToken);
-    return NextResponse.next({ request: { headers: forwardedHeaders } });
-  }
-
   // Leave GraphQL API cookies untouched. The backend guard validates all
   // same-name session-cookie candidates, which is important during cookie
   // migrations where browsers can send an older Domain cookie beside the
@@ -123,4 +109,4 @@ export async function middleware(request: NextRequest) {
   return NextResponse.redirect(login);
 }
 
-export const config = { matcher: ["/admin/:path*", "/api/graphql", "/api/admin/submissions/:path*"] };
+export const config = { matcher: ["/admin/:path*", "/api/graphql"] };
