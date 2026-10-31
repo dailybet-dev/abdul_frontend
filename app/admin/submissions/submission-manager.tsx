@@ -46,9 +46,23 @@ export default function SubmissionManager({ kind }: { kind: Kind }) {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const query = `query SubmissionList($search:String,$status:String){ ${QUERY_NAMES[kind]}(search:$search,status:$status){ ${FIELDS[kind]} } }`;
-      const data = await graphqlRequest<Record<string, Row[]>>(query, { search, status: statusFilter });
-      const next = data[QUERY_NAMES[kind]] || [];
+      let next: Row[];
+      if (kind === "contacts") {
+        const params = new URLSearchParams();
+        if (search) params.set("search", search);
+        if (statusFilter) params.set("status", statusFilter);
+        const response = await fetch(`/api/admin/submissions/contacts?${params.toString()}`, {
+          method: "GET", credentials: "same-origin", cache: "no-store",
+          headers: { Accept: "application/json" },
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || `Contact submissions request failed (${response.status}).`);
+        next = Array.isArray(payload.data) ? payload.data : [];
+      } else {
+        const query = `query SubmissionList($search:String,$status:String){ ${QUERY_NAMES[kind]}(search:$search,status:$status){ ${FIELDS[kind]} } }`;
+        const data = await graphqlRequest<Record<string, Row[]>>(query, { search, status: statusFilter });
+        next = data[QUERY_NAMES[kind]] || [];
+      }
       setRows(next);
       setDraftStatus(Object.fromEntries(next.map(row => [row.id, row.status])));
       setDraftNotes(Object.fromEntries(next.map(row => [row.id, row.adminNote || ""])));
