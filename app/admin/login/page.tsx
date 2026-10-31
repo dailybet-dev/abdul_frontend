@@ -34,6 +34,12 @@ export default function AdminLogin() {
         setMessage("Unable to sign in. Check your email and password, then try again.");
         return;
       }
+      // Confirm the HttpOnly session cookie was actually stored by the browser
+      // and is being sent back through the same-origin API proxy before leaving
+      // the login screen. A successful credential mutation alone is not enough.
+      await graphqlRequest<{ adminMe: { id: string } }>(
+        `query ConfirmAdminSession { adminMe { id } }`,
+      );
       const params = new URLSearchParams(window.location.search);
       const next = params.get("next") || "/admin";
       const destination = next.startsWith("/admin") && !next.startsWith("//") && next !== "/admin/login"
@@ -41,7 +47,9 @@ export default function AdminLogin() {
         : "/admin";
       window.location.assign(destination);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to sign in. Please try again.");
+      setMessage(error instanceof Error
+        ? `Sign-in/session verification failed: ${error.message}`
+        : "Unable to confirm your administrator session. Please try again.");
     } finally {
       setLoading(false);
     }
