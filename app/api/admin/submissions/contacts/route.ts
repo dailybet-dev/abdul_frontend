@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -9,7 +10,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "The admin API is not configured." }, { status: 503 });
   }
 
+  // Read the session from both the incoming request and Next's request cookie store.
+  // Some hosting adapters expose the parsed cookie even when the raw header is absent.
   const cookie = request.headers.get("cookie") || "";
+  const cookieStore = await cookies();
   const rawSessionToken = cookie
     .split(";")
     .map((part) => part.trim())
@@ -19,9 +23,9 @@ export async function GET(request: NextRequest) {
       try { return decodeURIComponent(value); } catch { return value; }
     })
     .find((value) => value.length > 0);
-  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken;
+  const sessionToken = request.cookies.get("admin_session")?.value || cookieStore.get("admin_session")?.value || rawSessionToken;
 
-  if (!cookie && !sessionToken) {
+  if (!sessionToken) {
     return NextResponse.json({ error: "No administrator session reached the contact submissions endpoint. Sign in again." }, { status: 401 });
   }
 
@@ -37,7 +41,7 @@ export async function GET(request: NextRequest) {
       method: "GET",
       headers: {
         Accept: "application/json",
-        ...(cookie ? { Cookie: cookie } : {}),
+        ...((cookie || sessionToken) ? { Cookie: cookie || `admin_session=${encodeURIComponent(sessionToken)}` } : {}),
         ...(sessionToken ? {
           "x-admin-session": sessionToken,
           Authorization: `Bearer ${sessionToken}`,
