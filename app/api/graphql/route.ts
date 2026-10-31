@@ -44,10 +44,11 @@ export async function POST(request: NextRequest) {
   // already follow this same rule.
 
   try {
+    const requestBody = await request.text();
     const upstream = await fetch(`${backendUrl}/api/graphql`, {
       method: "POST",
       headers,
-      body: await request.text(),
+      body: requestBody,
       cache: "no-store",
       signal: AbortSignal.timeout(30000),
     });
@@ -67,7 +68,31 @@ export async function POST(request: NextRequest) {
       const setCookie = upstream.headers.get("set-cookie");
       if (setCookie) responseHeaders.append("Set-Cookie", setCookie);
     }
-    return new NextResponse(await upstream.arrayBuffer(), {
+    const responseBody = await upstream.text();
+    let parsedBody: any = null;
+    try { parsedBody = JSON.parse(responseBody); } catch { /* preserve non-JSON upstream responses */ }
+
+    // Apollo/Express Set-Cookie forwarding can be lost between Railway services.
+    // For a successful login, mint the browser cookie at this same-origin proxy.
+    // The token is stripped from the JSON before it is returned to client code.
+    const sessionToken = parsedBody?.data?.login?.sessionToken;
+    if (typeof sessionToken === "string" && sessionToken.length >= 32) {
+      delete parsedBody.data.login.sessionToken;
+      const response = new NextResponse(JSON.stringify(parsedBody), {
+        status: upstream.status,
+        headers: responseHeaders,
+      });
+      response.cookies.set("admin_session", sessionToken, {
+        httpOnly: true,
+        secure: request.nextUrl.protocol === "https:",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 8 * 60 * 60,
+      });
+      return response;
+    }
+
+    return new NextResponse(responseBody, {
       status: upstream.status,
       headers: responseHeaders,
     });
