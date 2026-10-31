@@ -1867,3 +1867,11 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .global-cart-overlay{z-index:1200}
 .shop-mobile-bottom-nav .shop-mobile-cart-trigger{color:#075bd2}
 .shop-mobile-bottom-nav .shop-mobile-cart-trigger.is-active{color:#075bd2}
+
+
+/* Keep checkout actions clear of the fixed mobile navigation bar. The extra
+   scrollable space lets the confirm button move fully above the bottom nav. */
+@media(max-width:850px){
+  .payment-page .payment-contact-panel{padding-bottom:calc(96px + env(safe-area-inset-bottom, 0px))}
+  .payment-page .payment-whatsapp{scroll-margin-bottom:calc(96px + env(safe-area-inset-bottom, 0px))}
+}
