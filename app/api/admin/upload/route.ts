@@ -46,7 +46,18 @@ export async function POST(request: NextRequest) {
   }
 
   const cookie = request.headers.get("cookie") || "";
-  const sessionToken = request.cookies.get("admin_session")?.value;
+  // Fall back to parsing the raw Cookie header if NextRequest.cookies is not
+  // populated by the hosting runtime. Never log or return the token itself.
+  const rawSessionToken = cookie
+    .split(";")
+    .map((part) => part.trim())
+    .filter((part) => part.startsWith("admin_session="))
+    .map((part) => {
+      const value = part.slice("admin_session=".length);
+      try { return decodeURIComponent(value); } catch { return value; }
+    })
+    .find((value) => value.length > 0);
+  const sessionToken = request.cookies.get("admin_session")?.value || rawSessionToken;
   if (!cookie && !sessionToken) {
     return NextResponse.json({ error: "No administrator session cookie reached the upload endpoint. Sign in again and retry." }, { status: 401 });
   }
