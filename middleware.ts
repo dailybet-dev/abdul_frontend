@@ -31,8 +31,23 @@ export async function middleware(request: NextRequest) {
   const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
   // Keep the original cookie header intact so the backend can validate
   // every same-name admin_session cookie if a browser has a stale duplicate.
-  const sessionToken = request.cookies.get("admin_session")?.value;
   const cookie = request.headers.get("cookie") || "";
+  // Browsers can retain both an older Domain-scoped cookie and the current
+  // host-only cookie with the same name. NextRequest.cookies.get() may return
+  // the first (stale/empty) value, so inspect every raw cookie candidate and
+  // choose a non-empty token before falling back to the parsed cookie jar.
+  const sessionCookieCandidates = cookie
+    .split(";")
+    .map((part) => part.trim())
+    .filter((part) => part.startsWith("admin_session="))
+    .map((part) => {
+      const value = part.slice("admin_session=".length);
+      try { return decodeURIComponent(value); } catch { return value; }
+    })
+    .filter((value) => value.length > 0);
+  const sessionToken =
+    sessionCookieCandidates[0] ||
+    request.cookies.getAll("admin_session").map((item) => item.value).find((value) => value.length > 0);
 
   // Bridge the browser's HttpOnly session into the protected submissions API
   // request. Middleware sees the original browser cookie before route handlers.
