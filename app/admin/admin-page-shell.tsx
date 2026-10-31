@@ -68,7 +68,7 @@ export default function AdminPageShell({ active, title, subtitle, children }: Pr
           ))}
         </nav>
         <div className="ad-sidebar-bottom">
-          <Link href="/admin/login?logout=1" className="ad-signout"><LogOut size={15} /> Sign out</Link>
+          <Link href="/admin/login?logout=1" prefetch={false} className="ad-signout"><LogOut size={15} /> Sign out</Link>
         </div>
       </aside>
       {mobile && <button className="ad-sidebar-scrim" onClick={() => setMobile(false)} aria-label="Close menu" />}
@@ -87,7 +87,7 @@ export default function AdminPageShell({ active, title, subtitle, children }: Pr
                   <div className="ad-user-dropdown-head"><span className="ad-user-icon"><UserRound size={18} /></span><span><b>{adminName}</b><small>{adminEmail || "Admin account"}</small></span></div>
                   <Link href="/admin/profile" onClick={() => setProfileOpen(false)}><UserRound size={16} /> My Profile</Link>
                   <Link href="/admin/reset-password" onClick={() => setProfileOpen(false)}><ShieldCheck size={16} /> Change Password</Link>
-                  <Link className="logout" href="/admin/login?logout=1" onClick={() => setProfileOpen(false)}><LogOut size={16} /> Logout</Link>
+                  <Link className="logout" href="/admin/login?logout=1" prefetch={false} onClick={() => setProfileOpen(false)}><LogOut size={16} /> Logout</Link>
                 </div>
               </>}
             </div>
