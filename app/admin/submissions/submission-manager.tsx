@@ -47,16 +47,17 @@ export default function SubmissionManager({ kind }: { kind: Kind }) {
     setLoading(true);
     try {
       let next: Row[];
-      if (kind === "contacts") {
+      if (kind === "contacts" || kind === "newsletter") {
         const params = new URLSearchParams();
         if (search) params.set("search", search);
         if (statusFilter) params.set("status", statusFilter);
-        const response = await fetch(`/api/admin/submissions/contacts?${params.toString()}`, {
+        const endpoint = kind === "contacts" ? "contacts" : "newsletter";
+        const response = await fetch(`/api/admin/submissions/${endpoint}?${params.toString()}`, {
           method: "GET", credentials: "same-origin", cache: "no-store",
           headers: { Accept: "application/json" },
         });
         const payload = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(payload.error || `Contact submissions request failed (${response.status}).`);
+        if (!response.ok) throw new Error(payload.error || `${kind === "contacts" ? "Contact submissions" : "Newsletter"} request failed (${response.status}).`);
         next = Array.isArray(payload.data) ? payload.data : [];
       } else {
         const query = `query SubmissionList($search:String,$status:String){ ${QUERY_NAMES[kind]}(search:$search,status:$status){ ${FIELDS[kind]} } }`;
