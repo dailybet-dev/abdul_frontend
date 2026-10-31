@@ -47,23 +47,12 @@ export default function SubmissionManager({ kind }: { kind: Kind }) {
     setLoading(true);
     try {
       let next: Row[];
-      if (kind === "contacts" || kind === "newsletter" || kind === "training") {
-        const params = new URLSearchParams();
-        if (search) params.set("search", search);
-        if (statusFilter) params.set("status", statusFilter);
-        const endpoint = kind === "contacts" ? "contacts" : kind === "newsletter" ? "newsletter" : "training";
-        const response = await fetch(`/api/admin/submissions/${endpoint}?${params.toString()}`, {
-          method: "GET", credentials: "same-origin", cache: "no-store",
-          headers: { Accept: "application/json" },
-        });
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(payload.error || `${kind === "contacts" ? "Contact submissions" : "Newsletter"} request failed (${response.status}).`);
-        next = Array.isArray(payload.data) ? payload.data : [];
-      } else {
-        const query = `query SubmissionList($search:String,$status:String){ ${QUERY_NAMES[kind]}(search:$search,status:$status){ ${FIELDS[kind]} } }`;
-        const data = await graphqlRequest<Record<string, Row[]>>(query, { search, status: statusFilter });
-        next = data[QUERY_NAMES[kind]] || [];
-      }
+      // Use the same-origin GraphQL proxy as the rest of the admin dashboard.
+      // This preserves the authenticated browser session and avoids a separate
+      // REST fetch path that was arriving without the HttpOnly session cookie.
+      const query = `query SubmissionList($search:String,$status:String){ ${QUERY_NAMES[kind]}(search:$search,status:$status){ ${FIELDS[kind]} } }`;
+      const data = await graphqlRequest<Record<string, Row[]>>(query, { search, status: statusFilter });
+      next = data[QUERY_NAMES[kind]] || [];
       setRows(next);
       setDraftStatus(Object.fromEntries(next.map(row => [row.id, row.status])));
       setDraftNotes(Object.fromEntries(next.map(row => [row.id, row.adminNote || ""])));
