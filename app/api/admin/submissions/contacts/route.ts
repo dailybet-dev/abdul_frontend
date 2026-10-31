@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
       try { return decodeURIComponent(value); } catch { return value; }
     })
     .find((value) => value.length > 0);
-  const sessionToken = request.cookies.get("admin_session")?.value || cookieStore.get("admin_session")?.value || rawSessionToken;
+  const sessionToken = request.headers.get("x-admin-session") || request.cookies.get("admin_session")?.value || cookieStore.get("admin_session")?.value || rawSessionToken;
 
   if (!sessionToken) {
     return NextResponse.json({ error: "No administrator session reached the contact submissions endpoint. Sign in again." }, { status: 401 });
