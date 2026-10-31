@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   // NextRequest.cookies normally provides the parsed value, but retain a
   // raw-header fallback so the explicit session header is still populated
   // when an intermediary/runtime does not expose parsed cookies.
-  const rawSessionToken = cookie
+  const rawSessionToken = (cookie || "")
     .split(";")
     .map((part) => part.trim())
     .filter((part) => part.startsWith("admin_session="))
