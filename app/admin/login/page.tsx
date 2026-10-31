@@ -26,6 +26,7 @@ export default function AdminLogin() {
           login(input: $input) {
             success
             admin { id email displayName }
+            sessionToken
           }
         }`,
         { input: { email: email.trim(), password } },
