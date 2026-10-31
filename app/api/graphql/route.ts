@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   const backendUrl = process.env.BACKEND_URL?.replace(/\/$/, "");
@@ -54,8 +55,18 @@ export async function POST(request: NextRequest) {
       "Content-Type": upstream.headers.get("content-type") || "application/json",
       "Cache-Control": "no-store",
     });
-    const setCookie = upstream.headers.get("set-cookie");
-    if (setCookie) responseHeaders.set("Set-Cookie", setCookie);
+    // Preserve every Set-Cookie header from the backend. In particular, the
+    // admin login resolver creates an HttpOnly session cookie. Some Fetch
+    // implementations combine or hide Set-Cookie when using headers.get(),
+    // so use Node's getSetCookie() when available and append each cookie.
+    const cookieHeaders = upstream.headers as Headers & { getSetCookie?: () => string[] };
+    const setCookies = cookieHeaders.getSetCookie?.() || [];
+    if (setCookies.length) {
+      for (const value of setCookies) responseHeaders.append("Set-Cookie", value);
+    } else {
+      const setCookie = upstream.headers.get("set-cookie");
+      if (setCookie) responseHeaders.append("Set-Cookie", setCookie);
+    }
     return new NextResponse(await upstream.arrayBuffer(), {
       status: upstream.status,
       headers: responseHeaders,
