@@ -1875,3 +1875,92 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
   .payment-page .payment-contact-panel{padding-bottom:calc(96px + env(safe-area-inset-bottom, 0px))}
   .payment-page .payment-whatsapp{scroll-margin-bottom:calc(96px + env(safe-area-inset-bottom, 0px))}
 }
+
+ 
+/* Checkout responsive refinement and order-success dialog */
+.payment-success-backdrop{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,20,43,.68);backdrop-filter:blur(7px);animation:paymentFadeIn .2s ease-out}
+.payment-success-modal{position:relative;width:min(480px,100%);max-height:min(90dvh,760px);overflow:auto;padding:34px 30px 26px;border:1px solid #e4edf8;border-radius:22px;background:linear-gradient(180deg,#fff 0%,#f8fbff 100%);box-shadow:0 28px 90px rgba(3,22,51,.3);text-align:center;animation:paymentModalIn .24s ease-out}
+.payment-success-close{position:absolute;top:14px;right:14px;width:36px;height:36px;display:grid;place-items:center;border:1px solid #e2eaf4;border-radius:50%;background:#fff;color:#62758e}
+.payment-success-close svg{width:17px;height:17px}
+.payment-success-icon{width:76px;height:76px;display:grid;place-items:center;margin:0 auto 16px;border:8px solid #e4f7ed;border-radius:50%;background:#d4f2e1;color:#13824e;box-shadow:0 8px 22px #16834d1c}
+.payment-success-icon svg{width:39px;height:39px;stroke-width:2.3}
+.payment-success-kicker{color:#16824e;font-size:10px;font-weight:900;letter-spacing:1.8px}
+.payment-success-modal h2{margin:9px 0 8px;color:#102f59;font-size:clamp(23px,5vw,30px);line-height:1.2;letter-spacing:-.7px}
+.payment-success-intro,.payment-success-followup{max-width:380px;margin:0 auto;color:#657991;font-size:13px;line-height:1.7}
+.payment-success-reference{display:flex;flex-direction:column;gap:7px;margin:21px 0;padding:15px;border:1px dashed #9fc6ed;border-radius:12px;background:#eef6ff}
+.payment-success-reference small{color:#6480a0;font-size:9px;font-weight:900;letter-spacing:1.1px}
+.payment-success-reference strong{color:#075bd2;font-size:20px;letter-spacing:.5px;overflow-wrap:anywhere}
+.payment-success-followup{margin-bottom:20px;font-size:12px}
+.payment-success-whatsapp{width:100%;min-height:48px}
+.payment-success-done{margin-top:12px;padding:9px 18px;border:0;background:transparent;color:#55708e;font-size:12px;font-weight:800}
+.payment-order-inline-note{display:flex;align-items:center;gap:8px;margin:0;padding:12px;border:1px solid #ccebd9;border-radius:10px;background:#f0fbf4;color:#167447;font-size:11px;font-weight:750}
+.payment-order-inline-note svg{width:18px;flex:0 0 18px}
+@keyframes paymentFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes paymentModalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.payment-page .payment-layout{align-items:start}
+.payment-page .payment-options,.payment-page .payment-summary{min-width:0}
+.payment-page .payment-panel,.payment-page .payment-summary{border-radius:16px}
+.payment-page .payment-method{min-width:0}
+.payment-page .payment-method>span:nth-child(2){min-width:0;flex:1}
+.payment-page .payment-method small,.payment-page .payment-fulfilment-option small{overflow-wrap:anywhere}
+.payment-page .payment-field input,.payment-page .payment-field textarea,.payment-page .payment-field select{min-width:0;max-width:100%;font:inherit;font-size:13px}
+@media(max-width:850px){
+ .payment-page .container{width:min(100% - 32px,680px)}
+ .payment-page .payment-layout{grid-template-columns:minmax(0,1fr);gap:16px}
+ .payment-page .payment-summary{position:static;grid-row:1}
+ .payment-page .payment-options{grid-row:2}
+ .payment-page .payment-main{padding:20px 0 36px}
+ .payment-page .payment-contact-panel{padding-bottom:22px}
+ .payment-page .payment-contact-panel .payment-whatsapp{position:relative!important;left:auto;bottom:auto;transform:none!important;width:100%;min-height:50px;margin-top:2px;box-shadow:0 8px 20px #052c5b18}
+ .payment-page .payment-validation-error{position:static;width:100%;transform:none;margin:0;padding:11px 13px}
+ .payment-page{padding-bottom:calc(82px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:600px){
+ .payment-page .container{width:calc(100% - 28px)}
+ .payment-page .payment-hero{padding:23px 0 25px}
+ .payment-page .payment-hero h1{font-size:clamp(29px,8vw,39px);line-height:1.12;letter-spacing:-1px}
+ .payment-page .payment-hero p{max-width:100%;font-size:12px;line-height:1.65}
+ .payment-page .payment-back{font-size:11px}
+ .payment-page .payment-main{padding:15px 0 26px}
+ .payment-page .payment-layout{gap:12px}
+ .payment-page .payment-panel,.payment-page .payment-summary{padding:14px;border-radius:13px}
+ .payment-page .payment-panel-title{gap:10px}
+ .payment-page .payment-panel-title h2,.payment-page .payment-summary-head h2{font-size:16px}
+ .payment-page .payment-panel-title p,.payment-page .payment-summary-head p{font-size:10px}
+ .payment-page .payment-method-list{gap:8px}
+ .payment-page .payment-method{padding:10px;gap:9px;border-radius:10px}
+ .payment-page .payment-method b{font-size:11px}
+ .payment-page .payment-method small{font-size:9px;line-height:1.45}
+ .payment-page .payment-brand-mark{flex-basis:40px;width:40px;height:36px}
+ .payment-page .payment-brand-mark.centenary-mark{flex-basis:68px;width:68px}
+ .payment-page .payment-detail-card{padding:12px;margin-top:12px}
+ .payment-page .payment-detail-card>p{font-size:10px}
+ .payment-page .payment-account{padding:10px;gap:8px}
+ .payment-page .payment-account strong{font-size:clamp(13px,4vw,16px);overflow-wrap:anywhere}
+ .payment-page .payment-fulfilment-options{grid-template-columns:1fr;gap:8px}
+ .payment-page .payment-fulfilment-option{padding:11px}
+ .payment-page .payment-field{font-size:11px}
+ .payment-page .payment-field input,.payment-page .payment-field textarea,.payment-page .payment-field select{padding:12px;font-size:16px}
+ .payment-page .payment-notice{padding:10px}
+ .payment-page .payment-notice p{font-size:10px}
+ .payment-page .payment-summary-head{padding-bottom:12px}
+ .payment-page .payment-summary-line{gap:8px;padding:10px 0}
+ .payment-page .payment-summary-line img{width:43px;height:43px}
+ .payment-page .payment-summary-line>span b{font-size:10px}
+ .payment-page .payment-summary-line>strong{font-size:10px}
+ .payment-success-backdrop{align-items:center;padding:14px}
+ .payment-success-modal{padding:30px 20px 20px;border-radius:18px}
+ .payment-success-icon{width:66px;height:66px}
+ .payment-success-icon svg{width:33px;height:33px}
+ .payment-success-intro{font-size:12px}
+ .payment-success-reference{margin:17px 0;padding:13px}
+ .payment-success-reference strong{font-size:18px}
+}
+@media(max-width:360px){
+ .payment-page .payment-method{gap:7px;padding:9px}
+ .payment-page .payment-method small{font-size:8px}
+ .payment-page .payment-panel,.payment-page .payment-summary{padding:12px}
+ .payment-page .payment-account{align-items:flex-start;flex-direction:column}
+ .payment-page .payment-account button{align-self:flex-end}
+}
+@media(prefers-reduced-motion:reduce){.payment-success-backdrop,.payment-success-modal{animation:none}}
