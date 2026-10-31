@@ -56,27 +56,36 @@ export async function POST(request: NextRequest) {
       "Content-Type": upstream.headers.get("content-type") || "application/json",
       "Cache-Control": "no-store",
     });
-    // Preserve every Set-Cookie header from the backend. In particular, the
-    // admin login resolver creates an HttpOnly session cookie. Some Fetch
-    // implementations combine or hide Set-Cookie when using headers.get(),
-    // so use Node's getSetCookie() when available and append each cookie.
-    const cookieHeaders = upstream.headers as Headers & { getSetCookie?: () => string[] };
-    const setCookies = cookieHeaders.getSetCookie?.() || [];
-    if (setCookies.length) {
-      for (const value of setCookies) responseHeaders.append("Set-Cookie", value);
-    } else {
-      const setCookie = upstream.headers.get("set-cookie");
-      if (setCookie) responseHeaders.append("Set-Cookie", setCookie);
+    const responseBody = await upstream.text();
+    let parsedBody: any = null;
+    try { parsedBody = JSON.parse(responseBody); } catch { /* preserve non-JSON upstream responses */ }
+
+    // A successful login returns the session token in the GraphQL payload.
+    // This same-origin proxy is the sole authority that writes the browser
+    // cookie in that case. Do not also forward Express's Set-Cookie header:
+    // two writers for the same cookie name can produce inconsistent browser
+    // state across proxy/runtime implementations.
+    const sessionToken = parsedBody?.data?.login?.sessionToken;
+    const isProxyManagedLogin = typeof sessionToken === "string" && sessionToken.length >= 32;
+
+    if (!isProxyManagedLogin) {
+      const cookieHeaders = upstream.headers as Headers & { getSetCookie?: () => string[] };
+      const setCookies = cookieHeaders.getSetCookie?.() || [];
+      if (setCookies.length) {
+        for (const value of setCookies) responseHeaders.append("Set-Cookie", value);
+      } else {
+        const setCookie = upstream.headers.get("set-cookie");
+        if (setCookie) responseHeaders.append("Set-Cookie", setCookie);
+      }
     }
     const responseBody = await upstream.text();
     let parsedBody: any = null;
     try { parsedBody = JSON.parse(responseBody); } catch { /* preserve non-JSON upstream responses */ }
 
-    // Apollo/Express Set-Cookie forwarding can be lost between Railway services.
-    // For a successful login, mint the browser cookie at this same-origin proxy.
+    // For a successful login, mint exactly one host-only browser cookie here.
+    // The backend's Set-Cookie was intentionally not forwarded above.
     // The token is stripped from the JSON before it is returned to client code.
-    const sessionToken = parsedBody?.data?.login?.sessionToken;
-    if (typeof sessionToken === "string" && sessionToken.length >= 32) {
+    if (isProxyManagedLogin) {
       delete parsedBody.data.login.sessionToken;
       const response = new NextResponse(JSON.stringify(parsedBody), {
         status: upstream.status,
