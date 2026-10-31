@@ -78,10 +78,6 @@ export async function POST(request: NextRequest) {
         if (setCookie) responseHeaders.append("Set-Cookie", setCookie);
       }
     }
-    const responseBody = await upstream.text();
-    let parsedBody: any = null;
-    try { parsedBody = JSON.parse(responseBody); } catch { /* preserve non-JSON upstream responses */ }
-
     // For a successful login, mint exactly one host-only browser cookie here.
     // The backend's Set-Cookie was intentionally not forwarded above.
     // The token is stripped from the JSON before it is returned to client code.
