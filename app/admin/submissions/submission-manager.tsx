@@ -47,11 +47,11 @@ export default function SubmissionManager({ kind }: { kind: Kind }) {
     setLoading(true);
     try {
       let next: Row[];
-      if (kind === "contacts" || kind === "newsletter") {
+      if (kind === "contacts" || kind === "newsletter" || kind === "training") {
         const params = new URLSearchParams();
         if (search) params.set("search", search);
         if (statusFilter) params.set("status", statusFilter);
-        const endpoint = kind === "contacts" ? "contacts" : "newsletter";
+        const endpoint = kind === "contacts" ? "contacts" : kind === "newsletter" ? "newsletter" : "training";
         const response = await fetch(`/api/admin/submissions/${endpoint}?${params.toString()}`, {
           method: "GET", credentials: "same-origin", cache: "no-store",
           headers: { Accept: "application/json" },
