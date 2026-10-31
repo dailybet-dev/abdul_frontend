@@ -1861,3 +1861,9 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .home-electronics-card .home-product-call:hover{background:#e2efff;border-color:#9fc4f2;transform:translateY(-1px)}
 .home-electronics-card .home-product-call svg{width:18px;height:18px;stroke-width:2.4}
 @media(max-width:520px){.home-electronics-card>.home-product-actions{gap:6px}.home-electronics-card .home-product-call{width:35px;height:35px;flex-basis:35px}.home-electronics-card .home-product-call svg{width:16px;height:16px}}
+
+
+/* The shared cart drawer is mounted by the site header on every public page. */
+.global-cart-overlay{z-index:1200}
+.shop-mobile-bottom-nav .shop-mobile-cart-trigger{color:#075bd2}
+.shop-mobile-bottom-nav .shop-mobile-cart-trigger.is-active{color:#075bd2}
