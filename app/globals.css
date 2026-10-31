@@ -1827,3 +1827,28 @@ h1,h2,h3,h4,.brand b,.brand strong,.footer-grid h3,.cart-overlay h2{font-family:
 .testimonial-avatar-male{color:#0757a8;background:linear-gradient(145deg,#e8f3ff,#cfe4fb)}
 .testimonial-avatar-female{color:#8a3f83;background:linear-gradient(145deg,#fff0fa,#f2d9ee)}
 @media(max-width:520px){.testimonial-avatar{width:42px;height:42px;flex-basis:42px}.testimonial-avatar svg{width:30px;height:30px}}
+
+
+/* Homepage electronics cards: keep the product photo in its own bounded area
+   and arrange all product information and actions in normal document flow. */
+.home-electronics-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.home-electronics-card{display:flex;flex-direction:column;align-items:stretch;min-width:0;min-height:100%;padding:13px;border:1px solid #dce8f6;border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 5px 18px #153b6810}
+.home-electronics-card:hover{border-color:#b8d3f3;box-shadow:0 12px 28px #153b6818}
+.home-electronics-image{position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;flex:0 0 auto;width:100%;height:205px;min-height:0;margin:0 0 12px;padding:12px;overflow:hidden;border-radius:11px;background:linear-gradient(145deg,#f3f8ff,#fbfdff)}
+.home-electronics-image img{position:relative;z-index:0;display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;mix-blend-mode:normal;padding:0}
+.home-electronics-image span{z-index:1;right:9px;top:9px;max-width:calc(100% - 18px);padding:5px 8px;border:1px solid #d8efdf;border-radius:999px;background:#effaf3;color:#187347;font-size:9px;line-height:1.2;white-space:nowrap}
+.home-electronics-card h3{min-height:0;margin:0 1px 7px;color:#12345c;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.home-electronics-card .home-product-detail-link{color:inherit;text-decoration:none}
+.home-electronics-card>p{display:-webkit-box;min-height:34px;margin:0 1px 10px;overflow:hidden;color:#64758b;font-size:11px;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.home-electronics-card .home-price-stack{min-height:26px;margin:0 1px 6px;align-items:baseline;gap:8px}
+.home-electronics-card .home-price-stack .price{margin:0;color:#075bd6;font-size:16px;line-height:1.3}
+.home-electronics-card .home-price-stack del{font-size:10px}
+.home-electronics-card .stars{margin:0 1px 12px;letter-spacing:0;color:#60758d;font-size:10px}
+.home-electronics-card .stars small{color:#60758d;font-size:10px}
+.home-electronics-card>.add,.home-electronics-card>.shared-product-quantity{width:100%;margin-top:auto}
+.home-electronics-card>.add{min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:9px;font-size:11px}
+.home-electronics-card>.shared-product-quantity{min-height:40px;gap:18px}
+.home-electronics-card>.shared-product-quantity button{width:30px;height:30px}
+@media(max-width:820px){.home-electronics-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.home-electronics-image{height:clamp(145px,30vw,205px)}.home-electronics-card{padding:10px}}
+@media(max-width:520px){.home-electronics-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.home-electronics-card{padding:8px;border-radius:12px}.home-electronics-image{height:clamp(125px,38vw,165px);margin-bottom:9px;padding:8px}.home-electronics-card h3{font-size:11px;line-height:1.35;margin-bottom:5px}.home-electronics-card>p{min-height:29px;font-size:9px;line-height:1.45;margin-bottom:7px}.home-electronics-card .home-price-stack{gap:5px;min-height:22px}.home-electronics-card .home-price-stack .price{font-size:12px}.home-electronics-card .home-price-stack del{font-size:8px}.home-electronics-card .stars{margin-bottom:9px}.home-electronics-card .stars small{font-size:8px}.home-electronics-card>.add{min-height:35px;padding:8px 5px;font-size:9px}.home-electronics-card>.add svg{width:14px;height:14px}.home-electronics-card>.shared-product-quantity{min-height:35px;gap:12px;padding:3px}.home-electronics-card>.shared-product-quantity button{width:27px;height:27px}}
+@media(max-width:360px){.home-electronics-image{height:118px}.home-electronics-card{padding:6px}.home-electronics-card h3{font-size:10px}.home-electronics-card .home-price-stack .price{font-size:11px}}
